@@ -8,26 +8,26 @@
 ]>
 <svg  version="1.1" id="Layer_3" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="54.763" height="55.079"
 	 viewBox="0 0 54.763 55.079" overflow="visible" enable-background="new 0 0 54.763 55.079" xml:space="preserve">
-<polyline fill="#636466" stroke="#BCBEC0" stroke-width="3" points="53.263,15.14 53.263,53.579 1.5,53.579 1.5,1.5 53.263,1.5 
+<polyline fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" points="53.263,15.14 53.263,53.579 1.5,53.579 1.5,1.5 53.263,1.5 
 	53.263,15.14 "/>
-<rect x="10.702" y="5.302" fill="#636466" stroke="#BCBEC0" stroke-width="3" width="2.054" height="5.125"/>
-<rect x="21.137" y="5.302" fill="#636466" stroke="#BCBEC0" stroke-width="3" width="2.054" height="5.125"/>
-<rect x="31.572" y="5.302" fill="#636466" stroke="#BCBEC0" stroke-width="3" width="2.053" height="5.125"/>
-<rect x="42.006" y="5.302" fill="#636466" stroke="#BCBEC0" stroke-width="3" width="2.054" height="5.125"/>
-<rect x="10.702" y="44.238" fill="#636466" stroke="#BCBEC0" stroke-width="3" width="2.054" height="5.123"/>
-<rect x="21.137" y="44.238" fill="#636466" stroke="#BCBEC0" stroke-width="3" width="2.054" height="5.123"/>
-<rect x="31.572" y="44.238" fill="#636466" stroke="#BCBEC0" stroke-width="3" width="2.053" height="5.123"/>
-<rect x="42.006" y="44.238" fill="#636466" stroke="#BCBEC0" stroke-width="3" width="2.054" height="5.123"/>
-<ellipse fill="#636466" stroke="#BCBEC0" stroke-width="3" cx="18.425" cy="27.374" rx="12.078" ry="12.07"/>
-<ellipse fill="#636466" stroke="#BCBEC0" stroke-width="3" cx="13.331" cy="22.786" rx="1.479" ry="1.282"/>
-<ellipse fill="#636466" stroke="#BCBEC0" stroke-width="3" cx="23.191" cy="22.786" rx="1.479" ry="1.282"/>
-<path fill="#636466" stroke="#BCBEC0" stroke-width="3" d="M11.524,29.109c1.447,2.12,2.546,4.456,7.476,4.548
+<rect x="10.702" y="5.302" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.054" height="5.125"/>
+<rect x="21.137" y="5.302" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.054" height="5.125"/>
+<rect x="31.572" y="5.302" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.053" height="5.125"/>
+<rect x="42.006" y="5.302" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.054" height="5.125"/>
+<rect x="10.702" y="44.238" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.054" height="5.123"/>
+<rect x="21.137" y="44.238" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.054" height="5.123"/>
+<rect x="31.572" y="44.238" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.053" height="5.123"/>
+<rect x="42.006" y="44.238" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.054" height="5.123"/>
+<ellipse fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" cx="18.425" cy="27.374" rx="12.078" ry="12.07"/>
+<ellipse fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" cx="13.331" cy="22.786" rx="1.479" ry="1.282"/>
+<ellipse fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" cx="23.191" cy="22.786" rx="1.479" ry="1.282"/>
+<path fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" d="M11.524,29.109c1.447,2.12,2.546,4.456,7.476,4.548
 	c4.437,0.081,6.337-3.853,6.958-4.937"/>
-<ellipse fill="#636466" stroke="#BCBEC0" stroke-width="3" cx="18.179" cy="27.209" rx="0.246" ry="0.165"/>
-<path fill="#636466" stroke="#BCBEC0" stroke-width="3" d="M51.373,39.443c-6.671,0-12.078-5.404-12.078-12.07
+<ellipse fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" cx="18.179" cy="27.209" rx="0.246" ry="0.165"/>
+<path fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" d="M51.373,39.443c-6.671,0-12.078-5.404-12.078-12.07
 	c0-6.665,5.407-12.069,12.078-12.069"/>
-<ellipse fill="#636466" stroke="#BCBEC0" stroke-width="3" cx="46.278" cy="22.87" rx="1.479" ry="1.281"/>
-<path fill="#636466" stroke="#BCBEC0" stroke-width="3" d="M44.471,29.193c2.712,3.141,5.423,5.289,7.065,5.373
+<ellipse fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" cx="46.278" cy="22.87" rx="1.479" ry="1.281"/>
+<path fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" d="M44.471,29.193c2.712,3.141,5.423,5.289,7.065,5.373
 	c0.264,0.014,0.602-0.072,0.985-0.228"/>
-<ellipse fill="#636466" stroke="#BCBEC0" stroke-width="3" cx="51.126" cy="27.292" rx="0.247" ry="0.166"/>
+<ellipse fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" cx="51.126" cy="27.292" rx="0.247" ry="0.166"/>
 </svg>
