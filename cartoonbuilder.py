@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -22,6 +22,7 @@
 ### (c) 2007 World Wide Workshop Foundation
 
 import time
+import StringIO
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -30,17 +31,22 @@ import gettext
 import os
 import zipfile
 import textwrap
+import pickle
 # should really put a try in front of this
 # in case there is no sound support
 import gst
 
 _ = gettext.lgettext
 
+SERVICE = 'org.freedesktop.Telepathy.Tube.Connect'
+IFACE = SERVICE
+PATH = '/org/freedesktop/Telepathy/Tube/Connect'
+
 TRANSIMG = '50x50blank-trans.png'
-BGHEIGHT = 300
-BGWIDTH = 300
-IMGHEIGHT = 75
-IMGWIDTH = 75
+BGHEIGHT = 425
+BGWIDTH = 425
+IMGHEIGHT = 100
+IMGWIDTH = 100
 
 BORDER_LEFT = 1
 BORDER_RIGHT = 2
@@ -201,11 +207,11 @@ class cartoonbuilder:
     def pickimage(self, widget, event, data=None):
         if data:
 	    pixbuf = self.posepixbufs[data-1]
-
 	    scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
 	    self.frameimgs[self.frame_selected].set_from_pixbuf(scaled_buf)
 	    fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
 	    self.fgpixbufs[self.frame_selected] = fgpixbuf
+	    self.fgpixbufpaths[self.frame_selected] = self.poseimgpaths[data-1]
 	    self.fgpixbuf = fgpixbuf
 	    self.drawmain()
 
@@ -230,14 +236,14 @@ class cartoonbuilder:
 	#pixbuf = gtk.gdk.pixbuf_new_from_file(self.bgimgpath)
 	pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
 	self.bgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-	scaled_buf = pixbuf.scale_simple(60,60,gtk.gdk.INTERP_BILINEAR)
+	scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
 	self.bgsmall.set_from_pixbuf(scaled_buf)
 	self.drawmain()
 
     def setcharacter(self):
 	pics = self.getpics(self.imgdir)
 	pixbuf = gtk.gdk.pixbuf_new_from_file(pics[self.imgstartindex])
-	scaled_buf = pixbuf.scale_simple(60,60,gtk.gdk.INTERP_BILINEAR)
+	scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
 	self.ccismall.set_from_pixbuf(scaled_buf)
         self.charlabel.set_label(os.path.split(self.imgdir)[1])
 
@@ -300,7 +306,7 @@ class cartoonbuilder:
 	    #widget.set_label('GO!')
 	    playimg = gtk.Image()
 	    #playimg.set_from_stock(gtk.STOCK_MEDIA_PLAY,gtk.ICON_SIZE_BUTTON)
-	    playimg.set_from_file(os.path.join(self.iconsdir,'right_arrow.png'))
+	    playimg.set_from_file(os.path.join(self.iconsdir,'big_right_arrow.png'))
 	    playimg.show()
 	    widget.set_image(playimg)
 	    self.playing = False
@@ -311,7 +317,7 @@ class cartoonbuilder:
 	    #widget.set_label('STOP')
 	    stopimg = gtk.Image()
 	    #stopimg.set_from_stock(gtk.STOCK_MEDIA_STOP,gtk.ICON_SIZE_BUTTON)
-	    stopimg.set_from_file(os.path.join(self.iconsdir,'pause.png'))
+	    stopimg.set_from_file(os.path.join(self.iconsdir,'big_pause.png'))
 	    stopimg.show()
 	    widget.set_image(stopimg)
 	    self.playing = gobject.timeout_add(self.waittime, self.playframe)
@@ -471,6 +477,60 @@ class cartoonbuilder:
 	    pass
         dialog.destroy()
 
+    def getsdata(self):
+        #self.lessonplans.set_label('getting sdata')
+	# THE BELOW SHOULD WORK BUT DOESN'T
+        #zf = StringIO.StringIO()
+	#self.savetozip(zf)
+	#zf.seek(0)
+	#sdata = zf.read()
+	#zf.close()
+	# END OF STUFF THAT DOESN'T WORK
+	sdd = {}
+	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
+	tmpbgpath = os.path.join(tmpimgdir,'back.png')
+	self.bgpixbuf.save(tmpbgpath,'png')
+	sdd['pngdata'] = file(tmpbgpath).read()
+	os.remove(tmpbgpath)
+	sdd['fgpixbufpaths'] = self.fgpixbufpaths
+	#sdd['fgpixbufs'] = []
+	#count = 1
+	#for pixbuf in self.fgpixbufs:
+	#    filename = '%02d.png' % count
+	#    filepath = os.path.join(tmpimgdir,filename)
+	#    pixbuf.save(filepath,'png')
+	#    sdd['fgpixbufs'].append(file(filepath).read())
+	#    os.remove(filepath)
+	#    count += 1
+	return pickle.dumps(sdd)
+
+    def restore(self, sdata):
+        # THE BELOW SHOULD WORK BUT DOESN'T
+        #zf = StringIO.StringIO(sdata)
+	#self.loadfromzip(zf)
+        # END OF STUFF THAT DOESN'T WORK
+	sdd = pickle.loads(sdata)
+	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
+	tmpbgpath = os.path.join(tmpimgdir,'back.png')
+	f = file(tmpbgpath,'w')
+	f.write(sdd['pngdata'])
+	f.close()
+	self.setback(tmpbgpath)
+	os.remove(tmpbgpath)
+	transimgpath = os.path.join(self.iconsdir,TRANSIMG)
+	for i in range(len(sdd['fgpixbufpaths'])):
+	    filepath = sdd['fgpixbufpaths'][i]
+	    if filepath == transimgpath:
+	        continue
+	    pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
+	    fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+	    self.fgpixbufs[i] = fgpixbuf
+	    if i == 0:
+	        self.fgpixbuf = fgpixbuf
+	        self.drawmain()
+	    scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+	    self.frameimgs[i].set_from_pixbuf(scaled_buf)
+
     def savefile(self, widget, data=None):
         daction = gtk.FILE_CHOOSER_ACTION_SAVE
         dialog = gtk.FileChooserDialog(title='Save Animation',
@@ -485,27 +545,32 @@ class cartoonbuilder:
         response = dialog.run()
 	if response == gtk.RESPONSE_OK:
 	    filepath = dialog.get_filename()
-	    # print filepath
-	    zf = zipfile.ZipFile(filepath,'w')
-	    # add the background file
-	    tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
-	    tmpbgpath = os.path.join(tmpimgdir,'back.png')
-	    self.bgpixbuf.save(tmpbgpath,'png')
-	    zf.write(tmpbgpath)
-	    os.remove(tmpbgpath)
-	    # add the frames
-	    count = 1
-	    for pixbuf in self.fgpixbufs:
-	        filename = '%02d.png' % count
-		filepath = os.path.join(tmpimgdir,filename)
-		pixbuf.save(filepath,'png')
-	        zf.write(filepath)
-		os.remove(filepath)
-		count += 1
-	    zf.close()
+	    zf = file(filepath,'w')
+	    self.savetozip(zf)
 	elif response == gtk.RESPONSE_CANCEL:
 	    pass
 	dialog.destroy()
+
+    def savetozip(self, f):
+	# print filepath
+	#zf = zipfile.ZipFile(filepath,'w')
+	zf = zipfile.ZipFile(f,'w')
+	# add the background file
+	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
+	tmpbgpath = os.path.join(tmpimgdir,'back.png')
+	self.bgpixbuf.save(tmpbgpath,'png')
+	zf.write(tmpbgpath)
+	os.remove(tmpbgpath)
+	# add the frames
+	count = 1
+	for pixbuf in self.fgpixbufs:
+	    filename = '%02d.png' % count
+	    filepath = os.path.join(tmpimgdir,filename)
+	    pixbuf.save(filepath,'png')
+	    zf.write(filepath)
+	    os.remove(filepath)
+	    count += 1
+	zf.close()
 
     def loadfile(self, widget, data=None):
         daction = gtk.FILE_CHOOSER_ACTION_OPEN
@@ -525,55 +590,59 @@ class cartoonbuilder:
         response = dialog.run()
 	if response == gtk.RESPONSE_OK:
 	    filepath = dialog.get_filename()
-	    # print filepath
-	    zf = zipfile.ZipFile(filepath,'r')
-	    fnames = zf.namelist()
-	    framenames = []
-	    for fname in fnames:
-	        if fname[-8:] == 'back.png':
-		    backname = fname
-		else:
-		    framenames.append(fname)
-	    framenames.sort()
-	    # set the background
-	    tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
-	    tmpbgpath = os.path.join(tmpimgdir,'back.png')
-	    f = file(tmpbgpath,'w')
-	    f.write(zf.read(backname))
-	    f.close()
-	    self.setback(tmpbgpath)
-	    os.remove(tmpbgpath)
-	    self.imgdir = tmpimgdir
-	    for filepath in framenames:
-	        fname = os.path.split(filepath)[1]
-		tmpfilepath = os.path.join(tmpimgdir,fname)
-		f = file(tmpfilepath,'w')
-		f.write(zf.read(filepath))
-		f.close()
-	    zf.close()
-	    self.loadimages()
-	    #self.setcharacter()
-            # setup the filmstrip frames
-            pics = self.getpics(self.imgdir)
-	    count = 0
-	    for imgpath in pics:
-	        pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
-	        fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-	        self.fgpixbufs[count] = fgpixbuf
-		if count == 0:
-	            self.fgpixbuf = fgpixbuf
-	            self.drawmain()
-	        scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-	        self.frameimgs[count].set_from_pixbuf(scaled_buf)
-		count += 1
-	    entries = os.listdir(tmpimgdir)
-	    for entry in entries:
-	        entrypath = os.path.join(tmpimgdir,entry)
-		os.remove(entrypath)
-
+	    zf = file(filepath,'r')
+	    self.loadfromzip(zf)
 	elif response == gtk.RESPONSE_CANCEL:
 	    pass
 	dialog.destroy()
+
+    def loadfromzip(self, f):
+	# print filepath
+	#zf = zipfile.ZipFile(filepath,'r')
+	zf = zipfile.ZipFile(f)
+	fnames = zf.namelist()
+	framenames = []
+	for fname in fnames:
+	    if fname[-8:] == 'back.png':
+	        backname = fname
+	    else:
+		framenames.append(fname)
+	framenames.sort()
+	# set the background
+	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
+	tmpbgpath = os.path.join(tmpimgdir,'back.png')
+	f = file(tmpbgpath,'w')
+	f.write(zf.read(backname))
+	f.close()
+	self.setback(tmpbgpath)
+	os.remove(tmpbgpath)
+	self.imgdir = tmpimgdir
+	for filepath in framenames:
+	    fname = os.path.split(filepath)[1]
+            tmpfilepath = os.path.join(tmpimgdir,fname)
+	    f = file(tmpfilepath,'w')
+	    f.write(zf.read(filepath))
+	    f.close()
+	zf.close()
+	self.loadimages()
+	#self.setcharacter()
+        # setup the filmstrip frames
+        pics = self.getpics(self.imgdir)
+	count = 0
+	for imgpath in pics:
+	    pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
+	    fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+	    self.fgpixbufs[count] = fgpixbuf
+	    if count == 0:
+	        self.fgpixbuf = fgpixbuf
+	        self.drawmain()
+	    scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+	    self.frameimgs[count].set_from_pixbuf(scaled_buf)
+            count += 1
+	entries = os.listdir(tmpimgdir)
+	for entry in entries:
+	    entrypath = os.path.join(tmpimgdir,entry)
+	    os.remove(entrypath)
 
     def setplayspeed(self,adj):
 	self.waittime = int((6-adj.value)*150)
@@ -583,12 +652,14 @@ class cartoonbuilder:
 
     def loadimages(self):
 	self.posepixbufs = []
+	self.poseimgpaths = []
         pics = self.getpics(self.imgdir)
 	count = 0
 	for imgpath in pics[self.imgstartindex:self.imgstartindex+10]:
 	    pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
 	    scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
 	    self.posepixbufs.append(pixbuf)
+	    self.poseimgpaths.append(imgpath)
             self.images[count].set_from_pixbuf(scaled_buf)
 	    count += 1
 	for i in range(count,10):
@@ -598,6 +669,7 @@ class cartoonbuilder:
 	    img.set_from_pixbuf(transpixbuf)
 	    img.show()
 	    self.posepixbufs.append(pixbuf)
+	    self.poseimgpaths.append(imgpath)
 	    self.images[i].set_from_pixbuf(transpixbuf)
 
     def getpics(self, dirpath):
@@ -687,15 +759,18 @@ class cartoonbuilder:
 	index = combobox.get_active()
 	if index:
 	    lang = model[index][0]
+	    if lang == 'Espa\xc3\xb1ol':
+	        lang = SPANISH
 	    if lang in LANG:
 	        self.lessonplans.set_label(LANG[lang]['lessonplan'])
 		prepare_btn(self.lessonplans)
-		self.character.set_label(LANG[lang]['character'])
-		prepare_btn(self.character)
-		self.bgbutton.set_label(LANG[lang]['background'])
-		prepare_btn(self.bgbutton)
-		self.soundbutton.set_label(LANG[lang]['sound'])
-		prepare_btn(self.soundbutton)
+		if not self.insugar:
+		    self.character.set_label(LANG[lang]['character'])
+		    prepare_btn(self.character)
+		    self.bgbutton.set_label(LANG[lang]['background'])
+		    prepare_btn(self.bgbutton)
+		    self.soundbutton.set_label(LANG[lang]['sound'])
+		    prepare_btn(self.soundbutton)
 	    else:
 	        print repr(lang)
 	return
@@ -703,14 +778,14 @@ class cartoonbuilder:
     def changebuttonlang(self):
 	self.lessonplans.set_label(LANG[self.language]['lessonplan'])
 	prepare_btn(self.lessonplans)
+	self.lang.set_label(self.language)
+	prepare_btn(self.lang)
 	self.character.set_label(LANG[self.language]['character'])
 	prepare_btn(self.character)
 	self.bgbutton.set_label(LANG[self.language]['background'])
 	prepare_btn(self.bgbutton)
 	self.soundbutton.set_label(LANG[self.language]['sound'])
 	prepare_btn(self.soundbutton)
-	self.lang.set_label(self.language)
-	prepare_btn(self.lang)
 
     def setlastlanguage(self, widget, data=None):
         li = LANGLIST.index(self.language)
@@ -731,7 +806,7 @@ class cartoonbuilder:
     def getdefaultlang(self):
         return 'English'
 
-    def __init__(self,toplevel_window,mdirpath):
+    def __init__(self,insugar,toplevel_window,mdirpath):
         self.mdirpath = mdirpath
 	self.iconsdir = os.path.join(self.mdirpath,'icons')
         self.playing = False
@@ -746,7 +821,7 @@ class cartoonbuilder:
 	        self.backpicpaths.append(bpfilepath)
 	bpfile.close()
 	self.waittime = 3*150
-	self.insugar = False
+	self.insugar = insugar
 	self.language = self.getdefaultlang()
         self.imgdirs = []
 	imgdirfile = file(os.path.join(self.mdirpath,'config.imgdirs'))
@@ -784,7 +859,7 @@ class cartoonbuilder:
 
 	self.main = gtk.EventBox()
 	self.main.show()
-        self.main.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(GRAY))
+        self.main.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BUTTON_BACKGROUND))
 	self.mainbox = gtk.EventBox()
 	self.mainbox.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
 	self.mainbox.set_border_width(5)
@@ -820,42 +895,46 @@ class cartoonbuilder:
 	self.lphbox.pack_start(self.lpvbox,True,False,0)
 	self.lpframe.add(self.lphbox)
 	self.logobox.pack_start(self.lpoframe,True,True,0)
-	#self.lang = gtk.combo_box_new_text()
-	#self.lang.append_text('Language')
-	#self.lang.append_text('English')
-	#self.lang.append_text(SPANISH)
-	#self.lang.connect('changed', self.changed_cb)
-	#self.lang.set_active(0)
+        self.langdd = gtk.combo_box_new_text()
+	self.langdd.append_text('Language')
+	self.langdd.append_text('English')
+	self.langdd.append_text(SPANISH)
+	self.langdd.connect('changed', self.changed_cb)
+	self.langdd.set_active(0)
+	self.langdd.show()
+	self.langddvbox = gtk.VBox()
+	self.langddvbox.show()
+	self.langddvbox.pack_start(self.langdd,True,False,0)
+	#vvvv LANGUAGE BUTTONS vvvv
+	#self.lastlang = gtk.Button()
+	#self.lastlang.connect('clicked', self.setlastlanguage, None)
+	#llla = gtk.Image()
+	#llla.set_from_file(os.path.join(self.iconsdir,'left_arrow.png'))
+	#llla.show()
+	#self.lastlang.add(llla)
+	#prepare_btn(self.lastlang)
+	#self.lastlang.show()
+	#self.llvbox = gtk.VBox()
+	#self.llvbox.show()
+	#self.llvbox.pack_start(self.lastlang,True,False,0)
+	#self.lang = gtk.Button(self.language)
 	#prepare_btn(self.lang)
 	#self.lang.show()
-	self.lastlang = gtk.Button()
-	self.lastlang.connect('clicked', self.setlastlanguage, None)
-	llla = gtk.Image()
-	llla.set_from_file(os.path.join(self.iconsdir,'left_arrow.png'))
-	llla.show()
-	self.lastlang.add(llla)
-	prepare_btn(self.lastlang)
-	self.lastlang.show()
-	self.llvbox = gtk.VBox()
-	self.llvbox.show()
-	self.llvbox.pack_start(self.lastlang,True,False,0)
-	self.lang = gtk.Button(self.language)
-	prepare_btn(self.lang)
-	self.lang.show()
-	self.nextlang = gtk.Button()
-	self.nextlang.connect('clicked', self.setnextlanguage, None)
-	nlra = gtk.Image()
-	nlra.set_from_file(os.path.join(self.iconsdir,'right_arrow.png'))
-	nlra.show()
-	self.nextlang.add(nlra)
-	prepare_btn(self.nextlang)
-	self.nextlang.show()
-	self.nlvbox = gtk.VBox()
-	self.nlvbox.show()
-	self.nlvbox.pack_start(self.nextlang,True,False,0)
-	self.langvbox = gtk.VBox()
-	self.langvbox.show()
-	self.langvbox.pack_start(self.lang,True,False,0)
+	#self.nextlang = gtk.Button()
+	#self.nextlang.connect('clicked', self.setnextlanguage, None)
+	#nlra = gtk.Image()
+	#nlra.set_from_file(os.path.join(self.iconsdir,'right_arrow.png'))
+	#nlra.show()
+	#self.nextlang.add(nlra)
+	#prepare_btn(self.nextlang)
+	#self.nextlang.show()
+	#self.nlvbox = gtk.VBox()
+	#self.nlvbox.show()
+	#self.nlvbox.pack_start(self.nextlang,True,False,0)
+	#self.langvbox = gtk.VBox()
+	#self.langvbox.show()
+	#self.langvbox.pack_start(self.lang,True,False,0)
+	#^^^^ LANGUAGE BUTTONS^^^^
 	self.langoframe = gtk.EventBox()
 	self.langoframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
 	self.langoframe.show()
@@ -864,58 +943,63 @@ class cartoonbuilder:
 	self.langframe.show()
 	self.langalign = gtk.Alignment(1.0,1.0,1.0,1.0)
 	self.langalign.add(self.langframe)
-	self.langalign.set_padding(5,0,5,0)
+	if not self.insugar:
+	    self.langalign.set_padding(5,0,5,0)
+	else:
+	    self.langalign.set_padding(5,0,5,5)
 	self.langalign.show()
 	self.langoframe.add(self.langalign)
 	self.langhbox = gtk.HBox()
 	self.langhbox.show()
-	self.langhbox.pack_start(self.llvbox,True,False,0)
-	self.langhbox.pack_start(self.langvbox,True,False,0)
-	self.langhbox.pack_start(self.nlvbox,True,False,0)
+	#self.langhbox.pack_start(self.llvbox,True,False,0)
+	#self.langhbox.pack_start(self.langvbox,True,False,0)
+	#self.langhbox.pack_start(self.nlvbox,True,False,0)
+	self.langhbox.pack_start(self.langddvbox,True,False,0)
 	self.langframe.add(self.langhbox)
 	self.logobox.pack_start(self.langoframe,True,True,0)
 
-        self.sooframe = gtk.EventBox()
-	self.sooframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
-	self.sooframe.show()
-	self.soframe = gtk.EventBox()
-	self.soframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
-	self.soframe.show()
-	self.soalign = gtk.Alignment(1.0,1.0,1.0,1.0)
-	self.soalign.add(self.soframe)
-	self.soalign.set_padding(5,0,5,5)
-	self.soalign.show()
-	self.sooframe.add(self.soalign)
-	self.fileopen = gtk.Button()
-	openimg = gtk.Image()
-	openimg.set_from_stock(gtk.STOCK_OPEN,gtk.ICON_SIZE_BUTTON)
-	openimg.show()
-	prepare_btn(self.fileopen)
-	self.fileopen.set_label('')
-	self.fileopen.set_image(openimg)
-	self.fileopen.connect('clicked',self.loadfile, None)
-	self.fileopen.show()
-	self.fovbox = gtk.VBox()
-	self.fovbox.show()
-	self.fovbox.pack_start(self.fileopen,True,False,0)
-	self.fohbox = gtk.HBox()
-	self.fohbox.show()
-	self.fohbox.pack_start(self.fovbox,True,False,0)
-	self.filesave = gtk.Button()
-	saveimg = gtk.Image()
-	saveimg.set_from_stock(gtk.STOCK_SAVE,gtk.ICON_SIZE_BUTTON)
-	saveimg.show()
-	prepare_btn(self.filesave)
-	self.filesave.set_label('')
-	self.filesave.set_image(saveimg)
-	self.filesave.connect('clicked',self.savefile, None)
-	self.filesave.show()
-	self.fsvbox = gtk.VBox()
-	self.fsvbox.show()
-	self.fsvbox.pack_start(self.filesave,True,False,0)
-	self.fohbox.pack_start(self.fsvbox,True,False,0)
-	self.soframe.add(self.fohbox)
-	self.logobox.pack_start(self.sooframe,True,True,0)
+        if not self.insugar:
+            self.sooframe = gtk.EventBox()
+	    self.sooframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
+	    self.sooframe.show()
+	    self.soframe = gtk.EventBox()
+	    self.soframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
+	    self.soframe.show()
+	    self.soalign = gtk.Alignment(1.0,1.0,1.0,1.0)
+	    self.soalign.add(self.soframe)
+	    self.soalign.set_padding(5,0,5,5)
+	    self.soalign.show()
+	    self.sooframe.add(self.soalign)
+	    self.fsvbox = gtk.VBox()
+	    self.fsvbox.show()
+	    self.fileopen = gtk.Button()
+	    openimg = gtk.Image()
+	    openimg.set_from_stock(gtk.STOCK_OPEN,gtk.ICON_SIZE_BUTTON)
+	    openimg.show()
+	    prepare_btn(self.fileopen)
+	    self.fileopen.set_label('')
+	    self.fileopen.set_image(openimg)
+	    self.fileopen.connect('clicked',self.loadfile, None)
+	    self.fileopen.show()
+	    self.fovbox = gtk.VBox()
+	    self.fovbox.show()
+	    self.fovbox.pack_start(self.fileopen,True,False,0)
+	    self.fohbox = gtk.HBox()
+	    self.fohbox.show()
+	    self.fohbox.pack_start(self.fovbox,True,False,0)
+	    self.filesave = gtk.Button()
+	    saveimg = gtk.Image()
+	    saveimg.set_from_stock(gtk.STOCK_SAVE,gtk.ICON_SIZE_BUTTON)
+	    saveimg.show()
+	    prepare_btn(self.filesave)
+	    self.filesave.set_label('')
+	    self.filesave.set_image(saveimg)
+	    self.filesave.connect('clicked',self.savefile, None)
+	    self.filesave.show()
+	    self.fsvbox.pack_start(self.filesave,True,False,0)
+	    self.fohbox.pack_start(self.fsvbox,True,False,0)
+	    self.soframe.add(self.fohbox)
+	    self.logobox.pack_start(self.sooframe,True,True,0)
 
 	self.mpbox.pack_start(self.logobox,False,False,0)
 
@@ -984,13 +1068,17 @@ class cartoonbuilder:
 	#upa = gtk.Arrow(gtk.ARROW_UP,gtk.SHADOW_OUT)
 	#upa.show()
 	upa = gtk.Image()
-	upa.set_from_file(os.path.join(self.iconsdir,'up_arrow.png'))
+	upa.set_from_file(os.path.join(self.iconsdir,'big_up_arrow.png'))
+	#upapixbuf = gtk.gdk.pixbuf_new_from_file(os.path.join(self.iconsdir,'up_arrow.png'))
+	#scaled_upapixbuf = upapixbuf.scale_simple(42,34,gtk.gdk.INTERP_BILINEAR)
+	#upa.set_from_pixbuf(scaled_upapixbuf)
 	upa.show()
+
 	self.imgupbutton.add(upa)
 	prepare_btn(self.imgupbutton)
 	self.iubhbox = gtk.HBox()
 	self.iubhbox.show()
-	self.iubhbox.pack_start(self.imgupbutton,True,False,0)
+	self.iubhbox.pack_start(self.imgupbutton,True,True,150)
 	self.tvbox.pack_start(self.iubhbox,False,False,0)
 
 	self.table.attach(self.imgbuttons[0],0,1,0,1)
@@ -1026,13 +1114,13 @@ class cartoonbuilder:
 	#downa = gtk.Arrow(gtk.ARROW_DOWN,gtk.SHADOW_OUT)
 	#downa.show()
 	downa = gtk.Image()
-	downa.set_from_file(os.path.join(self.iconsdir,'down_arrow.png'))
+	downa.set_from_file(os.path.join(self.iconsdir,'big_down_arrow.png'))
 	downa.show()
 	self.imgdownbutton.add(downa)
 	prepare_btn(self.imgdownbutton)
 	self.idbhbox = gtk.HBox()
 	self.idbhbox.show()
-	self.idbhbox.pack_start(self.imgdownbutton,True,False,0)
+	self.idbhbox.pack_start(self.imgdownbutton,True,True,150)
 	self.tvbox.pack_start(self.idbhbox,False,False,0)
         self.hbox.pack_start(self.tvbox,True,True,0)
 
@@ -1051,6 +1139,8 @@ class cartoonbuilder:
 	self.framebuttons = []
 	self.frameimgs = []
 	self.fgpixbufs = []
+	self.fgpixbufpaths = []
+	transimgpath = os.path.join(self.iconsdir,TRANSIMG)
 	for i in range(6):
 	    #fb = gtk.Button()
 	    #fb.connect('clicked', self.selectframe, i+1)
@@ -1063,6 +1153,7 @@ class cartoonbuilder:
 	    self.framebuttons.append(fb)
 	    tpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
 	    self.fgpixbufs.append(tpixbuf)
+	    self.fgpixbufpaths.append(transimgpath)
 	    #fb.set_label('')
 	    transimg = gtk.Image()
 	    transimg.set_from_pixbuf(self.gettranspixbuf(IMGWIDTH,IMGHEIGHT))
@@ -1166,7 +1257,7 @@ class cartoonbuilder:
 	# GO BUTTON
 	playimg = gtk.Image()
 	#playimg.set_from_stock(gtk.STOCK_MEDIA_PLAY,gtk.ICON_SIZE_BUTTON)
-	playimg.set_from_file(os.path.join(self.iconsdir,'right_arrow.png'))
+	playimg.set_from_file(os.path.join(self.iconsdir,'big_right_arrow.png'))
 	playimg.show()
 	self.gobutton = gtk.Button()
 	self.gobutton.set_label('')
@@ -1206,14 +1297,14 @@ class cartoonbuilder:
 	self.cclbutton.connect('clicked',self.lastcharacter,None)
 	self.cclbutton.show()
 	ccla = gtk.Image()
-	ccla.set_from_file(os.path.join(self.iconsdir,'left_arrow.png'))
+	ccla.set_from_file(os.path.join(self.iconsdir,'big_left_arrow.png'))
 	ccla.show()
 	prepare_btn(self.cclbutton)
 	self.cclbutton.add(ccla)
 	self.cclbvbox = gtk.VBox()
 	self.cclbvbox.show()
 	self.cclbvbox.pack_start(self.cclbutton,True,False,0)
-	self.cchbox.pack_start(self.cclbvbox,True,False,5)
+	self.cchbox.pack_start(self.cclbvbox,True,True,5)
 	self.ccibutton = gtk.Button()
 	self.ccibutton.show()
 	self.ccismall = gtk.Image()
@@ -1230,14 +1321,14 @@ class cartoonbuilder:
 	self.ccrbutton.connect('clicked',self.nextcharacter,None)
 	self.ccrbutton.show()
 	ccra = gtk.Image()
-	ccra.set_from_file(os.path.join(self.iconsdir,'right_arrow.png'))
+	ccra.set_from_file(os.path.join(self.iconsdir,'big_right_arrow.png'))
 	ccra.show()
 	self.ccrbutton.add(ccra)
 	prepare_btn(self.ccrbutton)
 	self.ccrbvbox = gtk.VBox()
 	self.ccrbvbox.show()
 	self.ccrbvbox.pack_start(self.ccrbutton,True,False,0)
-	self.cchbox.pack_start(self.ccrbvbox,True,False,5)
+	self.cchbox.pack_start(self.ccrbvbox,True,True,5)
 	self.ccbox.pack_start(self.cchbox,True,True,0)
 	self.charlabel = gtk.Label('')
 	self.charlabel.show()
@@ -1245,14 +1336,15 @@ class cartoonbuilder:
 	self.charlabelhbox.show()
 	self.charlabelhbox.pack_start(self.charlabel,True,False,0)
 	self.ccbox.pack_start(self.charlabelhbox,False,False,0)
-	self.character = gtk.Button('My Character')
-	self.character.connect('clicked',self.getimgdir,None)
-	prepare_btn(self.character)
-	self.character.show()
-	self.characterhbox = gtk.HBox()
-	self.characterhbox.show()
-	self.characterhbox.pack_start(self.character,True,False,0)
-	self.ccbox.pack_start(self.characterhbox,False,False,5)
+	if not self.insugar:
+	    self.character = gtk.Button('My Character')
+	    self.character.connect('clicked',self.getimgdir,None)
+	    prepare_btn(self.character)
+	    self.character.show()
+	    self.characterhbox = gtk.HBox()
+	    self.characterhbox.show()
+	    self.characterhbox.pack_start(self.character,True,False,0)
+	    self.ccbox.pack_start(self.characterhbox,False,False,5)
 	self.setcharacter()
 	
 	
@@ -1267,14 +1359,14 @@ class cartoonbuilder:
 	self.blbutton.connect('clicked',self.lastback,None)
 	self.blbutton.show()
 	bla = gtk.Image()
-	bla.set_from_file(os.path.join(self.iconsdir,'left_arrow.png'))
+	bla.set_from_file(os.path.join(self.iconsdir,'big_left_arrow.png'))
 	bla.show()
 	self.blbutton.add(bla)
 	prepare_btn(self.blbutton)
 	self.blbvbox = gtk.VBox()
 	self.blbvbox.show()
 	self.blbvbox.pack_start(self.blbutton,True,False,0)
-	self.bghbox.pack_start(self.blbvbox,True,False,5)
+	self.bghbox.pack_start(self.blbvbox,True,True,5)
 	self.bgsmall = gtk.Image()
 	bgimgpath = os.path.join(self.mdirpath,'backpics/bigbg01.gif')
 	self.setback(bgimgpath)
@@ -1284,23 +1376,24 @@ class cartoonbuilder:
 	self.brbutton.connect('clicked',self.nextback,None)
 	self.brbutton.show()
 	bra = gtk.Image()
-	bra.set_from_file(os.path.join(self.iconsdir,'right_arrow.png'))
+	bra.set_from_file(os.path.join(self.iconsdir,'big_right_arrow.png'))
 	bra.show()
 	self.brbutton.add(bra)
 	prepare_btn(self.brbutton)
 	self.brbvbox = gtk.VBox()
 	self.brbvbox.show()
 	self.brbvbox.pack_start(self.brbutton,True,False,0)
-	self.bghbox.pack_start(self.brbvbox,True,False,5)
+	self.bghbox.pack_start(self.brbvbox,True,True,5)
 	self.bgbox.pack_start(self.bghbox,True,True,0)
-	self.bgbutton = gtk.Button('My Background')
-	self.bgbutton.connect('clicked',self.getbackgroundfile,None)
-	prepare_btn(self.bgbutton)
-	self.bgbutton.show()
-	self.bgbuttonhbox = gtk.HBox()
-	self.bgbuttonhbox.show()
-	self.bgbuttonhbox.pack_start(self.bgbutton,True,False,0)
-	self.bgbox.pack_start(self.bgbuttonhbox,False,False,5)
+	if not self.insugar:
+	    self.bgbutton = gtk.Button('My Background')
+	    self.bgbutton.connect('clicked',self.getbackgroundfile,None)
+	    prepare_btn(self.bgbutton)
+	    self.bgbutton.show()
+	    self.bgbuttonhbox = gtk.HBox()
+	    self.bgbuttonhbox.show()
+	    self.bgbuttonhbox.pack_start(self.bgbutton,True,False,0)
+	    self.bgbox.pack_start(self.bgbuttonhbox,False,False,5)
 	self.controlbox.pack_start(self.bgbox,False,False,5)
         
 	# SOUND CONTROLS
@@ -1312,30 +1405,34 @@ class cartoonbuilder:
 	self.slbutton.connect('clicked',self.lastsound,None)
 	self.slbutton.show()
 	sla = gtk.Image()
-	sla.set_from_file(os.path.join(self.iconsdir,'left_arrow.png'))
+	sla.set_from_file(os.path.join(self.iconsdir,'big_left_arrow.png'))
 	sla.show()
 	self.slbutton.add(sla)
 	prepare_btn(self.slbutton)
 	self.slbvbox = gtk.VBox()
 	self.slbvbox.show()
 	self.slbvbox.pack_start(self.slbutton,True,False,0)
-	self.soundhbox.pack_start(self.slbvbox,True,False,5)
+	self.soundhbox.pack_start(self.slbvbox,True,True,5)
 	self.soundimg = gtk.Image()
-	self.soundimg.set_from_file(os.path.join(self.iconsdir,'sound_icon.png'))
+	#self.soundimg.set_from_file(os.path.join(self.iconsdir,'sound_icon.png'))
+	soundimgpath = os.path.join(self.iconsdir,'sound_icon.png')
+	sipixbuf = gtk.gdk.pixbuf_new_from_file(soundimgpath)
+	si_scaled_buf = sipixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+	self.soundimg.set_from_pixbuf(si_scaled_buf)
 	self.soundimg.show()
 	self.soundhbox.pack_start(self.soundimg,False,False,0)
 	self.srbutton = gtk.Button()
 	self.srbutton.connect('clicked',self.nextsound,None)
 	self.srbutton.show()
 	sra = gtk.Image()
-	sra.set_from_file(os.path.join(self.iconsdir,'right_arrow.png'))
+	sra.set_from_file(os.path.join(self.iconsdir,'big_right_arrow.png'))
 	sra.show()
 	self.srbutton.add(sra)
 	prepare_btn(self.srbutton)
 	self.srbvbox = gtk.VBox()
 	self.srbvbox.show()
 	self.srbvbox.pack_start(self.srbutton,True,False,0)
-	self.soundhbox.pack_start(self.srbvbox,True,False,5)
+	self.soundhbox.pack_start(self.srbvbox,True,True,5)
 	self.soundbox.pack_start(self.soundhbox,True,True,0)
         self.soundlabel = gtk.Label('No Sound')
 	self.soundlabel.show()
@@ -1343,14 +1440,15 @@ class cartoonbuilder:
 	self.soundlabelhbox.show()
 	self.soundlabelhbox.pack_start(self.soundlabel,True,False,0)
 	self.soundbox.pack_start(self.soundlabelhbox,False,False,0)
-	self.soundbutton = gtk.Button('My Sound')
-	self.soundbutton.connect('clicked',self.getsoundfile,None)
-	prepare_btn(self.soundbutton)
-	self.soundbutton.show()
-	self.soundbuttonhbox = gtk.HBox()
-	self.soundbuttonhbox.show()
-	self.soundbuttonhbox.pack_start(self.soundbutton,True,False,0)
-	self.soundbox.pack_start(self.soundbuttonhbox,False,False,5)
+	if not self.insugar:
+	    self.soundbutton = gtk.Button('My Sound')
+	    self.soundbutton.connect('clicked',self.getsoundfile,None)
+	    prepare_btn(self.soundbutton)
+	    self.soundbutton.show()
+	    self.soundbuttonhbox = gtk.HBox()
+	    self.soundbuttonhbox.show()
+	    self.soundbuttonhbox.pack_start(self.soundbutton,True,False,0)
+	    self.soundbox.pack_start(self.soundbuttonhbox,False,False,5)
 	self.controlbox.pack_start(self.soundbox,False,False,5)
         
 	# FINISHING DETAILS
@@ -1363,6 +1461,40 @@ class cartoonbuilder:
 
 try:
     from sugar.activity import activity
+    from sugar.graphics.toolbutton import ToolButton
+    from sugar.graphics.objectchooser import ObjectChooser
+    from sugar.presence import presenceservice
+    from sugar.presence.tubeconn import TubeConnection
+    import telepathy
+    import telepathy.client
+    from dbus import Interface
+    from dbus.service import method, signal
+    from dbus.gobject_service import ExportedGObject
+    
+    class BGToolbar(gtk.Toolbar):
+        def __init__(self,sactivity,app):
+	    gtk.Toolbar.__init__(self)
+	    self.sactivity = sactivity
+	    self.app = app
+	    self.image = ToolButton('insert-image')
+	    self.image.set_tooltip('Insert Image')
+	    self.imageid = self.image.connect('clicked',self.image_cb)
+	    self.insert(self.image,-1)
+	    self.image.show()
+
+        def image_cb(self, button):
+	    chooser = ObjectChooser('Choose Image',self.sactivity,
+	                            gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT)
+	    try:
+	        result = chooser.run()
+		if result == gtk.RESPONSE_ACCEPT:
+		    jobject = chooser.get_selected_object()
+		    if jobject and jobject.file_path:
+		        self.app.setback(jobject.file_path)
+	    finally:
+	        chooser.destroy()
+		del chooser
+
     class cartoonbuilderActivity(activity.Activity):
         def __init__(self, handle):
             activity.Activity.__init__(self,handle)
@@ -1370,31 +1502,201 @@ try:
             #app = cartoonbuilder(self,'/home/olpc/Activities/CartoonBuilder.activity')
 	    bundle_path = activity.get_bundle_path()
 	    os.chdir(bundle_path)
+	    self.app = cartoonbuilder(True,self, bundle_path)
 	    self.set_title('CartoonBuilder')
 	    toolbox = activity.ActivityToolbox(self)
+	    bgtoolbar = BGToolbar(self,self.app)
+	    toolbox.add_toolbar(_('Background'),bgtoolbar)
+	    bgtoolbar.show()
 	    self.set_toolbox(toolbox)
 	    toolbox.show()
             if hasattr(self, '_jobject'):
                 self._jobject.metadata['title'] = 'CartoonBuilder'
             title_widget = toolbox._activity_toolbar.title
             title_widget.set_size_request(title_widget.get_layout().get_pixel_size()[0] + 20, -1)
-	    app = cartoonbuilder(self, bundle_path)
-	    app.insugar = True
             outerframe = gtk.EventBox()
+	    outerframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BUTTON_BACKGROUND))
             outerframe.show()
             innerframe = gtk.EventBox()
             innerframe.show()
             ifalign = gtk.Alignment(1.0,1.0,1.0,1.0)
 	    ifalign.add(innerframe)
-	    ifalign.set_padding(85,90,160,160) # top,bottom,left,right
+	    ifalign.set_padding(10,10,30,30) # top,bottom,left,right
 	    ifalign.show()
             #innerframe.set_border_width(150)
             outerframe.add(ifalign)
-            innerframe.add(app.main)
+            innerframe.add(self.app.main)
             self.set_canvas(outerframe)
+
+            # mesh stuff
+            self.pservice = presenceservice.get_instance()
+            owner = self.pservice.get_owner()
+            self.owner = owner
+            try:
+                name, path = self.pservice.get_preferred_connection()
+                self.tp_conn_name = name
+                self.tp_conn_path = path
+                self.conn = telepathy.client.Connection(name, path)
+            except TypeError:
+	        pass
+            self.initiating = None
+
+	    #sharing stuff
+	    self.game = None
+	    self.connect('shared', self._shared_cb)
+            if self._shared_activity:
+                # we are joining the activity
+                self.connect('joined', self._joined_cb)
+                if self.get_shared():
+                    # oh, OK, we've already joined
+                    self._joined_cb()
+            else:
+                # we are creating the activity
+		pass
+
 
         def destroy_cb(self, data=None):
             return True
+
+	def read_file(self, filepath):
+	    zf = file(filepath,'r')
+	    self.app.loadfromzip(zf)
+
+	def write_file(self, filepath):
+	    zf = file(filepath,'w')
+	    self.app.savetozip(zf)
+
+	def _shared_cb(self,activity):
+	    self.initiating = True
+	    self._setup()
+            id = self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferDBusTube(
+                  SERVICE, {})
+	    #self.app.export.set_label('Shared Me')
+
+	def _joined_cb(self,activity):
+            if self.game is not None:
+                return
+
+            if not self._shared_activity:
+                return
+
+            #for buddy in self._shared_activity.get_joined_buddies():
+            #    self.buddies_panel.add_watcher(buddy)
+
+            #logger.debug('Joined an existing Connect game')
+	    #self.app.export.set_label('Joined You')
+            self.initiating = False
+            self._setup()
+
+            #logger.debug('This is not my activity: waiting for a tube...')
+            self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].ListTubes(
+                reply_handler=self._list_tubes_reply_cb,
+                error_handler=self._list_tubes_error_cb)
+
+	def _setup(self):
+            if self._shared_activity is None:
+                return
+
+            bus_name, conn_path, channel_paths = self._shared_activity.get_channels()
+
+            # Work out what our room is called and whether we have Tubes already
+            room = None
+            tubes_chan = None
+            text_chan = None
+            for channel_path in channel_paths:
+                channel = telepathy.client.Channel(bus_name, channel_path)
+                htype, handle = channel.GetHandle()
+                if htype == telepathy.HANDLE_TYPE_ROOM:
+                    #logger.debug('Found our room: it has handle#%d "%s"',
+                    #    handle, self.conn.InspectHandles(htype, [handle])[0])
+                    room = handle
+                    ctype = channel.GetChannelType()
+                    if ctype == telepathy.CHANNEL_TYPE_TUBES:
+                        #logger.debug('Found our Tubes channel at %s', channel_path)
+                        tubes_chan = channel
+                    elif ctype == telepathy.CHANNEL_TYPE_TEXT:
+                        #logger.debug('Found our Text channel at %s', channel_path)
+                        text_chan = channel
+
+            if room is None:
+                #logger.error("Presence service didn't create a room")
+                return
+            if text_chan is None:
+                #logger.error("Presence service didn't create a text channel")
+                return
+
+            # Make sure we have a Tubes channel - PS doesn't yet provide one
+            if tubes_chan is None:
+                #logger.debug("Didn't find our Tubes channel, requesting one...")
+                tubes_chan = self.conn.request_channel(telepathy.CHANNEL_TYPE_TUBES,
+                    telepathy.HANDLE_TYPE_ROOM, room, True)
+
+            self.tubes_chan = tubes_chan
+            self.text_chan = text_chan
+
+            tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal('NewTube',
+                self._new_tube_cb)
+
+        def _list_tubes_reply_cb(self, tubes):
+            for tube_info in tubes:
+                self._new_tube_cb(*tube_info)
+
+        def _list_tubes_error_cb(self, e):
+            #logger.error('ListTubes() failed: %s', e)
+	    pass
+
+        def _new_tube_cb(self, id, initiator, type, service, params, state):
+            #logger.debug('New tube: ID=%d initator=%d type=%d service=%s '
+            #             'params=%r state=%d', id, initiator, type, service,
+            #             params, state)
+
+            if (self.game is None and type == telepathy.TUBE_TYPE_DBUS and
+                service == SERVICE):
+                if state == telepathy.TUBE_STATE_LOCAL_PENDING:
+                    self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES].AcceptDBusTube(id)
+
+                tube_conn = TubeConnection(self.conn,
+                    self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES],
+                    id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
+                self.game = ConnectGame(tube_conn, self.initiating, self)
+    
+    class ConnectGame(ExportedGObject):
+        def __init__(self,tube, is_initiator, activity):
+	    super(ConnectGame,self).__init__(tube,PATH)
+	    self.tube = tube
+	    self.is_initiator = is_initiator
+	    self.entered = False
+	    self.activity = activity
+
+	    self.ordered_bus_names=[]
+	    self.tube.watch_participants(self.participant_change_cb)
+
+	def participant_change_cb(self, added, removed):
+	    if not self.entered:
+	        if self.is_initiator:
+		    self.add_hello_handler()
+		else:
+		    self.Hello()
+	    self.entered = True
+
+	@signal(dbus_interface=IFACE,signature='')
+        def Hello(self):
+	    """Request that this player's Welcome method is called to bring it
+	    up to date with the game state.
+	    """
+
+	@method(dbus_interface=IFACE, in_signature='s', out_signature='')
+	def Welcome(self, sdata):
+	    #sdata is the zip file contents
+	    #self.activity.app.lessonplans.set_label('got data to restore')
+	    self.activity.app.restore(str(sdata))
+
+	def add_hello_handler(self):
+	    self.tube.add_signal_receiver(self.hello_cb, 'Hello', IFACE,
+	        path=PATH, sender_keyword='sender')
+
+        def hello_cb(self, sender=None):
+	    self.tube.get_object(sender, PATH).Welcome(self.activity.app.getsdata(),dbus_interface=IFACE)
 
 except ImportError:
     pass
@@ -1404,7 +1706,7 @@ if __name__ == "__main__":
     toplevel_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
     #mdirpath = '.'
     mdirpath = os.path.abspath(os.curdir)
-    app = cartoonbuilder(toplevel_window,mdirpath)
+    app = cartoonbuilder(False,toplevel_window,mdirpath)
     toplevel_window.add(app.main)
     toplevel_window.set_title('Cartoon Builder')
     # FULLSCREEN
