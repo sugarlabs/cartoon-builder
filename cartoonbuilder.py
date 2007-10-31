@@ -808,6 +808,9 @@ class cartoonbuilder:
 
     def __init__(self,insugar,toplevel_window,mdirpath):
         self.mdirpath = mdirpath
+	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
+	if not os.path.isdir(tmpimgdir):
+	    os.mkdir(tmpimgdir)
 	self.iconsdir = os.path.join(self.mdirpath,'icons')
         self.playing = False
 	self.backnum = 0
