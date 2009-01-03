@@ -43,8 +43,8 @@ IFACE = SERVICE
 PATH = '/org/freedesktop/Telepathy/Tube/Connect'
 
 TRANSIMG = '50x50blank-trans.png'
-BGHEIGHT = 425
-BGWIDTH = 425
+BGHEIGHT = gtk.gdk.screen_height() - 450 # 425
+BGWIDTH = BGHEIGHT # 425
 IMGHEIGHT = 100
 IMGWIDTH = 100
 
@@ -105,6 +105,9 @@ LANG = {'English':{'character':'My Character',
 		 'background':'Mi fondo',
 		 'lessonplan':u'Planes de la lecci\xf3n',
 		 'lpdir':'lp-es'}}
+
+FRAME_COUNT = (gtk.gdk.screen_height() - 370) / IMGHEIGHT * 2
+TAPE_COUNT = (gtk.gdk.screen_width() - 430) / IMGWIDTH
 
 def getwrappedfile(filepath,linelength):
     text = []
@@ -185,7 +188,7 @@ class cartoonbuilder:
 	self.drawmain()
 
     def clearall(self, widget, data=None):
-        for i in range(6):
+        for i in range(TAPE_COUNT):
 	    transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
 	    self.frameimgs[i].set_from_pixbuf(transpixbuf)
 	    self.fgpixbufs[i] = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
@@ -326,7 +329,7 @@ class cartoonbuilder:
         self.mfdraw.fgimgpath = self.frameimgpaths[self.playframenum]
 	self.mfdraw.queue_draw()
 	self.playframenum += 1
-	if self.playframenum == 6:
+	if self.playframenum == TAPE_COUNT:
 	    self.playframenum = 0
 	if self.playing:
 	    return True
@@ -337,7 +340,7 @@ class cartoonbuilder:
 	self.fgpixbuf = self.fgpixbufs[self.playframenum]
 	self.drawmain()
 	self.playframenum += 1
-	if self.playframenum == 6:
+	if self.playframenum == TAPE_COUNT:
 	    self.playframenum = 0
 	# SOUND HANDLING
 	#if self.bus.have_pending:
@@ -655,14 +658,14 @@ class cartoonbuilder:
 	self.poseimgpaths = []
         pics = self.getpics(self.imgdir)
 	count = 0
-	for imgpath in pics[self.imgstartindex:self.imgstartindex+10]:
+	for imgpath in pics[self.imgstartindex:self.imgstartindex+FRAME_COUNT]:
 	    pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
 	    scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
 	    self.posepixbufs.append(pixbuf)
 	    self.poseimgpaths.append(imgpath)
             self.images[count].set_from_pixbuf(scaled_buf)
 	    count += 1
-	for i in range(count,10):
+	for i in range(count,FRAME_COUNT):
 	    transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
 	    imgpath = os.path.join(self.iconsdir,TRANSIMG)
 	    img = gtk.Image()
@@ -693,7 +696,7 @@ class cartoonbuilder:
 
     def imgdown(self, widget, data=None):
         pics = self.getpics(self.imgdir)
-	if len(pics[self.imgstartindex:]) > 10:
+	if len(pics[self.imgstartindex:]) > FRAME_COUNT:
 	    self.imgstartindex += 2
 	    self.loadimages()
 	    self.setcharacter()
@@ -1041,7 +1044,7 @@ class cartoonbuilder:
 	topspace.set_border_width(15)
 	self.tvbox.pack_start(topspace,False,False,0)
 	self.tvbox.pack_start(flowbox,False,False,0)
-        self.table = gtk.Table(rows=7, columns=2, homogeneous=False)
+        self.table = gtk.Table(rows=FRAME_COUNT/2, columns=2, homogeneous=False)
 
 	self.imgbuttons = []
 	self.images = []
@@ -1081,19 +1084,13 @@ class cartoonbuilder:
 	prepare_btn(self.imgupbutton)
 	self.iubhbox = gtk.HBox()
 	self.iubhbox.show()
-	self.iubhbox.pack_start(self.imgupbutton,True,True,150)
-	self.tvbox.pack_start(self.iubhbox,False,False,0)
+	self.iubhbox.pack_start(self.imgupbutton,True,False,0)
+	self.tvbox.pack_start(self.iubhbox,False,False,5)
 
-	self.table.attach(self.imgbuttons[0],0,1,0,1)
-	self.table.attach(self.imgbuttons[1],1,2,0,1)
-	self.table.attach(self.imgbuttons[2],0,1,1,2)
-	self.table.attach(self.imgbuttons[3],1,2,1,2)
-	self.table.attach(self.imgbuttons[4],0,1,2,3)
-	self.table.attach(self.imgbuttons[5],1,2,2,3)
-	self.table.attach(self.imgbuttons[6],0,1,3,4)
-	self.table.attach(self.imgbuttons[7],1,2,3,4)
-	self.table.attach(self.imgbuttons[8],0,1,4,5)
-	self.table.attach(self.imgbuttons[9],1,2,4,5)
+        for i in range(FRAME_COUNT/2):
+            self.table.attach(self.imgbuttons[i*2], 0, 1, i, i+1)
+            self.table.attach(self.imgbuttons[i*2+1], 1, 2, i, i+1)
+
 	self.table.show()
 
         self.tableframeborder = gtk.EventBox()
@@ -1123,9 +1120,9 @@ class cartoonbuilder:
 	prepare_btn(self.imgdownbutton)
 	self.idbhbox = gtk.HBox()
 	self.idbhbox.show()
-	self.idbhbox.pack_start(self.imgdownbutton,True,True,150)
-	self.tvbox.pack_start(self.idbhbox,False,False,0)
-        self.hbox.pack_start(self.tvbox,True,True,0)
+	self.idbhbox.pack_start(self.imgdownbutton,True,False,0)
+	self.tvbox.pack_start(self.idbhbox,False,False,5)
+        self.hbox.pack_start(self.tvbox,False,True,0)
 
 	self.imgdir = self.imgdirs[self.imgdirindex]
 	self.loadimages()
@@ -1144,7 +1141,7 @@ class cartoonbuilder:
 	self.fgpixbufs = []
 	self.fgpixbufpaths = []
 	transimgpath = os.path.join(self.iconsdir,TRANSIMG)
-	for i in range(6):
+	for i in range(TAPE_COUNT):
 	    #fb = gtk.Button()
 	    #fb.connect('clicked', self.selectframe, i+1)
 	    fb = gtk.EventBox()
@@ -1181,13 +1178,20 @@ class cartoonbuilder:
 	self.animborder.add(self.animframe)
 	self.animfilmstrip = gtk.VBox()
 	self.animfilmstrip.show()
+
+        filmstrip_pix = gtk.gdk.pixbuf_new_from_file(os.path.join(
+                self.iconsdir,'filmstrip.png'))
+        filmstrip_pix = filmstrip_pix.scale_simple(
+                (IMGWIDTH + 4) * TAPE_COUNT, filmstrip_pix.get_height(),
+                gtk.gdk.INTERP_BILINEAR)
+
 	self.filmstriptopimg = gtk.Image()
-	self.filmstriptopimg.set_from_file(os.path.join(self.iconsdir,'filmstrip.png'))
+	self.filmstriptopimg.set_from_pixbuf(filmstrip_pix)
 	self.filmstriptopimg.show()
-	self.animfilmstrip.pack_start(self.filmstriptopimg,False,False,0)
+	self.animfilmstrip.pack_start(self.filmstriptopimg,True,True,0)
 	self.animfilmstrip.pack_start(self.animhbox,False,False,0)
 	self.filmstripbottomimg = gtk.Image()
-	self.filmstripbottomimg.set_from_file(os.path.join(self.iconsdir,'filmstrip.png'))
+	self.filmstripbottomimg.set_from_pixbuf(filmstrip_pix)
 	self.filmstripbottomimg.show()
 	self.animfilmstrip.pack_start(self.filmstripbottomimg,False,False,0)
 	self.animframe.add(self.animfilmstrip)
@@ -1252,7 +1256,7 @@ class cartoonbuilder:
 	self.mfdrawbox.show()
 	self.mfdrawbox.add(self.mfdraw)
 	self.mfdrawborder.add(self.mfdrawbox)
-	self.centervbox.pack_start(self.mfdrawborder,False,False,0)
+	self.centervbox.pack_start(self.mfdrawborder,True,False,0)
 
         self.bcontrolbox = gtk.HBox()
 	self.bcontrolbox.set_border_width(5)
@@ -1286,7 +1290,7 @@ class cartoonbuilder:
 	#self.sbox.pack_start(self.pslabel,True,True,0)
 	self.bcontrolbox.pack_start(self.sbox,True,True,5)
         self.centervbox.pack_start(self.bcontrolbox,False,False,0)	
-	self.bottomhbox.pack_start(self.centervbox,False,False,0)
+	self.bottomhbox.pack_start(self.centervbox,True,False,0)
 	
         self.controlbox = gtk.VBox()
 	self.controlbox.show()
@@ -1455,7 +1459,7 @@ class cartoonbuilder:
 	self.controlbox.pack_start(self.soundbox,False,False,5)
         
 	# FINISHING DETAILS
-	self.bottomhbox.pack_start(self.controlbox,True,True,10)
+	self.bottomhbox.pack_start(self.controlbox,False,False,10)
 	self.rightbox.pack_start(self.bottomhbox,True,True,10)
 	self.hbox.pack_start(self.rightbox,True,True,0)
 
