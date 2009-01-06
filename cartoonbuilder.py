@@ -35,6 +35,7 @@ import pickle
 # should really put a try in front of this
 # in case there is no sound support
 import gst
+from sugar.activity.activity import get_activity_root
 
 _ = gettext.lgettext
 
@@ -108,6 +109,8 @@ LANG = {'English':{'character':'My Character',
 
 FRAME_COUNT = (gtk.gdk.screen_height() - 370) / IMGHEIGHT * 2
 TAPE_COUNT = (gtk.gdk.screen_width() - 430) / IMGWIDTH
+
+TMPDIR = os.path.join(get_activity_root(), 'tmp')
 
 def getwrappedfile(filepath,linelength):
     text = []
@@ -490,8 +493,7 @@ class cartoonbuilder:
 	#zf.close()
 	# END OF STUFF THAT DOESN'T WORK
 	sdd = {}
-	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
-	tmpbgpath = os.path.join(tmpimgdir,'back.png')
+	tmpbgpath = os.path.join(TMPDIR,'back.png')
 	self.bgpixbuf.save(tmpbgpath,'png')
 	sdd['pngdata'] = file(tmpbgpath).read()
 	os.remove(tmpbgpath)
@@ -500,7 +502,7 @@ class cartoonbuilder:
 	#count = 1
 	#for pixbuf in self.fgpixbufs:
 	#    filename = '%02d.png' % count
-	#    filepath = os.path.join(tmpimgdir,filename)
+	#    filepath = os.path.join(TMPDIR,filename)
 	#    pixbuf.save(filepath,'png')
 	#    sdd['fgpixbufs'].append(file(filepath).read())
 	#    os.remove(filepath)
@@ -513,8 +515,7 @@ class cartoonbuilder:
 	#self.loadfromzip(zf)
         # END OF STUFF THAT DOESN'T WORK
 	sdd = pickle.loads(sdata)
-	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
-	tmpbgpath = os.path.join(tmpimgdir,'back.png')
+	tmpbgpath = os.path.join(TMPDIR,'back.png')
 	f = file(tmpbgpath,'w')
 	f.write(sdd['pngdata'])
 	f.close()
@@ -559,8 +560,7 @@ class cartoonbuilder:
 	#zf = zipfile.ZipFile(filepath,'w')
 	zf = zipfile.ZipFile(f,'w')
 	# add the background file
-	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
-	tmpbgpath = os.path.join(tmpimgdir,'back.png')
+	tmpbgpath = os.path.join(TMPDIR,'back.png')
 	self.bgpixbuf.save(tmpbgpath,'png')
 	zf.write(tmpbgpath)
 	os.remove(tmpbgpath)
@@ -568,7 +568,7 @@ class cartoonbuilder:
 	count = 1
 	for pixbuf in self.fgpixbufs:
 	    filename = '%02d.png' % count
-	    filepath = os.path.join(tmpimgdir,filename)
+	    filepath = os.path.join(TMPDIR,filename)
 	    pixbuf.save(filepath,'png')
 	    zf.write(filepath)
 	    os.remove(filepath)
@@ -612,17 +612,16 @@ class cartoonbuilder:
 		framenames.append(fname)
 	framenames.sort()
 	# set the background
-	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
-	tmpbgpath = os.path.join(tmpimgdir,'back.png')
+	tmpbgpath = os.path.join(TMPDIR,'back.png')
 	f = file(tmpbgpath,'w')
 	f.write(zf.read(backname))
 	f.close()
 	self.setback(tmpbgpath)
 	os.remove(tmpbgpath)
-	self.imgdir = tmpimgdir
+	self.imgdir = TMPDIR
 	for filepath in framenames:
 	    fname = os.path.split(filepath)[1]
-            tmpfilepath = os.path.join(tmpimgdir,fname)
+            tmpfilepath = os.path.join(TMPDIR,fname)
 	    f = file(tmpfilepath,'w')
 	    f.write(zf.read(filepath))
 	    f.close()
@@ -642,9 +641,9 @@ class cartoonbuilder:
 	    scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
 	    self.frameimgs[count].set_from_pixbuf(scaled_buf)
             count += 1
-	entries = os.listdir(tmpimgdir)
+	entries = os.listdir(TMPDIR)
 	for entry in entries:
-	    entrypath = os.path.join(tmpimgdir,entry)
+	    entrypath = os.path.join(TMPDIR,entry)
 	    os.remove(entrypath)
 
     def setplayspeed(self,adj):
@@ -811,9 +810,8 @@ class cartoonbuilder:
 
     def __init__(self,insugar,toplevel_window,mdirpath):
         self.mdirpath = mdirpath
-	tmpimgdir = os.path.join(self.mdirpath,'tmpimg')
-	if not os.path.isdir(tmpimgdir):
-	    os.mkdir(tmpimgdir)
+	if not os.path.isdir(TMPDIR):
+	    os.mkdir(TMPDIR)
 	self.iconsdir = os.path.join(self.mdirpath,'icons')
         self.playing = False
 	self.backnum = 0
