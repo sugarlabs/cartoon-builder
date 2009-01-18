@@ -5,3 +5,4 @@ class = cartoonbuilder.cartoonbuilderActivity
 icon = activity-cartoonbuilder
 activity_version = 1
 show_launcher = yes
+license = GPLv2+
