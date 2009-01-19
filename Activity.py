@@ -1,3 +1,17 @@
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
 from sugar.activity import activity
 from sugar.presence import presenceservice
 from sugar.presence.tubeconn import TubeConnection
@@ -7,13 +21,35 @@ from dbus import Interface
 from dbus.service import method, signal
 from dbus.gobject_service import ExportedGObject
 
+from Main import *
+
 SERVICE = 'org.freedesktop.Telepathy.Tube.Connect'
 IFACE = SERVICE
 PATH = '/org/freedesktop/Telepathy/Tube/Connect'
 
-class Shared(activity.Activity):
+TMPDIR = os.path.join(get_activity_root(), 'tmp')
+
+class CartoonBuilderActivity(activity.Activity):
     def __init__(self, handle):
         activity.Activity.__init__(self,handle)
+
+        self.connect("destroy",self.destroy_cb)
+        #app = cartoonbuilder(self,'/home/olpc/Activities/CartoonBuilder.activity')
+        bundle_path = activity.get_bundle_path()
+        os.chdir(bundle_path)
+        self.app = CartoonBuilder(True,self, bundle_path)
+        self.set_title('CartoonBuilder')
+        toolbox = activity.ActivityToolbox(self)
+        bgtoolbar = BGToolbar(self,self.app)
+        toolbox.add_toolbar(_('Background'),bgtoolbar)
+        bgtoolbar.show()
+        self.set_toolbox(toolbox)
+        toolbox.show()
+        if hasattr(self, '_jobject'):
+            self._jobject.metadata['title'] = 'CartoonBuilder'
+        title_widget = toolbox._activity_toolbar.title
+        title_widget.set_size_request(title_widget.get_layout().get_pixel_size()[0] + 20, -1)
+        self.set_canvas(self.app.main)
 
         # mesh stuff
         self.pservice = presenceservice.get_instance()
@@ -40,7 +76,6 @@ class Shared(activity.Activity):
         else:
             # we are creating the activity
             pass
-
 
     def _shared_cb(self,activity):
         self.initiating = True
@@ -136,6 +171,16 @@ class Shared(activity.Activity):
                 id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
             self.game = ConnectGame(tube_conn, self.initiating, self)
 
+    def destroy_cb(self, data=None):
+        return True
+
+    def read_file(self, filepath):
+        Bundle.load(filepath)
+
+    def write_file(self, filepath):
+        Bundle.save(filepath)
+
+
 class ConnectGame(ExportedGObject):
     def __init__(self,tube, is_initiator, activity):
         super(ConnectGame,self).__init__(tube,PATH)
@@ -173,7 +218,6 @@ class ConnectGame(ExportedGObject):
 
     def hello_cb(self, sender=None):
         self.tube.get_object(sender, PATH).Welcome(self.activity.app.getsdata(),dbus_interface=IFACE)
-
 
 """
     def getsdata(self):

@@ -20,7 +20,7 @@ class Char:
     id = 0
     pixbuf = None #gtk.gdk.Pixbuf()
 
-def list():
+def themes():
     return [Char()]
 
 
@@ -104,6 +104,20 @@ def list():
         for entry in entries:
             entrypath = os.path.join(TMPDIR,entry)
             os.remove(entrypath)
+
+def prepare_btn(btn, w=-1, h=-1):
+    for state, color in COLOR_BG_BUTTONS:
+        btn.modify_bg(state, gtk.gdk.color_parse(color))
+    c = btn.get_child()
+    if c is not None:
+        for state, color in COLOR_FG_BUTTONS:
+            c.modify_fg(state, gtk.gdk.color_parse(color))
+    else:
+        for state, color in COLOR_FG_BUTTONS:
+            btn.modify_fg(state, gtk.gdk.color_parse(color))
+    if w>0 or h>0:
+        btn.set_size_request(w, h)
+    return btn
 
 
 """
