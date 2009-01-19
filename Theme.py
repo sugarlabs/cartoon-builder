@@ -20,8 +20,9 @@ from sugar.activity.activity import get_bundle_path
 TRANSIMG = '50x50blank-trans.png'
 BGHEIGHT = gtk.gdk.screen_height() - 450 # 425
 BGWIDTH = BGHEIGHT # 425
-IMGHEIGHT = 100
-IMGWIDTH = 100
+
+IMGHEIGHT = min(100, gtk.gdk.screen_height() / 8)
+IMGWIDTH = IMGHEIGHT
 IMGSIZE = (IMGWIDTH, IMGHEIGHT)
 
 BORDER_LEFT = 1
@@ -78,8 +79,7 @@ def path(file):
         return os.path.join(get_bundle_path(), file)
 
 def pixmap(file, numberr_in_set = None):
-    out = gtk.gdk.pixbuf_new_from_file(path(file))
-    out = out.scale_simple(IMGWIDTH, IMGHEIGHT, gtk.gdk.INTERP_BILINEAR)
+    out = gtk.gdk.pixbuf_new_from_file_at_size(path(file), IMGWIDTH, IMGHEIGHT)
     return out
 
 # customize theme

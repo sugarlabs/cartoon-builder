@@ -71,6 +71,11 @@ class CartoonBuilder:
     def stop():
         self.playing = False
 
+    def set_tempo(self, tempo):
+        self.waittime = int((6-tempo) * 150)
+        if self.playing:
+            gobject.source_remove(self.playing)
+            self.playing = gobject.timeout_add(self.waittime, self.playframe)
 
 
 
@@ -142,6 +147,8 @@ class CartoonBuilder:
         self.drawmain()
 
     def _char_cb(self, widget):
+        return
+
         if self.imgdirindex == 0:
             self.imgdirindex = (len(self.imgdirs)-1)
         else:
@@ -154,17 +161,6 @@ class CartoonBuilder:
 
     def _sound_cb(self, widget, combo):
         Sound.change(widget.props.value)
-
-    def oldplayframe(self):
-        self.mfdraw.fgimgpath = self.frameimgpaths[self.playframenum]
-        self.mfdraw.queue_draw()
-        self.playframenum += 1
-        if self.playframenum == TAPE_COUNT:
-            self.playframenum = 0
-        if self.playing:
-            return True
-        else:
-            return False
 
     def playframe(self):
         self.fgpixbuf = self.fgpixbufs[self.playframenum]
@@ -208,17 +204,14 @@ class CartoonBuilder:
         self.mfdraw.bgpixbuf = self.bgpixbuf
         self.mfdraw.queue_draw()
 
-    def setplayspeed(self,adj):
-        self.waittime = int((6-adj.value)*150)
-        if self.playing:
-            gobject.source_remove(self.playing)
-            self.playing = gobject.timeout_add(self.waittime, self.playframe)
 
     def loadimages(self):
         self.posepixbufs = []
         self.poseimgpaths = []
+
         pics = self.getpics(self.imgdir)
         count = 0
+
         for imgpath in pics[self.imgstartindex:self.imgstartindex+FRAME_COUNT]:
             pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
             scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
@@ -226,6 +219,7 @@ class CartoonBuilder:
             self.poseimgpaths.append(imgpath)
             self.images[count].set_from_pixbuf(scaled_buf)
             count += 1
+
         for i in range(count,FRAME_COUNT):
             transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
             imgpath = os.path.join(self.iconsdir,TRANSIMG)
@@ -248,14 +242,14 @@ class CartoonBuilder:
 
 
     def imgup(self, widget, data=None):
-        pics = self.getpics(self.imgdir)
+        #pics = self.getpics(self.imgdir)
         if self.imgstartindex > 0:
             self.imgstartindex -= 2
             self.loadimages()
             self.drawmain()
 
     def imgdown(self, widget, data=None):
-        pics = self.getpics(self.imgdir)
+        #pics = self.getpics(self.imgdir)
         if len(pics[self.imgstartindex:]) > FRAME_COUNT:
             self.imgstartindex += 2
             self.loadimages()
@@ -269,54 +263,24 @@ class CartoonBuilder:
         scaled_buf = pixbuf.scale_simple(width,height,gtk.gdk.INTERP_BILINEAR)
         return scaled_buf
 
+
+
+
+
     def __init__(self,insugar,toplevel_window,mdirpath):
         self.mdirpath = mdirpath
         self.iconsdir = os.path.join(self.mdirpath, 'images', 'icons')
         self.playing = False
 
         self.waittime = 3*150
-        self.imgdirs = []
-        imgdirfile = file(os.path.join(self.mdirpath,'config.imgdirs'))
-        for line in imgdirfile:
-            imgdirpath = line.strip()
-            if imgdirpath[0] != '/':
-                imgdirpath = os.path.join(self.mdirpath,line.strip())
-            if os.path.isdir(imgdirpath):
-                self.imgdirs.append(imgdirpath)
-        imgdirfile.close()
-        self.imgdirindex = 0
+
+
         self.imgstartindex = 0
 
         self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
 
 
-
-
-
-
-
-
-
-
-        self.langoframe = gtk.EventBox()
-        self.langoframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
-        self.langoframe.show()
-        self.langframe = gtk.EventBox()
-        self.langframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
-        self.langframe.show()
-        self.langalign = gtk.Alignment(1.0,1.0,1.0,1.0)
-        self.langalign.add(self.langframe)
-        self.langalign.set_padding(5,0,5,5)
-        self.langalign.show()
-        self.langoframe.add(self.langalign)
-        self.langhbox = gtk.HBox()
-        self.langhbox.show()
-        #self.langhbox.pack_start(self.llvbox,True,False,0)
-        #self.langhbox.pack_start(self.langvbox,True,False,0)
-        #self.langhbox.pack_start(self.nlvbox,True,False,0)
-        self.langframe.add(self.langhbox)
-        #self.logobox.pack_start(self.langoframe,True,True,0)
-
+        #self.loadimages()
 
 
         self.tvbox = gtk.VBox()
@@ -411,8 +375,12 @@ class CartoonBuilder:
         self.idbhbox.pack_start(self.imgdownbutton,True,False,0)
         self.tvbox.pack_start(self.idbhbox,False,False,5)
 
-        self.imgdir = self.imgdirs[self.imgdirindex]
-        self.loadimages()
+
+
+
+
+
+
 
         # ANIMATION FRAMES / FILMSTRIP
         self.tophbox = gtk.HBox()
@@ -510,8 +478,6 @@ class CartoonBuilder:
         self.framebuttons[0].modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
         self.framebuttons[0].modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(YELLOW))
 
-        self.centervbox = gtk.VBox()
-        self.centervbox.show()
         # MAIN IMAGE
         self.mfdraw = FrameWidget(None,self.fgpixbuf)
         self.mfdraw.set_size_request(BGWIDTH,BGHEIGHT)
@@ -524,30 +490,8 @@ class CartoonBuilder:
         self.mfdrawbox.show()
         self.mfdrawbox.add(self.mfdraw)
         self.mfdrawborder.add(self.mfdrawbox)
-        self.centervbox.pack_end(self.mfdrawborder,True,False,0)
-
-        self.bcontrolbox = gtk.HBox()
-        self.bcontrolbox.set_border_width(5)
-        self.bcontrolbox.show()
-
 
         
-        # SPEED CONTROLS
-        self.sbox = gtk.VBox()
-        self.sbox.show()
-        adj = gtk.Adjustment(2.5,1,5,.5,1)
-        adj.connect('value_changed',self.setplayspeed)
-        self.playspeed = gtk.HScale(adj)
-        self.playspeed.set_draw_value(False)
-        for state, color in COLOR_BG_BUTTONS:
-            self.playspeed.modify_bg(state, gtk.gdk.color_parse(color))
-        self.playspeed.show()
-        self.sbox.pack_start(self.playspeed,True,True,0)
-        #self.pslabel = gtk.Label('Speed')
-        #self.pslabel.show()
-        #self.sbox.pack_start(self.pslabel,True,True,0)
-        self.bcontrolbox.pack_start(self.sbox,True,True,5)
-        self.centervbox.pack_start(self.bcontrolbox,False,False,0)        
         
         self.controlbox = gtk.VBox()
         self.controlbox.show()
@@ -565,7 +509,7 @@ class CartoonBuilder:
             combo.set_active(0)
             return combo
 
-        self.controlbox.pack_start(new_combo(Char.themes(), self._char_cb),
+        self.controlbox.pack_start(new_combo(Char.THEMES, self._char_cb),
                 False, False, 5)
         self.controlbox.pack_start(new_combo(Ground.THEMES, self._ground_cb),
                 False, False, 5)
@@ -607,8 +551,9 @@ class CartoonBuilder:
 
         cetralbox = gtk.HBox()
         cetralbox.show()
-        cetralbox.pack_start(self.centervbox,True,False,0)
-        cetralbox.pack_start(self.tvbox,False,True,0)
+
+        cetralbox.pack_start(self.mfdrawborder, True, False)
+        cetralbox.pack_start(self.tvbox, False, False)
 
 
 
@@ -632,7 +577,6 @@ class CartoonBuilder:
 
         desktop = gtk.VBox()
         desktop.show()
-        #desktop.pack_start(self.logobox,False,False,0)
         desktop.pack_start(hdesktop,True,True,0)
         desktop.pack_end(self.topvbox, False, False, 0)
 
