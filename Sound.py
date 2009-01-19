@@ -21,31 +21,27 @@ import Theme
 from Utils import *
 from sugar.activity.activity import get_bundle_path
 
-sound_icon = Theme.pixmap('icons/sound_icon.png')
+speaker = Theme.pixmap('images/sounds/speaker.png')
 
 THEMES = (
-    { 'name'  : _('Custom'),
-      'pixbuf': sound_icon,
-      'sound' : None },
-
     { 'name'  :  _('Gobble'),
-      'pixbuf': sound_icon,
+      'pixbuf': speaker,
       'sound' : 'sounds/gobble.wav' },
-
     { 'name'  : _('Funk'),
-      'pixbuf': sound_icon,
+      'pixbuf': speaker,
       'sound' : 'sounds/funk.wav' },
-
     { 'name'  : _('Giggle'),
-      'pixbuf': sound_icon,
+      'pixbuf': speaker,
       'sound' : 'sounds/giggle.wav' },
-
     { 'name'  : _('Jungle'),
-      'pixbuf': sound_icon,
+      'pixbuf': speaker,
       'sound' : 'sounds/jungle.wav' },
-
     { 'name'  : _('Mute'),
-      'pixbuf': sound_icon,
+      'pixbuf': Theme.pixmap('images/sounds/mute.png'),
+      'sound' : None },
+    None,
+    { 'name'  : _('Custom'),
+      'pixbuf': Theme.pixmap('images/sounds/custom.png'),
       'sound' : None } )
 
 theme = FileInstanceVariable(THEMES[0])
@@ -62,6 +58,10 @@ def stop():
 def change(a_theme):
     if not a_theme: return
     theme.set(a_theme)
+
+
+    import logging
+    logging.error(theme['name'])
 
     if not playing.get(): return
 

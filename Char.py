@@ -19,7 +19,7 @@ class Char:
     pixbuf = None #gtk.gdk.Pixbuf()
 
 def themes():
-    return [Char()]
+    return [None]
 
 
 """

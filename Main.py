@@ -27,11 +27,11 @@ import os
 import textwrap
 
 import Theme
-from ComboBox import *
-from Shared import *
 import Char
 import Ground
 import Sound
+from Utils import *
+from Shared import *
 
 class FrameWidget(gtk.DrawingArea):
     def __init__(self,bgpixbuf,fgpixbuf):
@@ -121,21 +121,24 @@ class CartoonBuilder:
             self.fgpixbuf = fgpixbuf
             self.drawmain()
 
-    def _ground_cb(self, widget):
-        if self.backnum == 0:
-            self.backnum = len(self.backpicpaths)-1
-        else:
-            self.backnum -= 1
-        bgimgpath = self.backpicpaths[self.backnum]
-        self.setback(bgimgpath)
+    def _ground_cb(self, widget, combo):
+        choice = Ground.change(widget.props.value)
 
-    def setback(self,imgpath):
-        #self.mfdraw.queue_draw()
-        #pixbuf = gtk.gdk.pixbuf_new_from_file(self.bgimgpath)
-        pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
-        self.bgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-        scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-        self.bgsmall.set_from_pixbuf(scaled_buf)
+        if not choice:
+            widget.set_active(self._prev_ground)
+            return
+
+        if id(choice) != id(widget.props.value):
+            pos = combo.get_active()
+            combo.append_item(choice, text = choice['name'],
+                    size = Theme.IMGSIZE, pixbuf = choice['pixbuf'],
+                    position = pos)
+            combo.set_active(pos)
+
+        self.bgpixbuf = choice['pixbuf'].scale_simple(BGWIDTH, BGHEIGHT,
+                gtk.gdk.INTERP_BILINEAR)
+
+        self._prev_ground = widget.get_active()
         self.drawmain()
 
     def _char_cb(self, widget):
@@ -149,7 +152,7 @@ class CartoonBuilder:
         self.loadimages()
         self.drawmain()
 
-    def _sound_cb(self, widget):
+    def _sound_cb(self, widget, combo):
         Sound.change(widget.props.value)
 
     def oldplayframe(self):
@@ -268,18 +271,9 @@ class CartoonBuilder:
 
     def __init__(self,insugar,toplevel_window,mdirpath):
         self.mdirpath = mdirpath
-        self.iconsdir = os.path.join(self.mdirpath,'icons')
+        self.iconsdir = os.path.join(self.mdirpath, 'images', 'icons')
         self.playing = False
-        self.backnum = 0
-        self.backpicpaths = []
-        bpfile = file(os.path.join(self.mdirpath,'config.backpics'))
-        for line in bpfile:
-            bpfilepath = line.strip()
-            if bpfilepath[0] != '/':
-                bpfilepath = os.path.join(self.mdirpath,line.strip())
-            if os.path.isfile(bpfilepath):
-                self.backpicpaths.append(bpfilepath)
-        bpfile.close()
+
         self.waittime = 3*150
         self.imgdirs = []
         imgdirfile = file(os.path.join(self.mdirpath,'config.imgdirs'))
@@ -558,34 +552,25 @@ class CartoonBuilder:
         self.controlbox = gtk.VBox()
         self.controlbox.show()
         
+        def new_combo(themes, cb):
+            combo = ComboBox()
+            combo.show()
+            for i in themes:
+                if not i:
+                    combo.append_separator()
+                else:
+                    combo.append_item(i, text = i['name'],
+                            size = Theme.IMGSIZE, pixbuf = i['pixbuf'])
+            combo.connect('changed', cb, combo)
+            combo.set_active(0)
+            return combo
 
-        # CHARACTER CONTROLS
-        char_box = BigComboBox()
-        char_box.show()
-        for i in Char.themes():
-            char_box.append_item(i.id, size = Theme.IMGSIZE,
-                    pixbuf = i.pixbuf)
-        char_box.connect('changed', self._char_cb)
-        self.controlbox.pack_start(char_box, False, False, 5)
-
-        # BACKGROUND CONTROLS
-        bg_box = BigComboBox()
-        bg_box.show()
-        for i in Ground.themes():
-            bg_box.append_item(i.id, size = Theme.IMGSIZE,
-                    pixbuf = i.pixbuf)
-        bg_box.connect('changed', self._ground_cb)
-        self.controlbox.pack_start(bg_box, False, False, 5)
-        
-        # SOUND CONTROLS
-        sound_box = BigComboBox()
-        sound_box.show()
-        for i in Sound.THEMES:
-            sound_box.append_item(i, text = i['name'], size = Theme.IMGSIZE,
-                    pixbuf = i['pixbuf'])
-        sound_box.connect('changed', self._sound_cb)
-        self.controlbox.pack_start(sound_box, False, False, 5)
-        sound_box.set_active(0)
+        self.controlbox.pack_start(new_combo(Char.themes(), self._char_cb),
+                False, False, 5)
+        self.controlbox.pack_start(new_combo(Ground.THEMES, self._ground_cb),
+                False, False, 5)
+        self.controlbox.pack_start(new_combo(Sound.THEMES, self._sound_cb),
+                False, False, 5)
 
         
 

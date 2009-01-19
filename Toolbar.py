@@ -17,7 +17,6 @@ from gettext import gettext as _
 
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.toggletoolbutton import ToggleToolButton
-from sugar.graphics.objectchooser import ObjectChooser
 
 import Sound
 
@@ -52,19 +51,3 @@ class Toolbar(gtk.Toolbar):
             widget.set_icon_widget(self.playButtonImg)
             Sound.stop()
             self.app.stop()
-
-
-"""
-    def image_cb(self, button):
-        chooser = ObjectChooser('Choose Image',self.activity,
-                                gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT)
-        try:
-            result = chooser.run()
-            if result == gtk.RESPONSE_ACCEPT:
-                jobject = chooser.get_selected_object()
-                if jobject and jobject.file_path:
-                    self.app.setback(jobject.file_path)
-        finally:
-            chooser.destroy()
-            del chooser
-"""
