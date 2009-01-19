@@ -14,8 +14,6 @@
 
 import gtk
 
-Size = (100, 100)
-
 class Ground:
     id = 0
     pixbuf = None #gtk.gdk.Pixbuf()

@@ -1,11 +1,16 @@
 import pygtk
 import gtk
 
-from sugar.graphics.combobox import ComboBox
+from Theme import *
+from sugar.graphics.combobox import *
 
 class BigComboBox(ComboBox):
+
     def __init__(self):
         ComboBox.__init__(self)
+
+        self.set_name('fubar')
+
     
     def append_item(self, action_id, text = None, icon_name = None, size = None,
             pixbuf = None):
@@ -32,7 +37,8 @@ class BigComboBox(ComboBox):
                     width, height = gtk.icon_size_lookup(size)
                 else:
                     width, height = size
-                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(icon_name, width, height)
+                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(icon_name,
+                        width, height)
             else:
                 pixbuf = None
 

@@ -12,11 +12,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import os
+import gtk
+
+from sugar.activity.activity import get_bundle_path
+
 TRANSIMG = '50x50blank-trans.png'
 BGHEIGHT = gtk.gdk.screen_height() - 450 # 425
 BGWIDTH = BGHEIGHT # 425
 IMGHEIGHT = 100
 IMGWIDTH = 100
+IMGSIZE = (IMGWIDTH, IMGHEIGHT)
 
 BORDER_LEFT = 1
 BORDER_RIGHT = 2
@@ -64,3 +70,21 @@ OLD_COLOR_BG_BUTTONS = (
 
 FRAME_COUNT = (gtk.gdk.screen_height() - 370) / IMGHEIGHT * 2
 TAPE_COUNT = (gtk.gdk.screen_width() - 430) / IMGWIDTH
+
+def path(file):
+    if os.path.isabs(file):
+        return file
+    else:
+        return os.path.join(get_bundle_path(), file)
+
+def pixmap(file, numberr_in_set = None):
+    out = gtk.gdk.pixbuf_new_from_file(path(file))
+    out = out.scale_simple(IMGWIDTH, IMGHEIGHT, gtk.gdk.INTERP_BILINEAR)
+    return out
+
+# customize theme
+gtkrc = os.path.join(get_bundle_path(), 'gtkrc')
+gtk.rc_add_default_file(gtkrc)
+settings = gtk.settings_get_default()
+gtk.rc_reset_styles(settings)
+gtk.rc_reparse_all_for_settings(settings, True)

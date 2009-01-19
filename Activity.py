@@ -20,8 +20,13 @@ import telepathy.client
 from dbus import Interface
 from dbus.service import method, signal
 from dbus.gobject_service import ExportedGObject
+from gettext import gettext as _
+
+from sugar.activity.activity import get_activity_root
 
 from Main import *
+from Toolbar import *
+import Bundle
 
 SERVICE = 'org.freedesktop.Telepathy.Tube.Connect'
 IFACE = SERVICE
@@ -40,7 +45,7 @@ class CartoonBuilderActivity(activity.Activity):
         self.app = CartoonBuilder(True,self, bundle_path)
         self.set_title('CartoonBuilder')
         toolbox = activity.ActivityToolbox(self)
-        bgtoolbar = BGToolbar(self,self.app)
+        bgtoolbar = Toolbar(self,self.app)
         toolbox.add_toolbar(_('Background'),bgtoolbar)
         bgtoolbar.show()
         self.set_toolbox(toolbox)

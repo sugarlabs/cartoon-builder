@@ -19,20 +19,12 @@
 ### (c) 2007 World Wide Workshop Foundation
 
 import time
-import StringIO
 import pygtk
 import gtk
 import gobject
 import gettext
 import os
-import zipfile
 import textwrap
-import pickle
-import gst
-
-from sugar.activity.activity import get_activity_root
-from sugar.graphics.toolbutton import ToolButton
-from sugar.graphics.objectchooser import ObjectChooser
 
 import Theme
 from ComboBox import *
@@ -40,8 +32,6 @@ from Shared import *
 import Char
 import Ground
 import Sound
-
-_ = gettext.lgettext
 
 class FrameWidget(gtk.DrawingArea):
     def __init__(self,bgpixbuf,fgpixbuf):
@@ -72,8 +62,27 @@ class FrameWidget(gtk.DrawingArea):
             #widget.window.draw_pixbuf(self.gc,fgpixbuf,0,0,75,75,-1,-1,0,0)
             widget.window.draw_pixbuf(self.gc,self.fgpixbuf,0,0,0,0,-1,-1,0,0)
 
-
 class CartoonBuilder:
+
+    def play(self):
+        self.playframenum = 0
+        self.playing = gobject.timeout_add(self.waittime, self.playframe)
+
+    def stop():
+        self.playing = False
+
+
+
+
+
+
+
+
+
+
+
+
+
     def clearframe(self, widget, data=None):
         transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
         self.frameimgs[self.frame_selected].set_from_pixbuf(transpixbuf)
@@ -142,27 +151,6 @@ class CartoonBuilder:
 
     def _sound_cb(self, widget):
         Sound.switch(widget.props.value)
-
-    def go(self, widget, data=None):
-        self.playframenum = 0
-        if self.playing:
-            Sound.stop()
-            #widget.set_label('GO!')
-            playimg = gtk.Image()
-            #playimg.set_from_stock(gtk.STOCK_MEDIA_PLAY,gtk.ICON_SIZE_BUTTON)
-            playimg.set_from_file(os.path.join(self.iconsdir,'big_right_arrow.png'))
-            playimg.show()
-            widget.set_image(playimg)
-            self.playing = False
-        else:
-            Sound.play()
-            #widget.set_label('STOP')
-            stopimg = gtk.Image()
-            #stopimg.set_from_stock(gtk.STOCK_MEDIA_STOP,gtk.ICON_SIZE_BUTTON)
-            stopimg.set_from_file(os.path.join(self.iconsdir,'big_pause.png'))
-            stopimg.show()
-            widget.set_image(stopimg)
-            self.playing = gobject.timeout_add(self.waittime, self.playframe)
 
     def oldplayframe(self):
         self.mfdraw.fgimgpath = self.frameimgpaths[self.playframenum]
@@ -547,17 +535,8 @@ class CartoonBuilder:
         self.bcontrolbox = gtk.HBox()
         self.bcontrolbox.set_border_width(5)
         self.bcontrolbox.show()
-        # GO BUTTON
-        playimg = gtk.Image()
-        #playimg.set_from_stock(gtk.STOCK_MEDIA_PLAY,gtk.ICON_SIZE_BUTTON)
-        playimg.set_from_file(os.path.join(self.iconsdir,'big_right_arrow.png'))
-        playimg.show()
-        self.gobutton = gtk.Button()
-        self.gobutton.set_label('')
-        self.gobutton.set_image(playimg)
-        self.gobutton.connect('clicked', self.go, None)
-        self.gobutton.show()
-        self.bcontrolbox.pack_start(self.gobutton,True,True,5)
+
+
         
         # SPEED CONTROLS
         self.sbox = gtk.VBox()
@@ -584,7 +563,7 @@ class CartoonBuilder:
         char_box = BigComboBox()
         char_box.show()
         for i in Char.themes():
-            char_box.append_item(i.id, size = Char.Size,
+            char_box.append_item(i.id, size = Theme.IMGSIZE,
                     pixbuf = i.pixbuf)
         char_box.connect('changed', self._char_cb)
         self.controlbox.pack_start(char_box, False, False, 5)
@@ -593,7 +572,7 @@ class CartoonBuilder:
         bg_box = BigComboBox()
         bg_box.show()
         for i in Ground.themes():
-            bg_box.append_item(i.id, size = Ground.Size,
+            bg_box.append_item(i.id, size = Theme.IMGSIZE,
                     pixbuf = i.pixbuf)
         bg_box.connect('changed', self._ground_cb)
         self.controlbox.pack_start(bg_box, False, False, 5)
@@ -601,11 +580,12 @@ class CartoonBuilder:
         # SOUND CONTROLS
         sound_box = BigComboBox()
         sound_box.show()
-        for i in Sound.themes():
-            sound_box.append_item(i.id, size = Sound.Size,
-                    pixbuf = i.pixbuf)
+        for i in Sound.THEMES:
+            sound_box.append_item(i, text = i['name'], size = Theme.IMGSIZE,
+                    pixbuf = i['pixbuf'])
         sound_box.connect('changed', self._sound_cb)
         self.controlbox.pack_start(sound_box, False, False, 5)
+        sound_box.set_active(0)
 
         
 
@@ -687,30 +667,6 @@ class CartoonBuilder:
 
     def main(self):
         gtk.main()
-
-class BGToolbar(gtk.Toolbar):
-    def __init__(self,sactivity,app):
-        gtk.Toolbar.__init__(self)
-        self.sactivity = sactivity
-        self.app = app
-        self.image = ToolButton('insert-image')
-        self.image.set_tooltip('Insert Image')
-        self.imageid = self.image.connect('clicked',self.image_cb)
-        self.insert(self.image,-1)
-        self.image.show()
-
-    def image_cb(self, button):
-        chooser = ObjectChooser('Choose Image',self.sactivity,
-                                gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT)
-        try:
-            result = chooser.run()
-            if result == gtk.RESPONSE_ACCEPT:
-                jobject = chooser.get_selected_object()
-                if jobject and jobject.file_path:
-                    self.app.setback(jobject.file_path)
-        finally:
-            chooser.destroy()
-            del chooser
 
 
 """

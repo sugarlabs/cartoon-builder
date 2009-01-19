@@ -12,70 +12,95 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import os
 import gtk
+import gst
+from gettext import gettext as _
 
-Size = (100, 100)
+import Theme
+from sugar.activity.activity import get_bundle_path
 
-class Sound:
-    id = 0
-    pixbuf = None #gtk.gdk.Pixbuf()
+sound_icon = Theme.pixmap('icons/sound_icon.png')
 
-def themes():
-    return [Sound()]
+THEMES = (
+    { 'name'  : _('Custom'),
+      'pixbuf': sound_icon,
+      'sound' : None },
+
+    { 'name'  :  _('Gobble'),
+      'pixbuf': sound_icon,
+      'sound' : 'sounds/gobble.wav' },
+
+    { 'name'  : _('Funk'),
+      'pixbuf': sound_icon,
+      'sound' : 'sounds/funk.wav' },
+
+    { 'name'  : _('Giggle'),
+      'pixbuf': sound_icon,
+      'sound' : 'sounds/giggle.wav' },
+
+    { 'name'  : _('Jungle'),
+      'pixbuf': sound_icon,
+      'sound' : 'sounds/jungle.wav' },
+
+    { 'name'  : _('Mute'),
+      'pixbuf': sound_icon,
+      'sound' : None } )
+
+class FileInstanceVariable:
+    def __init__(self, value = None):
+        self.value = value
+
+    def get(self):
+        return self.value
+
+    def set(self, value):
+        self.value = value
+
+    def __getitem__(self, key):
+        return self.value[key]
+
+theme = FileInstanceVariable(THEMES[0])
+playing = FileInstanceVariable(False)
 
 def play():
-    if self.soundfile:
-        #self.player.set_property('uri', 'file://' + self.soundfile)
-        self.player.set_state(gst.STATE_PLAYING)
+    playing.set(True)
+    switch(theme.get())
 
 def stop():
-    if self.soundfile:
-        self.player.set_state(gst.STATE_NULL)
+    playing.set(False)
+    player.set_state(gst.STATE_NULL)
 
-def switch(id):
-    self.soundfile = self.sounds[self.soundindex]
+def switch(a_theme):
+    if not a_theme: return
+    theme.set(a_theme)
 
-    if self.soundfile:
-        soundname = os.path.splitext(os.path.split(self.soundfile)[1])[0]
-        self.player.set_property('uri', 'file://' + self.soundfile)
-        if self.playing:
-            self.player.set_state(gst.STATE_NULL)
-            self.player.set_state(gst.STATE_PLAYING)
-    else:
-        soundname = 'No Sound'
-        if self.playing:
-            self.player.set_state(gst.STATE_NULL)
-    self.soundlabel.set_text(soundname.capitalize())
+    if not playing.get(): return
 
+    player.set_state(gst.STATE_NULL)
 
-def on_gstmessage(self, bus, message):
+    sound = theme['sound']
+    if not sound: return
+
+    player.set_property('uri', 'file://' + Theme.path(sound))
+    player.set_state(gst.STATE_NULL)
+    player.set_state(gst.STATE_PLAYING)
+
+# GSTREAMER STUFF
+
+def _gstmessage_cb(bus, message):
     t = message.type
     if t == gst.MESSAGE_EOS:
         # END OF SOUND FILE
-        self.player.set_state(gst.STATE_NULL)
-        self.player.set_state(gst.STATE_PLAYING)
+        player.set_state(gst.STATE_NULL)
+        player.set_state(gst.STATE_PLAYING)
     elif t == gst.MESSAGE_ERROR:
-        self.player.set_state(gst.STATE_NULL)
+        player.set_state(gst.STATE_NULL)
 
-def init():
-    self.sounds = ['']
-    soundfile = file(os.path.join(self.mdirpath,'config.sounds'))
-    for line in soundfile:
-        soundfilepath = line.strip()
-        if soundfilepath[0] != '/':
-            soundfilepath = os.path.join(self.mdirpath,line.strip())
-        if os.path.isfile(soundfilepath):
-            self.sounds.append(soundfilepath)
-    soundfile.close()
+player = gst.element_factory_make("playbin", "player")
+fakesink = gst.element_factory_make('fakesink', "my-fakesink")
+player.set_property("video-sink", fakesink)
 
-    self.soundfile = self.sounds[self.soundindex]
-
-    # START GSTREAMER STUFF
-    self.player = gst.element_factory_make("playbin", "player")
-    fakesink = gst.element_factory_make('fakesink', "my-fakesink")
-    self.player.set_property("video-sink", fakesink)
-    self.bus = self.player.get_bus()
-    self.bus.add_signal_watch()
-    self.bus.connect('message', self.on_gstmessage)
-    # END GSTREAMER STUFF
-
+bus = player.get_bus()
+bus.add_signal_watch()
+bus.connect('message', _gstmessage_cb)

@@ -14,8 +14,6 @@
 
 import gtk
 
-Size = (100, 100)
-
 class Char:
     id = 0
     pixbuf = None #gtk.gdk.Pixbuf()
@@ -25,6 +23,7 @@ def themes():
 
 
 """
+import pickle
         pics = self.getpics(self.imgdir)
         pixbuf = gtk.gdk.pixbuf_new_from_file(pics[self.imgstartindex])
         scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)

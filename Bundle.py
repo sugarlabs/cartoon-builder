@@ -19,6 +19,9 @@ def save(filepath):
     pass
 
 """
+import zipfile
+import StringIO
+
         pics = self.getpics(self.imgdir)
         pixbuf = gtk.gdk.pixbuf_new_from_file(pics[self.imgstartindex])
         scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
