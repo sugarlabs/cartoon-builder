@@ -18,6 +18,7 @@ import gst
 from gettext import gettext as _
 
 import Theme
+from Utils import *
 from sugar.activity.activity import get_bundle_path
 
 sound_icon = Theme.pixmap('icons/sound_icon.png')
@@ -47,31 +48,18 @@ THEMES = (
       'pixbuf': sound_icon,
       'sound' : None } )
 
-class FileInstanceVariable:
-    def __init__(self, value = None):
-        self.value = value
-
-    def get(self):
-        return self.value
-
-    def set(self, value):
-        self.value = value
-
-    def __getitem__(self, key):
-        return self.value[key]
-
 theme = FileInstanceVariable(THEMES[0])
 playing = FileInstanceVariable(False)
 
 def play():
     playing.set(True)
-    switch(theme.get())
+    change(theme.get())
 
 def stop():
     playing.set(False)
     player.set_state(gst.STATE_NULL)
 
-def switch(a_theme):
+def change(a_theme):
     if not a_theme: return
     theme.set(a_theme)
 

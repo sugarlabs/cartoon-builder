@@ -150,7 +150,7 @@ class CartoonBuilder:
         self.drawmain()
 
     def _sound_cb(self, widget):
-        Sound.switch(widget.props.value)
+        Sound.change(widget.props.value)
 
     def oldplayframe(self):
         self.mfdraw.fgimgpath = self.frameimgpaths[self.playframenum]
