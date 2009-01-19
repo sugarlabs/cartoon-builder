@@ -126,7 +126,7 @@ class TempoSlider(gtk.HBox):
 
         if not self._pixbuf[img]:
             self._pixbuf[img] = gtk.gdk.pixbuf_new_from_file_at_size(
-                    os.path.join(get_bundle_path(), 'images/icons/tempo' +
+                    os.path.join(get_bundle_path(), 'icons/tempo' +
                         str(img+1) + '.svg'),
                     style.STANDARD_ICON_SIZE, style.STANDARD_ICON_SIZE)
 

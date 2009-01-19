@@ -77,6 +77,14 @@ class CartoonBuilder:
             gobject.source_remove(self.playing)
             self.playing = gobject.timeout_add(self.waittime, self.playframe)
 
+    def clear_tape(self):
+        for i in range(TAPE_COUNT):
+            transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
+            self.frameimgs[i].set_from_pixbuf(transpixbuf)
+            self.fgpixbufs[i] = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
+        self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
+
+
 
 
 
@@ -94,13 +102,6 @@ class CartoonBuilder:
         self.fgpixbufs[self.frame_selected] = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
         self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
         self.drawmain()
-
-    def clearall(self, widget, data=None):
-        for i in range(TAPE_COUNT):
-            transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
-            self.frameimgs[i].set_from_pixbuf(transpixbuf)
-            self.fgpixbufs[i] = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
-        self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
 
     def selectframe(self, widget, event, data=None):
         if data:
@@ -269,7 +270,7 @@ class CartoonBuilder:
 
     def __init__(self,insugar,toplevel_window,mdirpath):
         self.mdirpath = mdirpath
-        self.iconsdir = os.path.join(self.mdirpath, 'images', 'icons')
+        self.iconsdir = os.path.join(self.mdirpath, 'icons')
         self.playing = False
 
         self.waittime = 3*150
@@ -414,10 +415,6 @@ class CartoonBuilder:
             #fb.set_image(transimg)
             fb.add(transimg)
             self.animhbox.pack_start(fb,True,True,2)
-            #if i != 5:
-            #    ra = gtk.Arrow(gtk.ARROW_RIGHT,gtk.SHADOW_OUT)
-            #    ra.show()
-            #    self.tophbox.pack_start(ra,True,True,0)
 
 
         self.animborder = gtk.EventBox()
@@ -451,27 +448,8 @@ class CartoonBuilder:
         self.afvbox.show()
         self.afvbox.pack_start(self.animborder,False,False,0)
         self.tophbox.pack_start(self.afvbox,False,False,0)
-        #self.clrframe = gtk.Button('CLEAR FRAME')
-        cancelimg = gtk.Image()
-        #cancelimg.set_from_stock(gtk.STOCK_CANCEL,gtk.ICON_SIZE_BUTTON)
-        cancelimg.set_from_file(os.path.join(self.iconsdir,'clear.png'))
-        cancelimg.show()
-        self.clrframe = gtk.Button()
-        self.clrframe.set_label('')
-        self.clrframe.set_image(cancelimg)
-        self.clrframe.connect('clicked', self.clearall, None)
-        self.clrframe.show()
-        
-        #self.cfbox.pack_start(self.clrframe,True,True,0)
-        #self.clrall = gtk.Button('CLEAR ALL')
-        #self.clrall.connect('clicked', self.clearall, None)
-        #self.clrall.show()
-        #self.cfbox.pack_start(self.clrall,True,True,0)
-        #self.controlbox.pack_start(self.cfbox,True,True,0)
-        self.cfvbox = gtk.VBox()
-        self.cfvbox.show()
-        self.cfvbox.pack_start(self.clrframe,True,False,0)
-        self.tophbox.pack_start(self.cfvbox,False,False,5)
+
+
 
         self.frame_selected = 0
         self.fbstyle = self.framebuttons[0].get_style()
@@ -563,22 +541,18 @@ class CartoonBuilder:
         hdesktop.pack_start(leftbox,False,True,0)
         hdesktop.pack_start(cetralbox,True,True,0)
 
-        pink_arrow = gtk.Image()
-        pink_arrow.set_from_file(os.path.join(self.iconsdir, 'pink_arrow.png'))
-        pink_arrow.show()
-        self.pahbox = gtk.HBox()
-        self.pahbox.show()
-        self.pahbox.pack_start(pink_arrow,False,False,150)
-
-        self.topvbox = gtk.VBox()
-        self.topvbox.show()
-        self.topvbox.pack_start(self.tophbox,False,False,0)
-        self.topvbox.pack_start(self.pahbox,False,False,0)
+        arrow = gtk.Image()
+        arrow.set_from_file(Theme.path('icons/pink_arrow.png'))
+        arrow.show()
+        arrow_box = gtk.HBox()
+        arrow_box.show()
+        arrow_box.pack_start(arrow,False,False,150)
 
         desktop = gtk.VBox()
         desktop.show()
         desktop.pack_start(hdesktop,True,True,0)
-        desktop.pack_end(self.topvbox, False, False, 0)
+        desktop.pack_start(arrow_box, True, False, 0)
+        desktop.pack_end(self.tophbox, True, False, 0)
 
         greenbox = gtk.EventBox()
         greenbox.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))

@@ -53,7 +53,19 @@ class Toolbar(gtk.Toolbar):
         tempo_item.add(tempo)
         self.insert(tempo_item, -1)
 
+        separator = gtk.SeparatorToolItem()
+        separator.set_draw(False)
+        self.insert(separator,-1)
+
+        clear_tape = ToolButton('sl-reset')
+        clear_tape.connect('clicked', self._clear_tape_cb)
+        clear_tape.set_tooltip(_(''))
+        self.insert(clear_tape, -1)
+
         self.show_all()
+
+    def _clear_tape_cb(self, widget):
+        self.app.set_tempo(widget.value)
 
     def _tempo_cb(self, widget):
         self.app.set_tempo(widget.value)
