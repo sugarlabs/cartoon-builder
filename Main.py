@@ -30,7 +30,7 @@ import Theme
 import Char
 import Ground
 import Sound
-import Tape
+import Document
 from Utils import *
 from Shared import *
 
@@ -85,6 +85,23 @@ class CartoonBuilder:
             self.fgpixbufs[i] = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
         self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
 
+    def _tape_cb(self, widget, event, index):
+        tape = self.tape[index]
+        tape.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
+        tape.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(YELLOW))
+
+        if self.tape_selected != index:
+            if self.tape_selected != -1:
+                old_tape = self.tape[self.tape_selected]
+                old_tape.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BLACK))
+                old_tape.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
+
+            self.tape_selected = index
+            #self.fgpixbuf = self.fgpixbufs[self.frame_selected]
+            #self.drawmain()
+
+
+
 
 
 
@@ -103,19 +120,6 @@ class CartoonBuilder:
         self.fgpixbufs[self.frame_selected] = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
         self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
         self.drawmain()
-
-    def selectframe(self, widget, event, data=None):
-        if data:
-            i = data-1
-            self.framebuttons[i].modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
-            self.framebuttons[i].modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(YELLOW))
-            if self.frame_selected != i:
-                self.framebuttons[self.frame_selected].modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BLACK))
-                self.framebuttons[self.frame_selected].modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
-                #self.framebuttons[self.frame_selected].set_style(self.fbstyle)
-                self.frame_selected = i
-                self.fgpixbuf = self.fgpixbufs[self.frame_selected]
-                self.drawmain()
 
     def pickimage(self, widget, event, data=None):
         if data:
@@ -389,7 +393,7 @@ class CartoonBuilder:
 
 
 
-        self.frames = []
+        self.tape = []
 
 
         # ANIMATION FRAMES / FILMSTRIP
@@ -415,16 +419,16 @@ class CartoonBuilder:
             frame = gtk.EventBox()
             frame.show()
             frame.set_events(gtk.gdk.BUTTON_PRESS_MASK)
-            frame.connect('button_press_event', self.selectframe, i+1)
+            frame.connect('button_press_event', self._tape_cb, i)
             frame.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
             frame.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
             frame.props.border_width = 2
             frame.set_size_request(Theme.IMGWIDTH, Theme.IMGHEIGHT)
             frame_box.pack_start(frame, False, False)
-            self.frames.append(frame)
+            self.tape.append(frame)
 
             frame_image = gtk.Image()
-            #frame_image.set_from_pixbuf(filmstrip_pixbuf);
+            frame_image.set_from_pixbuf(Document.pixbuf(i))
             frame_image.show()
             frame.add(frame_image)
 
@@ -434,6 +438,9 @@ class CartoonBuilder:
             frame_box.pack_start(filmstrip, False, False)
 
             tape.pack_start(frame_box, False, False)
+
+        self.tape_selected = -1
+        self._tape_cb(None, None, 0)
 
 
 
@@ -460,7 +467,6 @@ class CartoonBuilder:
 
             self.animhbox.pack_start(fb,True,True,2)
 
-        self.frame_selected = 0
         self.fbstyle = self.framebuttons[0].get_style()
         self.framebuttons[0].modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
         self.framebuttons[0].modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(YELLOW))

@@ -18,6 +18,9 @@ def load(filepath):
 def save(filepath):
     pass
 
+def pixbuf(index):
+    return None
+
 """
 import zipfile
 import StringIO

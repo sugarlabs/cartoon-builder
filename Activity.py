@@ -26,7 +26,7 @@ from sugar.activity.activity import get_activity_root
 
 from Main import *
 from Toolbar import *
-import Bundle
+import Document
 
 SERVICE = 'org.freedesktop.Telepathy.Tube.Connect'
 IFACE = SERVICE
@@ -180,10 +180,10 @@ class CartoonBuilderActivity(activity.Activity):
         return True
 
     def read_file(self, filepath):
-        Bundle.load(filepath)
+        Document.load(filepath)
 
     def write_file(self, filepath):
-        Bundle.save(filepath)
+        Document.save(filepath)
 
 
 class ConnectGame(ExportedGObject):
