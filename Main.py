@@ -35,13 +35,13 @@ from Utils import *
 from Shared import *
 
 class FrameWidget(gtk.DrawingArea):
-    def __init__(self,bgpixbuf,fgpixbuf):
+    def __init__(self):
         gtk.DrawingArea.__init__(self)
         self.gc = None  # initialized in realize-event handler
         self.width  = 0 # updated in size-allocate handler
         self.height = 0 # idem
-        self.bgpixbuf = bgpixbuf
-        self.fgpixbuf = fgpixbuf
+        self.bgpixbuf = None
+        self.fgpixbuf = None
         self.connect('size-allocate', self.on_size_allocate)
         self.connect('expose-event',  self.on_expose_event)
         self.connect('realize',       self.on_realize)
@@ -63,27 +63,43 @@ class FrameWidget(gtk.DrawingArea):
             #widget.window.draw_pixbuf(self.gc,fgpixbuf,0,0,75,75,-1,-1,0,0)
             widget.window.draw_pixbuf(self.gc,self.fgpixbuf,0,0,0,0,-1,-1,0,0)
 
+    def draw(self):
+        self.queue_draw()
+
 class CartoonBuilder:
 
     def play(self):
-        self.playframenum = 0
-        self.playing = gobject.timeout_add(self.waittime, self.playframe)
+        self.play_tape_num = 0
+        self._playing = gobject.timeout_add(self.waittime, self._play_tape)
 
     def stop():
-        self.playing = False
+        self._playing = None
 
     def set_tempo(self, tempo):
         self.waittime = int((6-tempo) * 150)
-        if self.playing:
-            gobject.source_remove(self.playing)
-            self.playing = gobject.timeout_add(self.waittime, self.playframe)
+        if self._playing:
+            gobject.source_remove(self._playing)
+            self._playing = gobject.timeout_add(self.waittime, self._play_tape)
 
     def clear_tape(self):
         for i in range(TAPE_COUNT):
-            transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
-            self.frameimgs[i].set_from_pixbuf(transpixbuf)
-            self.fgpixbufs[i] = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
-        self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
+            Document.clean_pixbuf(i)
+        self.screen.fgpixbuf = Document.get_pixbuf(self.tape_selected)
+        self.screen.draw()
+
+
+    def _play_tape(self):
+        self.screen.fgpixbuf = Document.get_pixbuf(self.play_tape_num)
+        self.screen.draw()
+
+        self.play_tape_num += 1
+        if self.play_tape_num == TAPE_COUNT:
+            self.play_tape_num = 0
+
+        if self._playing:
+            return True
+        else:
+            return False
 
     def _tape_cb(self, widget, event, index):
         tape = self.tape[index]
@@ -97,40 +113,8 @@ class CartoonBuilder:
                 old_tape.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
 
             self.tape_selected = index
-            #self.fgpixbuf = self.fgpixbufs[self.frame_selected]
-            #self.drawmain()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def clearframe(self, widget, data=None):
-        transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
-        self.frameimgs[self.frame_selected].set_from_pixbuf(transpixbuf)
-        self.fgpixbufs[self.frame_selected] = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
-        self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
-        self.drawmain()
-
-    def pickimage(self, widget, event, data=None):
-        if data:
-            pixbuf = self.posepixbufs[data-1]
-            scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.frameimgs[self.frame_selected].set_from_pixbuf(scaled_buf)
-            fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.fgpixbufs[self.frame_selected] = fgpixbuf
-            self.fgpixbufpaths[self.frame_selected] = self.poseimgpaths[data-1]
-            self.fgpixbuf = fgpixbuf
-            self.drawmain()
+            self.screen.fgpixbuf = Document.get_pixbuf(index)
+            self.screen.draw()
 
     def _ground_cb(self, widget, combo):
         choice = Ground.change(widget.props.value)
@@ -142,15 +126,17 @@ class CartoonBuilder:
         if id(choice) != id(widget.props.value):
             pos = combo.get_active()
             combo.append_item(choice, text = choice['name'],
-                    size = Theme.IMGSIZE, pixbuf = choice['pixbuf'],
-                    position = pos)
+                    size = (Theme.FRAME_SIZE, Theme.FRAME_SIZE),
+                    pixbuf = choice['pixbuf'], position = pos)
             combo.set_active(pos)
 
-        self.bgpixbuf = choice['pixbuf'].scale_simple(BGWIDTH, BGHEIGHT,
-                gtk.gdk.INTERP_BILINEAR)
-
         self._prev_ground = widget.get_active()
-        self.drawmain()
+        self.screen.bgpixbuf = choice['pixbuf'].scale_simple(Theme.SCREEN_SIZE,
+                Theme.SCREEN_SIZE, gtk.gdk.INTERP_BILINEAR)
+        self.screen.draw()
+
+    def _sound_cb(self, widget, combo):
+        Sound.change(widget.props.value)
 
     def _char_cb(self, widget):
         return
@@ -165,50 +151,32 @@ class CartoonBuilder:
         self.loadimages()
         self.drawmain()
 
-    def _sound_cb(self, widget, combo):
-        Sound.change(widget.props.value)
 
-    def playframe(self):
-        self.fgpixbuf = self.fgpixbufs[self.playframenum]
-        self.drawmain()
-        self.playframenum += 1
-        if self.playframenum == TAPE_COUNT:
-            self.playframenum = 0
-        # SOUND HANDLING
-        #if self.bus.have_pending:
-        #    print 'PENDING ITEMS ON SOUND BUS'
-        # END OF SOUND HANDLING
-        if self.playing:
-            return True
-        else:
-            return False
 
-    def drawmain(self):
-        #if not self.fgimgpath:
-        #    pixbuf2 = gtk.gdk.pixbuf_new_from_file(self.bgimgpath)
-        #    sbuf2 = pixbuf2.scale_simple(BGHEIGHT,BGWIDTH,gtk.gdk.INTERP_BILINEAR)
-        #    self.mainimage.set_from_pixbuf(sbuf2)
-        #    return
 
-        # COMPOSITING FROM FILE PATHS
-        #pixbuf = gtk.gdk.pixbuf_new_from_file(self.fgimgpath)
-        #sbuf = pixbuf.scale_simple(BGHEIGHT,BGWIDTH,gtk.gdk.INTERP_BILINEAR)
-        #pixbuf2 = gtk.gdk.pixbuf_new_from_file(self.bgimgpath)
-        #sbuf2 = pixbuf2.scale_simple(BGHEIGHT,BGWIDTH,gtk.gdk.INTERP_BILINEAR)
-        #sbuf.composite(sbuf2,0,0,sbuf.props.width,sbuf.props.height,
-        #                 0,0,1.0,1.0,gtk.gdk.INTERP_HYPER,255)
 
-        # COMPOSITING FROM PIXBUFS
-        #sbuf = self.fgpixbuf.copy()
-        #sbuf2 = self.bgpixbuf.copy()
-        #sbuf.composite(sbuf2,0,0,sbuf.props.width,sbuf.props.height,
-        #                 0,0,1.0,1.0,gtk.gdk.INTERP_HYPER,255)
-        #self.mainimage.set_from_pixbuf(sbuf2)
 
-        # USING DRAWING AREA
-        self.mfdraw.fgpixbuf = self.fgpixbuf
-        self.mfdraw.bgpixbuf = self.bgpixbuf
-        self.mfdraw.queue_draw()
+
+
+
+
+
+
+
+
+
+    def pickimage(self, widget, event, data=None):
+        if data:
+            pixbuf = self.posepixbufs[data-1]
+            scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+            self.frameimgs[self.frame_selected].set_from_pixbuf(scaled_buf)
+            fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+            self.fgpixbufs[self.frame_selected] = fgpixbuf
+            self.fgpixbufpaths[self.frame_selected] = self.poseimgpaths[data-1]
+            self.fgpixbuf = fgpixbuf
+            self.drawmain()
+
+
 
 
     def loadimages(self):
@@ -276,15 +244,12 @@ class CartoonBuilder:
     def __init__(self,insugar,toplevel_window,mdirpath):
         self.mdirpath = mdirpath
         self.iconsdir = os.path.join(self.mdirpath, 'icons')
-        self.playing = False
+        self._playing = None
 
         self.waittime = 3*150
 
 
         self.imgstartindex = 0
-
-        self.fgpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
-
 
         #self.loadimages()
 
@@ -388,18 +353,26 @@ class CartoonBuilder:
         self.frameimgs = []
         self.fgpixbufs = []
         self.fgpixbufpaths = []
-
-
-
-
-
         self.tape = []
 
 
-        # ANIMATION FRAMES / FILMSTRIP
-        # animation frames        
 
+        # screen
 
+        self.screen = FrameWidget()
+        #self.screen.set_size_request(Theme.SCREEN_SIZE, Theme.SCREEN_SIZE)
+        self.screen.show()
+        screen_pink = gtk.EventBox()
+        screen_pink.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(PINK))
+        screen_pink.show()
+        screen_box = gtk.EventBox()
+        screen_box.set_border_width(5)
+        screen_box.show()
+        screen_box.add(self.screen)
+        screen_pink.add(screen_box)
+        screen_pink.props.border_width = 20
+
+        # tape
 
         tape = gtk.HBox()
         tape.show()
@@ -409,7 +382,7 @@ class CartoonBuilder:
             frame_box.show()
 
             filmstrip_pixbuf = gtk.gdk.pixbuf_new_from_file_at_scale(
-                    Theme.path('icons/filmstrip.png'), IMGWIDTH, -1, False)
+                    Theme.path('icons/filmstrip.png'), FRAME_SIZE, -1, False)
 
             filmstrip = gtk.Image()
             filmstrip.set_from_pixbuf(filmstrip_pixbuf);
@@ -423,12 +396,12 @@ class CartoonBuilder:
             frame.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
             frame.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
             frame.props.border_width = 2
-            frame.set_size_request(Theme.IMGWIDTH, Theme.IMGHEIGHT)
+            frame.set_size_request(Theme.FRAME_SIZE, Theme.FRAME_SIZE)
             frame_box.pack_start(frame, False, False)
             self.tape.append(frame)
 
             frame_image = gtk.Image()
-            frame_image.set_from_pixbuf(Document.pixbuf(i))
+            frame_image.set_from_pixbuf(Document.get_pixbuf(i))
             frame_image.show()
             frame.add(frame_image)
 
@@ -442,54 +415,7 @@ class CartoonBuilder:
         self.tape_selected = -1
         self._tape_cb(None, None, 0)
 
-
-
-
-        """
-
-        for i in range(TAPE_COUNT):
-            #fb = gtk.Button()
-            #fb.connect('clicked', self.selectframe, i+1)
-
-
-            self.framebuttons.append(fb)
-            tpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
-            self.fgpixbufs.append(tpixbuf)
-            self.fgpixbufpaths.append(transimgpath)
-            #fb.set_label('')
-            transimg = gtk.Image()
-            transimg.set_from_pixbuf(self.gettranspixbuf(IMGWIDTH,IMGHEIGHT))
-            transimg.show()
-            self.frameimgs.append(transimg)
-            #fb.set_image(transimg)
-            fb.add(transimg)
-
-
-            self.animhbox.pack_start(fb,True,True,2)
-
-        self.fbstyle = self.framebuttons[0].get_style()
-        self.framebuttons[0].modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
-        self.framebuttons[0].modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(YELLOW))
-        """
-
-
-
-
-
-
-        # MAIN IMAGE
-        self.mfdraw = FrameWidget(None,self.fgpixbuf)
-        self.mfdraw.set_size_request(BGWIDTH,BGHEIGHT)
-        self.mfdraw.show()
-        self.mfdrawborder = gtk.EventBox()
-        self.mfdrawborder.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(PINK))
-        self.mfdrawborder.show()
-        self.mfdrawbox = gtk.EventBox()
-        self.mfdrawbox.set_border_width(5)
-        self.mfdrawbox.show()
-        self.mfdrawbox.add(self.mfdraw)
-        self.mfdrawborder.add(self.mfdrawbox)
-
+        # left control box
         
         def new_combo(themes, cb):
             combo = ComboBox()
@@ -499,7 +425,8 @@ class CartoonBuilder:
                     combo.append_separator()
                 else:
                     combo.append_item(i, text = i['name'],
-                            size = Theme.IMGSIZE, pixbuf = i['pixbuf'])
+                            size = (Theme.FRAME_SIZE, Theme.FRAME_SIZE),
+                            pixbuf = i['pixbuf'])
             combo.connect('changed', cb, combo)
             combo.set_active(0)
             return combo
@@ -519,13 +446,15 @@ class CartoonBuilder:
         leftbox.show()
         logo = gtk.Image()
         logo.show()
-        logo.set_from_file(os.path.join(self.iconsdir, 'logo.png'))
+        logo.set_from_file(Theme.path('icons/logo.png'))
         leftbox.pack_start(logo, False, False)
         leftbox.pack_start(controlbox, True, True)
         
+        # screen box
+
         cetralbox = gtk.HBox()
         cetralbox.show()
-        cetralbox.pack_start(self.mfdrawborder, True, False)
+        cetralbox.pack_start(screen_pink, True, True)
         cetralbox.pack_start(self.tvbox, False, False)
 
         hdesktop = gtk.HBox()
@@ -533,7 +462,8 @@ class CartoonBuilder:
         hdesktop.pack_start(leftbox,False,True,0)
         hdesktop.pack_start(cetralbox,True,True,0)
 
-        # Tape box
+        # tape box
+
         arrow = gtk.Image()
         arrow.set_from_file(Theme.path('icons/pink_arrow.png'))
         arrow.show()

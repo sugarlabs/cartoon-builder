@@ -16,14 +16,18 @@ import os
 import gtk
 
 from sugar.activity.activity import get_bundle_path
+from sugar.graphics import style
 
 TRANSIMG = '50x50blank-trans.png'
-BGHEIGHT = gtk.gdk.screen_height() - 450 # 425
-BGWIDTH = BGHEIGHT # 425
 
-IMGHEIGHT = min(100, gtk.gdk.screen_height() / 8)
-IMGWIDTH = IMGHEIGHT
-IMGSIZE = (IMGWIDTH, IMGHEIGHT)
+DESKTOP_WIDTH = gtk.gdk.screen_width()
+DESKTOP_HEIGHT = gtk.gdk.screen_height() - style.LARGE_ICON_SIZE
+
+FRAME_SIZE = min(100, min(DESKTOP_WIDTH, DESKTOP_HEIGHT) / 8)
+SCREEN_SIZE = min(DESKTOP_WIDTH - 275, DESKTOP_HEIGHT) - FRAME_SIZE*2 
+
+FRAME_COUNT = DESKTOP_HEIGHT / FRAME_SIZE*2
+TAPE_COUNT = (DESKTOP_WIDTH - FRAME_SIZE) / FRAME_SIZE
 
 BORDER_LEFT = 1
 BORDER_RIGHT = 2
@@ -69,9 +73,6 @@ OLD_COLOR_BG_BUTTONS = (
     (gtk.STATE_INSENSITIVE,"#027F01"),
     )
 
-FRAME_COUNT = (gtk.gdk.screen_height() - IMGHEIGHT - IMGHEIGHT) / IMGHEIGHT * 2
-TAPE_COUNT = (gtk.gdk.screen_width() - IMGWIDTH) / IMGWIDTH
-
 def path(file):
     if os.path.isabs(file):
         return file
@@ -79,7 +80,7 @@ def path(file):
         return os.path.join(get_bundle_path(), file)
 
 def pixmap(file, numberr_in_set = None):
-    out = gtk.gdk.pixbuf_new_from_file_at_size(path(file), IMGWIDTH, IMGHEIGHT)
+    out = gtk.gdk.pixbuf_new_from_file_at_size(path(file), FRAME_SIZE, FRAME_SIZE)
     return out
 
 # customize theme

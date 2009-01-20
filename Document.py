@@ -12,14 +12,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import gtk
+
+import Theme
+
 def load(filepath):
     pass
 
 def save(filepath):
     pass
 
-def pixbuf(index):
-    return None
+def get_pixbuf(index):
+    return gtk.gdk.pixbuf_new_from_file_at_size(
+            Theme.path('images/pics/Elephant/bigelephant0.gif'),
+            Theme.FRAME_SIZE, Theme.FRAME_SIZE)
+
+def clean_pixbuf(index):
+    pass
 
 """
 import zipfile
