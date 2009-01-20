@@ -336,13 +336,15 @@ class CartoonBuilder:
 
         from math import ceil
 
-        rows = int(ceil(float(Theme.FRAME_COUNT)/Theme.FRAME_COLS))
+        rows = max((DESKTOP_HEIGHT - THUMB_SIZE*3) / THUMB_SIZE,
+                int(ceil(float(FRAME_COUNT) / FRAME_COLS)))
+
         self.table = gtk.Table(rows, columns=Theme.FRAME_COLS, homogeneous=False)
 
         for y in range(rows):
             for x in range(Theme.FRAME_COLS):
                 image = gtk.Image()
-                #image.set_from_pixbuf(Document.thumb(i))
+                image.set_from_pixbuf(Document.thumb(0))
                 image.show()
 
                 image_box = gtk.EventBox()
@@ -360,27 +362,10 @@ class CartoonBuilder:
 
         self.table.show()
 
-
         s = VScrolledBox()
         s.show()
         s.set_viewport(self.table)
-
-        s.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
-
-
-        s.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
-        s.modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(BACKGROUND))
-        s.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BACKGROUND))
-        s.modify_fg(gtk.STATE_SELECTED, gtk.gdk.color_parse(BACKGROUND))
-        s.modify_fg(gtk.STATE_INSENSITIVE, gtk.gdk.color_parse(BACKGROUND))
-
-
         s.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BUTTON_BACKGROUND))
-        s.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(BUTTON_BACKGROUND))
-        s.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BUTTON_BACKGROUND))
-        s.modify_bg(gtk.STATE_SELECTED, gtk.gdk.color_parse(BUTTON_BACKGROUND))
-        s.modify_bg(gtk.STATE_INSENSITIVE, gtk.gdk.color_parse(BUTTON_BACKGROUND))
-
 
         yellow_frames = gtk.EventBox()
         yellow_frames.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
@@ -396,10 +381,12 @@ class CartoonBuilder:
 
 
 
+        """
         self.tfhbox = gtk.HBox()
         self.tfhbox.show()
         #self.tfhbox.pack_start(yellow_frames,True,False,20)
         #self.tvbox.pack_start(self.tfhbox,False,False,0)
+        """
         
 
 
@@ -509,7 +496,19 @@ class CartoonBuilder:
         cetralbox = gtk.HBox()
         cetralbox.show()
         cetralbox.pack_start(screen_alignment, True, True)
-        cetralbox.pack_start(yellow_frames, False, False)
+
+
+
+
+
+
+
+        #s.set_size_request(-1, Theme.THUMB_SIZE * rows)
+
+        #a = gtk.Alignment(0.5, 0.5, 0, 0)
+        #a.add(s)#yellow_frames)
+
+        cetralbox.pack_start(yellow_frames, True, False)
 
         hdesktop = gtk.HBox()
         hdesktop.show()
