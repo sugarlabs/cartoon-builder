@@ -32,7 +32,6 @@ import Ground
 import Sound
 import Document
 from Utils import *
-from Shared import *
 
 class FrameWidget(gtk.DrawingArea):
     def __init__(self):
@@ -342,10 +341,22 @@ class CartoonBuilder:
 
         for y in range(rows):
             for x in range(Theme.FRAME_COLS):
-                b = gtk.Button('foo')
-                b.set_size_request(Theme.THUMB_SIZE, Theme.THUMB_SIZE)
-                b.show()
-                self.table.attach(b, x, x+1, y, y+1)
+                image = gtk.Image()
+                #image.set_from_pixbuf(Document.thumb(i))
+                image.show()
+
+                image_box = gtk.EventBox()
+                image_box.show()
+                image_box.set_events(gtk.gdk.BUTTON_PRESS_MASK)
+                #image_box.connect('button_press_event', self._tape_cb, i)
+                image_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
+                image_box.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
+                image_box.props.border_width = 2
+                image_box.set_size_request(Theme.THUMB_SIZE, Theme.THUMB_SIZE)
+                image_box.add(image)
+
+                self.table.attach(image_box, x, x+1, y, y+1)
+
 
         self.table.show()
 
@@ -354,8 +365,21 @@ class CartoonBuilder:
         s.show()
         s.set_viewport(self.table)
 
-        s.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BUTTON_FOREGROUND))
-        s.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        s.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+
+
+        s.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        s.modify_fg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(BACKGROUND))
+        s.modify_fg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BACKGROUND))
+        s.modify_fg(gtk.STATE_SELECTED, gtk.gdk.color_parse(BACKGROUND))
+        s.modify_fg(gtk.STATE_INSENSITIVE, gtk.gdk.color_parse(BACKGROUND))
+
+
+        s.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BUTTON_BACKGROUND))
+        s.modify_bg(gtk.STATE_ACTIVE, gtk.gdk.color_parse(BUTTON_BACKGROUND))
+        s.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BUTTON_BACKGROUND))
+        s.modify_bg(gtk.STATE_SELECTED, gtk.gdk.color_parse(BUTTON_BACKGROUND))
+        s.modify_bg(gtk.STATE_INSENSITIVE, gtk.gdk.color_parse(BUTTON_BACKGROUND))
 
 
         yellow_frames = gtk.EventBox()

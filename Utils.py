@@ -210,9 +210,15 @@ class ScrolledBox(gtk.EventBox):
         gtk.EventBox.modify_fg(self, state, bg)
         self._viewport.get_parent().modify_fg(state, bg)
 
+        self._scrolled.modify_fg(state, bg)
+        self._scrolled.child.modify_fg(state, bg)
+
     def modify_bg(self, state, bg):
         gtk.EventBox.modify_bg(self, state, bg)
         self._viewport.get_parent().modify_bg(state, bg)
+
+        self._scrolled.modify_bg(state, bg)
+        self._scrolled.child.modify_bg(state, bg)
 
     def set_viewport(self, widget):
         if widget == self._viewport: return
