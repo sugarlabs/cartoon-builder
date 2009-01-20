@@ -160,6 +160,27 @@ class CartoonBuilder:
         widget.child.set_size_request(size, size)
 
 
+    def imgdown(self, widget, data=None):
+        #pics = self.getpics(self.imgdir)
+        if len(pics[self.imgstartindex:]) > FRAME_COUNT:
+            self.imgstartindex += 2
+            self.loadimages()
+            self.drawmain()
+
+    def imgup(self, widget, data=None):
+        #pics = self.getpics(self.imgdir)
+        if self.imgstartindex > 0:
+            self.imgstartindex -= 2
+            self.loadimages()
+            self.drawmain()
+
+
+
+
+
+
+
+
 
 
 
@@ -214,20 +235,6 @@ class CartoonBuilder:
         return pics
 
 
-    def imgup(self, widget, data=None):
-        #pics = self.getpics(self.imgdir)
-        if self.imgstartindex > 0:
-            self.imgstartindex -= 2
-            self.loadimages()
-            self.drawmain()
-
-    def imgdown(self, widget, data=None):
-        #pics = self.getpics(self.imgdir)
-        if len(pics[self.imgstartindex:]) > FRAME_COUNT:
-            self.imgstartindex += 2
-            self.loadimages()
-            self.drawmain()
-
     def gettranspixbuf(self, width=50, height=50):
         transimgpath = os.path.join(self.iconsdir,TRANSIMG)
         pixbuf = gtk.gdk.pixbuf_new_from_file(transimgpath)
@@ -253,6 +260,9 @@ class CartoonBuilder:
         #self.loadimages()
 
 
+
+
+
         self.tvbox = gtk.VBox()
         self.tvbox.show()
         # flow arrows
@@ -262,13 +272,20 @@ class CartoonBuilder:
         yellow_arrow.set_from_file(os.path.join(self.iconsdir, 'yellow_arrow.png'))
         yellow_arrow.show()
         flowbox.pack_end(yellow_arrow,True,False,0)
+
+
+
         topspace = gtk.EventBox()
         topspace.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
         topspace.show()
         topspace.set_border_width(15)
         self.tvbox.pack_start(topspace,False,False,0)
+
+
         self.tvbox.pack_start(flowbox,False,False,0)
-        self.table = gtk.Table(rows=FRAME_COUNT/2, columns=2, homogeneous=False)
+
+
+
 
         self.imgbuttons = []
         self.images = []
@@ -292,29 +309,9 @@ class CartoonBuilder:
             self.imgbuttons.append(ib)
             self.images.append(img)
 
-        self.imgupbutton = gtk.Button()
-        self.imgupbutton.connect('clicked', self.imgup, None)
-        self.imgupbutton.show()
-        #upa = gtk.Arrow(gtk.ARROW_UP,gtk.SHADOW_OUT)
-        #upa.show()
-        upa = gtk.Image()
-        upa.set_from_file(os.path.join(self.iconsdir,'big_up_arrow.png'))
-        #upapixbuf = gtk.gdk.pixbuf_new_from_file(os.path.join(self.iconsdir,'up_arrow.png'))
-        #scaled_upapixbuf = upapixbuf.scale_simple(42,34,gtk.gdk.INTERP_BILINEAR)
-        #upa.set_from_pixbuf(scaled_upapixbuf)
-        upa.show()
 
-        self.imgupbutton.add(upa)
-        self.iubhbox = gtk.HBox()
-        self.iubhbox.show()
-        self.iubhbox.pack_start(self.imgupbutton,True,False,0)
-        self.tvbox.pack_start(self.iubhbox,False,False,5)
 
-        #for i in range(FRAME_COUNT/2):
-        #    self.table.attach(self.imgbuttons[i*2], 0, 1, i, i+1)
-        #    self.table.attach(self.imgbuttons[i*2+1], 1, 2, i, i+1)
 
-        self.table.show()
 
         self.tableframeborder = gtk.EventBox()
         self.tableframeborder.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
@@ -324,26 +321,21 @@ class CartoonBuilder:
         self.tableframe.show()
         self.tableframe.set_border_width(5)
         self.tableframeborder.add(self.tableframe)
-        self.tableframe.add(self.table)
 
         self.tfhbox = gtk.HBox()
         self.tfhbox.show()
         self.tfhbox.pack_start(self.tableframeborder,True,False,20)
         self.tvbox.pack_start(self.tfhbox,False,False,0)
         
-        self.imgdownbutton = gtk.Button()
-        self.imgdownbutton.connect('clicked', self.imgdown, None)
-        self.imgdownbutton.show()
-        #downa = gtk.Arrow(gtk.ARROW_DOWN,gtk.SHADOW_OUT)
-        #downa.show()
-        downa = gtk.Image()
-        downa.set_from_file(os.path.join(self.iconsdir,'big_down_arrow.png'))
-        downa.show()
-        self.imgdownbutton.add(downa)
-        self.idbhbox = gtk.HBox()
-        self.idbhbox.show()
-        self.idbhbox.pack_start(self.imgdownbutton,True,False,0)
-        self.tvbox.pack_start(self.idbhbox,False,False,5)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -353,6 +345,31 @@ class CartoonBuilder:
         self.fgpixbufs = []
         self.fgpixbufpaths = []
         self.tape = []
+
+
+
+
+
+        self.table = gtk.Table(10, columns=2, homogeneous=False)
+
+
+        for i in range(100):
+            b = gtk.Button('foo')
+            b.show()
+            self.table.attach(b, 0, 1, i, i+1)
+
+        self.table.show()
+
+
+        s = VScrolledBox()
+        s.show()
+        s.set_viewport(self.table)
+
+
+
+
+
+
 
         # screen
 
@@ -457,7 +474,7 @@ class CartoonBuilder:
         cetralbox = gtk.HBox()
         cetralbox.show()
         cetralbox.pack_start(screen_alignment, True, True)
-        cetralbox.pack_start(self.tvbox, False, False)
+        cetralbox.pack_start(s, False, False)
 
         hdesktop = gtk.HBox()
         hdesktop.show()
