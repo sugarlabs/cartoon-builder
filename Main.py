@@ -87,12 +87,12 @@ class CartoonBuilder:
     def clear_tape(self):
         for i in range(TAPE_COUNT):
             Document.clean(i)
-        self.screen.fgpixbuf = Document.get_screen(self.tape_selected)
+        self.screen.fgpixbuf = Document.orig(self.tape_selected)
         self.screen.draw()
 
 
     def _play_tape(self):
-        self.screen.fgpixbuf = Document.get_screen(self.play_tape_num)
+        self.screen.fgpixbuf = Document.orig(self.play_tape_num)
         self.screen.draw()
 
         self.play_tape_num += 1
@@ -116,7 +116,7 @@ class CartoonBuilder:
                 old_tape.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
 
             self.tape_selected = index
-            self.screen.fgpixbuf = Document.get_screen(index)
+            self.screen.fgpixbuf = Document.orig(index)
             self.screen.draw()
 
     def _ground_cb(self, widget, combo):
@@ -403,7 +403,7 @@ class CartoonBuilder:
             self.tape.append(frame)
 
             frame_image = gtk.Image()
-            frame_image.set_from_pixbuf(Document.get_tape(i))
+            frame_image.set_from_pixbuf(Document.thumb(i))
             frame_image.show()
             frame.add(frame_image)
 
