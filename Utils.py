@@ -206,6 +206,10 @@ class ScrolledBox(gtk.EventBox):
             self._right.connect('clicked', self._scroll_cb, 'right')
             box.pack_start(self._right, False, False, 0)
 
+    def modify_fg(self, state, bg):
+        gtk.EventBox.modify_fg(self, state, bg)
+        self._viewport.get_parent().modify_fg(state, bg)
+
     def modify_bg(self, state, bg):
         gtk.EventBox.modify_bg(self, state, bg)
         self._viewport.get_parent().modify_bg(state, bg)

@@ -162,7 +162,7 @@ class CartoonBuilder:
 
     def imgdown(self, widget, data=None):
         #pics = self.getpics(self.imgdir)
-        if len(pics[self.imgstartindex:]) > FRAME_COUNT:
+        if len(pics[self.imgstartindex:]) > FRAME_ROWS:
             self.imgstartindex += 2
             self.loadimages()
             self.drawmain()
@@ -206,7 +206,7 @@ class CartoonBuilder:
         pics = self.getpics(self.imgdir)
         count = 0
 
-        for imgpath in pics[self.imgstartindex:self.imgstartindex+FRAME_COUNT]:
+        for imgpath in pics[self.imgstartindex:self.imgstartindex+FRAME_ROWS]:
             pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
             scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
             self.posepixbufs.append(pixbuf)
@@ -214,7 +214,7 @@ class CartoonBuilder:
             self.images[count].set_from_pixbuf(scaled_buf)
             count += 1
 
-        for i in range(count,FRAME_COUNT):
+        for i in range(count,FRAME_ROWS):
             transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
             imgpath = os.path.join(self.iconsdir,TRANSIMG)
             img = gtk.Image()
@@ -313,20 +313,6 @@ class CartoonBuilder:
 
 
 
-        self.tableframeborder = gtk.EventBox()
-        self.tableframeborder.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
-        self.tableframeborder.show()
-        self.tableframe = gtk.EventBox()
-        self.tableframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
-        self.tableframe.show()
-        self.tableframe.set_border_width(5)
-        self.tableframeborder.add(self.tableframe)
-
-        self.tfhbox = gtk.HBox()
-        self.tfhbox.show()
-        self.tfhbox.pack_start(self.tableframeborder,True,False,20)
-        self.tvbox.pack_start(self.tfhbox,False,False,0)
-        
 
 
 
@@ -349,14 +335,17 @@ class CartoonBuilder:
 
 
 
+        from math import ceil
 
-        self.table = gtk.Table(10, columns=2, homogeneous=False)
+        rows = int(ceil(float(Theme.FRAME_COUNT)/Theme.FRAME_COLS))
+        self.table = gtk.Table(rows, columns=Theme.FRAME_COLS, homogeneous=False)
 
-
-        for i in range(100):
-            b = gtk.Button('foo')
-            b.show()
-            self.table.attach(b, 0, 1, i, i+1)
+        for y in range(rows):
+            for x in range(Theme.FRAME_COLS):
+                b = gtk.Button('foo')
+                b.set_size_request(Theme.THUMB_SIZE, Theme.THUMB_SIZE)
+                b.show()
+                self.table.attach(b, x, x+1, y, y+1)
 
         self.table.show()
 
@@ -365,7 +354,29 @@ class CartoonBuilder:
         s.show()
         s.set_viewport(self.table)
 
+        s.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BUTTON_FOREGROUND))
+        s.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
 
+
+        yellow_frames = gtk.EventBox()
+        yellow_frames.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
+        yellow_frames.show()
+        table_frames = gtk.EventBox()
+        table_frames.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
+        table_frames.show()
+        table_frames.set_border_width(5)
+        table_frames.add(s)
+        yellow_frames.add(table_frames)
+        yellow_frames.props.border_width = 20
+
+
+
+
+        self.tfhbox = gtk.HBox()
+        self.tfhbox.show()
+        #self.tfhbox.pack_start(yellow_frames,True,False,20)
+        #self.tvbox.pack_start(self.tfhbox,False,False,0)
+        
 
 
 
@@ -474,7 +485,7 @@ class CartoonBuilder:
         cetralbox = gtk.HBox()
         cetralbox.show()
         cetralbox.pack_start(screen_alignment, True, True)
-        cetralbox.pack_start(s, False, False)
+        cetralbox.pack_start(yellow_frames, False, False)
 
         hdesktop = gtk.HBox()
         hdesktop.show()
