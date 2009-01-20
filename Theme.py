@@ -69,8 +69,8 @@ OLD_COLOR_BG_BUTTONS = (
     (gtk.STATE_INSENSITIVE,"#027F01"),
     )
 
-FRAME_COUNT = (gtk.gdk.screen_height() - 370) / IMGHEIGHT * 2
-TAPE_COUNT = (gtk.gdk.screen_width() - 430) / IMGWIDTH
+FRAME_COUNT = (gtk.gdk.screen_height() - IMGHEIGHT - IMGHEIGHT) / IMGHEIGHT * 2
+TAPE_COUNT = (gtk.gdk.screen_width() - IMGWIDTH) / IMGWIDTH
 
 def path(file):
     if os.path.isabs(file):

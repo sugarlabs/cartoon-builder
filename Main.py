@@ -30,6 +30,7 @@ import Theme
 import Char
 import Ground
 import Sound
+import Tape
 from Utils import *
 from Shared import *
 
@@ -341,9 +342,9 @@ class CartoonBuilder:
         self.iubhbox.pack_start(self.imgupbutton,True,False,0)
         self.tvbox.pack_start(self.iubhbox,False,False,5)
 
-        for i in range(FRAME_COUNT/2):
-            self.table.attach(self.imgbuttons[i*2], 0, 1, i, i+1)
-            self.table.attach(self.imgbuttons[i*2+1], 1, 2, i, i+1)
+        #for i in range(FRAME_COUNT/2):
+        #    self.table.attach(self.imgbuttons[i*2], 0, 1, i, i+1)
+        #    self.table.attach(self.imgbuttons[i*2+1], 1, 2, i, i+1)
 
         self.table.show()
 
@@ -379,30 +380,71 @@ class CartoonBuilder:
 
 
 
-
-
-
-
-        # ANIMATION FRAMES / FILMSTRIP
-        self.tophbox = gtk.HBox()
-        self.tophbox.show()
-        # animation frames        
-        self.animhbox = gtk.HBox()
-        self.animhbox.show()
         self.framebuttons = []
         self.frameimgs = []
         self.fgpixbufs = []
         self.fgpixbufpaths = []
-        transimgpath = os.path.join(self.iconsdir,TRANSIMG)
+
+
+
+
+
+        self.frames = []
+
+
+        # ANIMATION FRAMES / FILMSTRIP
+        # animation frames        
+
+
+
+        tape = gtk.HBox()
+        tape.show()
+
+        for i in range(TAPE_COUNT):
+            frame_box = gtk.VBox()
+            frame_box.show()
+
+            filmstrip_pixbuf = gtk.gdk.pixbuf_new_from_file_at_scale(
+                    Theme.path('icons/filmstrip.png'), IMGWIDTH, -1, False)
+
+            filmstrip = gtk.Image()
+            filmstrip.set_from_pixbuf(filmstrip_pixbuf);
+            filmstrip.show()
+            frame_box.pack_start(filmstrip, True, False)
+
+            frame = gtk.EventBox()
+            frame.show()
+            frame.set_events(gtk.gdk.BUTTON_PRESS_MASK)
+            frame.connect('button_press_event', self.selectframe, i+1)
+            frame.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
+            frame.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
+            frame.props.border_width = 2
+            frame.set_size_request(Theme.IMGWIDTH, Theme.IMGHEIGHT)
+            frame_box.pack_start(frame, False, False)
+            self.frames.append(frame)
+
+            frame_image = gtk.Image()
+            #frame_image.set_from_pixbuf(filmstrip_pixbuf);
+            frame_image.show()
+            frame.add(frame_image)
+
+            filmstrip = gtk.Image()
+            filmstrip.set_from_pixbuf(filmstrip_pixbuf);
+            filmstrip.show()
+            frame_box.pack_start(filmstrip, False, False)
+
+            tape.pack_start(frame_box, False, False)
+
+
+
+
+        """
+
         for i in range(TAPE_COUNT):
             #fb = gtk.Button()
             #fb.connect('clicked', self.selectframe, i+1)
-            fb = gtk.EventBox()
-            fb.set_events(gtk.gdk.BUTTON_PRESS_MASK)
-            fb.connect('button_press_event', self.selectframe, i+1)
-            fb.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BLACK))
-            fb.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
-            fb.show()
+
+
             self.framebuttons.append(fb)
             tpixbuf = self.gettranspixbuf(BGWIDTH,BGHEIGHT)
             self.fgpixbufs.append(tpixbuf)
@@ -414,47 +456,20 @@ class CartoonBuilder:
             self.frameimgs.append(transimg)
             #fb.set_image(transimg)
             fb.add(transimg)
+
+
             self.animhbox.pack_start(fb,True,True,2)
-
-
-        self.animborder = gtk.EventBox()
-        self.animborder.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(PINK))
-        self.animborder.show()
-        self.animframe = gtk.EventBox()
-        self.animframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
-        self.animframe.set_border_width(5)
-        self.animframe.show()
-        self.animborder.add(self.animframe)
-        self.animfilmstrip = gtk.VBox()
-        self.animfilmstrip.show()
-
-        filmstrip_pix = gtk.gdk.pixbuf_new_from_file(os.path.join(
-                self.iconsdir,'filmstrip.png'))
-        filmstrip_pix = filmstrip_pix.scale_simple(
-                (IMGWIDTH + 4) * TAPE_COUNT, filmstrip_pix.get_height(),
-                gtk.gdk.INTERP_BILINEAR)
-
-        self.filmstriptopimg = gtk.Image()
-        self.filmstriptopimg.set_from_pixbuf(filmstrip_pix)
-        self.filmstriptopimg.show()
-        self.animfilmstrip.pack_start(self.filmstriptopimg,True,True,0)
-        self.animfilmstrip.pack_start(self.animhbox,False,False,0)
-        self.filmstripbottomimg = gtk.Image()
-        self.filmstripbottomimg.set_from_pixbuf(filmstrip_pix)
-        self.filmstripbottomimg.show()
-        self.animfilmstrip.pack_start(self.filmstripbottomimg,False,False,0)
-        self.animframe.add(self.animfilmstrip)
-        self.afvbox = gtk.VBox()
-        self.afvbox.show()
-        self.afvbox.pack_start(self.animborder,False,False,0)
-        self.tophbox.pack_start(self.afvbox,False,False,0)
-
-
 
         self.frame_selected = 0
         self.fbstyle = self.framebuttons[0].get_style()
         self.framebuttons[0].modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
         self.framebuttons[0].modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(YELLOW))
+        """
+
+
+
+
+
 
         # MAIN IMAGE
         self.mfdraw = FrameWidget(None,self.fgpixbuf)
@@ -470,10 +485,6 @@ class CartoonBuilder:
         self.mfdrawborder.add(self.mfdrawbox)
 
         
-        
-        self.controlbox = gtk.VBox()
-        self.controlbox.show()
-        
         def new_combo(themes, cb):
             combo = ComboBox()
             combo.show()
@@ -487,72 +498,60 @@ class CartoonBuilder:
             combo.set_active(0)
             return combo
 
-        self.controlbox.pack_start(new_combo(Char.THEMES, self._char_cb),
-                False, False, 5)
-        self.controlbox.pack_start(new_combo(Ground.THEMES, self._ground_cb),
-                False, False, 5)
-        self.controlbox.pack_start(new_combo(Sound.THEMES, self._sound_cb),
-                False, False, 5)
-
-        
-
-
-
-
-
-        self.centerframe = gtk.EventBox()
-        self.centerframe.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
-        self.centerframe.set_border_width(5)
-        self.centerframe.show()
-        #self.ocenterframe.add(self.centerframe)
-
-
-
-
-
+        controlbox = gtk.VBox()
+        controlbox.show()
+        controlbox.props.border_width = 10
+        controlbox.props.spacing = 10
+        controlbox.pack_start(new_combo(Char.THEMES, self._char_cb),
+                True, False)
+        controlbox.pack_start(new_combo(Ground.THEMES, self._ground_cb),
+                True, False)
+        controlbox.pack_start(new_combo(Sound.THEMES, self._sound_cb),
+                True, False)
 
         leftbox = gtk.VBox()
         leftbox.show()
-
-        self.logo = gtk.Image()
-        self.logo.show()
-        self.logo.set_from_file(os.path.join(self.iconsdir,'logo.png'))
-        leftbox.pack_start(self.logo,False,False,0)
-
-        self.bottomhbox = gtk.HBox()
-        self.bottomhbox.show()
-        leftbox.pack_start(self.bottomhbox,True,True,10)
-        self.bottomhbox.pack_start(self.controlbox,False,False,10)
-
-
-
-
+        logo = gtk.Image()
+        logo.show()
+        logo.set_from_file(os.path.join(self.iconsdir, 'logo.png'))
+        leftbox.pack_start(logo, False, False)
+        leftbox.pack_start(controlbox, True, True)
+        
         cetralbox = gtk.HBox()
         cetralbox.show()
-
         cetralbox.pack_start(self.mfdrawborder, True, False)
         cetralbox.pack_start(self.tvbox, False, False)
-
-
-
 
         hdesktop = gtk.HBox()
         hdesktop.show()
         hdesktop.pack_start(leftbox,False,True,0)
         hdesktop.pack_start(cetralbox,True,True,0)
 
+        # Tape box
         arrow = gtk.Image()
         arrow.set_from_file(Theme.path('icons/pink_arrow.png'))
         arrow.show()
-        arrow_box = gtk.HBox()
-        arrow_box.show()
-        arrow_box.pack_start(arrow,False,False,150)
+        animborder = gtk.EventBox()
+        animborder.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(PINK))
+        animborder.show()
+        animframe = gtk.EventBox()
+        animframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        animframe.set_border_width(5)
+        animframe.show()
+        animframe.add(tape)
+        animborder.add(animframe)
+        animbox = gtk.HBox()
+        animbox.show()
+        animbox.pack_start(animborder, True, False)
+        tape_box = gtk.VBox()
+        tape_box.props.border_width = 10
+        tape_box.pack_start(arrow, False, False)
+        tape_box.pack_start(animbox, False, False, 0)
 
         desktop = gtk.VBox()
         desktop.show()
         desktop.pack_start(hdesktop,True,True,0)
-        desktop.pack_start(arrow_box, True, False, 0)
-        desktop.pack_end(self.tophbox, True, False, 0)
+        desktop.pack_start(tape_box, False, False, 0)
 
         greenbox = gtk.EventBox()
         greenbox.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
