@@ -56,11 +56,14 @@ class FrameWidget(gtk.DrawingArea):
     def on_expose_event(self, widget, event):
         # This is where the drawing takes place
         if self.bgpixbuf:
-            #bgpixbuf = gtk.gdk.pixbuf_new_from_file(self.bgimgpath)
+            if self.bgpixbuf.get_width != self.width:
+                self.bgpixbuf = self.bgpixbuf.scale_simple(self.width,
+                    self.height, gtk.gdk.INTERP_BILINEAR)
             widget.window.draw_pixbuf(self.gc,self.bgpixbuf,0,0,0,0,-1,-1,0,0)
         if self.fgpixbuf:
-            #fgpixbuf = gtk.gdk.pixbuf_new_from_file(self.fgimgpath)
-            #widget.window.draw_pixbuf(self.gc,fgpixbuf,0,0,75,75,-1,-1,0,0)
+            if self.fgpixbuf.get_width != self.width:
+                self.fgpixbuf = self.fgpixbuf.scale_simple(self.width,
+                    self.height, gtk.gdk.INTERP_BILINEAR)
             widget.window.draw_pixbuf(self.gc,self.fgpixbuf,0,0,0,0,-1,-1,0,0)
 
     def draw(self):
@@ -83,13 +86,13 @@ class CartoonBuilder:
 
     def clear_tape(self):
         for i in range(TAPE_COUNT):
-            Document.clean_pixbuf(i)
-        self.screen.fgpixbuf = Document.get_pixbuf(self.tape_selected)
+            Document.clean(i)
+        self.screen.fgpixbuf = Document.get_screen(self.tape_selected)
         self.screen.draw()
 
 
     def _play_tape(self):
-        self.screen.fgpixbuf = Document.get_pixbuf(self.play_tape_num)
+        self.screen.fgpixbuf = Document.get_screen(self.play_tape_num)
         self.screen.draw()
 
         self.play_tape_num += 1
@@ -113,7 +116,7 @@ class CartoonBuilder:
                 old_tape.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
 
             self.tape_selected = index
-            self.screen.fgpixbuf = Document.get_pixbuf(index)
+            self.screen.fgpixbuf = Document.get_screen(index)
             self.screen.draw()
 
     def _ground_cb(self, widget, combo):
@@ -131,9 +134,9 @@ class CartoonBuilder:
             combo.set_active(pos)
 
         self._prev_ground = widget.get_active()
-        self.screen.bgpixbuf = choice['pixbuf'].scale_simple(Theme.SCREEN_SIZE,
-                Theme.SCREEN_SIZE, gtk.gdk.INTERP_BILINEAR)
+        self.screen.bgpixbuf = choice['pixbuf']
         self.screen.draw()
+
 
     def _sound_cb(self, widget, combo):
         Sound.change(widget.props.value)
@@ -360,7 +363,6 @@ class CartoonBuilder:
         # screen
 
         self.screen = FrameWidget()
-        #self.screen.set_size_request(Theme.SCREEN_SIZE, Theme.SCREEN_SIZE)
         self.screen.show()
         screen_pink = gtk.EventBox()
         screen_pink.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(PINK))
@@ -401,7 +403,7 @@ class CartoonBuilder:
             self.tape.append(frame)
 
             frame_image = gtk.Image()
-            frame_image.set_from_pixbuf(Document.get_pixbuf(i))
+            frame_image.set_from_pixbuf(Document.get_tape(i))
             frame_image.show()
             frame.add(frame_image)
 
@@ -423,10 +425,15 @@ class CartoonBuilder:
             for i in themes:
                 if not i:
                     combo.append_separator()
-                else:
-                    combo.append_item(i, text = i['name'],
-                            size = (Theme.FRAME_SIZE, Theme.FRAME_SIZE),
-                            pixbuf = i['pixbuf'])
+                    continue
+
+                pixbuf = i['pixbuf'].scale_simple(Theme.FRAME_SIZE,
+                        Theme.FRAME_SIZE, gtk.gdk.INTERP_BILINEAR)
+
+                combo.append_item(i, text = i['name'],
+                        size = (Theme.FRAME_SIZE, Theme.FRAME_SIZE),
+                        pixbuf = pixbuf)
+
             combo.connect('changed', cb, combo)
             combo.set_active(0)
             return combo

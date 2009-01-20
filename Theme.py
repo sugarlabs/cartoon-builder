@@ -80,7 +80,7 @@ def path(file):
         return os.path.join(get_bundle_path(), file)
 
 def pixmap(file, numberr_in_set = None):
-    out = gtk.gdk.pixbuf_new_from_file_at_size(path(file), FRAME_SIZE, FRAME_SIZE)
+    out = gtk.gdk.pixbuf_new_from_file(path(file))
     return out
 
 # customize theme

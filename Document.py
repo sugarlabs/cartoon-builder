@@ -22,12 +22,16 @@ def load(filepath):
 def save(filepath):
     pass
 
-def get_pixbuf(index):
+def get_screen(index):
+    return gtk.gdk.pixbuf_new_from_file(
+            Theme.path('images/pics/Elephant/bigelephant0.gif'))
+
+def get_tape(index):
     return gtk.gdk.pixbuf_new_from_file_at_size(
             Theme.path('images/pics/Elephant/bigelephant0.gif'),
             Theme.FRAME_SIZE, Theme.FRAME_SIZE)
 
-def clean_pixbuf(index):
+def clean(index):
     pass
 
 """
