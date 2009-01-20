@@ -45,32 +45,33 @@ class FrameWidget(gtk.DrawingArea):
         self.connect('size-allocate', self.on_size_allocate)
         self.connect('expose-event',  self.on_expose_event)
         self.connect('realize',       self.on_realize)
-    
+
     def on_realize(self, widget):
         self.gc = widget.window.new_gc()
     
     def on_size_allocate(self, widget, allocation):
-        self.width = allocation.width
-        self.height = allocation.height
+        self.height = self.width = min(allocation.width, allocation.height)
     
     def on_expose_event(self, widget, event):
         # This is where the drawing takes place
         if self.bgpixbuf:
-            if self.bgpixbuf.get_width != self.width:
-                self.bgpixbuf = self.bgpixbuf.scale_simple(self.width,
-                    self.height, gtk.gdk.INTERP_BILINEAR)
-            widget.window.draw_pixbuf(self.gc,self.bgpixbuf,0,0,0,0,-1,-1,0,0)
+            pixbuf = self.bgpixbuf
+            if pixbuf.get_width != self.width:
+                pixbuf = pixbuf.scale_simple(self.width, self.height,
+                        gtk.gdk.INTERP_BILINEAR)
+            widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
+
         if self.fgpixbuf:
-            if self.fgpixbuf.get_width != self.width:
-                self.fgpixbuf = self.fgpixbuf.scale_simple(self.width,
+            pixbuf = self.fgpixbuf
+            if pixbuf.get_width != self.width:
+                pixbuf = pixbuf.scale_simple(self.width,
                     self.height, gtk.gdk.INTERP_BILINEAR)
-            widget.window.draw_pixbuf(self.gc,self.fgpixbuf,0,0,0,0,-1,-1,0,0)
+            widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
 
     def draw(self):
         self.queue_draw()
 
 class CartoonBuilder:
-
     def play(self):
         self.play_tape_num = 0
         self._playing = gobject.timeout_add(self.waittime, self._play_tape)
@@ -154,14 +155,9 @@ class CartoonBuilder:
         self.loadimages()
         self.drawmain()
 
-
-
-
-
-
-
-
-
+    def _screen_size_cb(self, widget, aloc):
+        size = min(aloc.width, aloc.height)
+        widget.child.set_size_request(size, size)
 
 
 
@@ -358,8 +354,6 @@ class CartoonBuilder:
         self.fgpixbufpaths = []
         self.tape = []
 
-
-
         # screen
 
         self.screen = FrameWidget()
@@ -456,9 +450,13 @@ class CartoonBuilder:
         
         # screen box
 
+        screen_alignment = gtk.Alignment(0.5, 0.5, 0, 0)
+        screen_alignment.add(screen_pink)
+        screen_alignment.connect('size-allocate', self._screen_size_cb)
+
         cetralbox = gtk.HBox()
         cetralbox.show()
-        cetralbox.pack_start(screen_pink, True, True)
+        cetralbox.pack_start(screen_alignment, True, True)
         cetralbox.pack_start(self.tvbox, False, False)
 
         hdesktop = gtk.HBox()
@@ -509,83 +507,3 @@ class CartoonBuilder:
 
     def main(self):
         gtk.main()
-
-
-"""
-SPANISH = u'Espa\xf1ol'
-#SPANISH = 'Espanol'
-LANGLIST = ['English',SPANISH]
-LANG = {'English':{'character':'My Character',
-                   'sound':'My Sound',
-                   'background':'My Background',
-                   'lessonplan':'Lesson Plans',
-                   'lpdir':'lp-en'},
-        SPANISH:{'character':u'Mi car\xe1cter',
-                 'sound':'Mi sonido',
-                 'background':'Mi fondo',
-                 'lessonplan':u'Planes de la lecci\xf3n',
-                 'lpdir':'lp-es'}}
-
-
-def getwrappedfile(filepath,linelength):
-    text = []
-    f = file(filepath)
-    for line in f:
-        if line == '\n':
-            text.append(line)
-        else:
-            for wline in textwrap.wrap(line.strip()):
-                text.append('%s\n' % wline)
-    return ''.join(text)
-
-
-
-
-    def showlessonplans(self, widget, data=None):
-        dia = gtk.Dialog(title='Lesson Plans',
-                         parent=None,
-                         flags=0,
-                         buttons=None)
-        dia.set_default_size(500,500)
-        dia.show()
-
-        #dia.vbox.pack_start(scrolled_window, True, True, 0)
-        notebook = gtk.Notebook()
-        # uncomment below to highlight tabs
-        notebook.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(WHITE))
-        notebook.set_tab_pos(gtk.POS_TOP)
-        #notebook.set_default_size(400,400)
-        notebook.show()
-        lessonplans = {}
-        lpdir = os.path.join(self.mdirpath,LANG[self.language]['lpdir'])
-        lpentries = os.listdir(lpdir)
-        for entry in lpentries:
-            fpath = os.path.join(lpdir,entry)
-            lessonplans[entry] = getwrappedfile(fpath,80)
-        lpkeys = lessonplans.keys()
-        lpkeys.sort()
-        for lpkey in lpkeys:
-            lpname = lpkey.replace('_',' ').replace('0','')[:-4]
-            label = gtk.Label(lessonplans[lpkey])
-            #if self.insugar:
-            #    label.modify_fg(gtk.STATE_NORMAL,gtk.gdk.color_parse(WHITE))
-            eb = gtk.EventBox()
-            eb.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(WHITE))
-            #label.set_line_wrap(True)
-            label.show()
-            eb.add(label)
-            eb.show()
-            #tlabel = gtk.Label('Lesson Plan %s' % str(i+1))
-            tlabel = gtk.Label(lpname)
-            tlabel.show()
-            scrolled_window = gtk.ScrolledWindow()
-            scrolled_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
-            scrolled_window.show()
-            scrolled_window.add_with_viewport(eb)
-            notebook.append_page(scrolled_window, tlabel)
-        #dia.action_area.pack_start(notebook, True, True, 0)
-        dia.vbox.pack_start(notebook, True, True, 0)
-        result = dia.run()
-        dia.destroy()
-    """
-

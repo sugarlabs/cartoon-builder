@@ -79,3 +79,82 @@ class Toolbar(gtk.Toolbar):
             widget.set_icon_widget(self.playButtonImg)
             Sound.stop()
             self.app.stop()
+
+"""
+SPANISH = u'Espa\xf1ol'
+#SPANISH = 'Espanol'
+LANGLIST = ['English',SPANISH]
+LANG = {'English':{'character':'My Character',
+                   'sound':'My Sound',
+                   'background':'My Background',
+                   'lessonplan':'Lesson Plans',
+                   'lpdir':'lp-en'},
+        SPANISH:{'character':u'Mi car\xe1cter',
+                 'sound':'Mi sonido',
+                 'background':'Mi fondo',
+                 'lessonplan':u'Planes de la lecci\xf3n',
+                 'lpdir':'lp-es'}}
+
+
+def getwrappedfile(filepath,linelength):
+    text = []
+    f = file(filepath)
+    for line in f:
+        if line == '\n':
+            text.append(line)
+        else:
+            for wline in textwrap.wrap(line.strip()):
+                text.append('%s\n' % wline)
+    return ''.join(text)
+
+
+
+
+    def showlessonplans(self, widget, data=None):
+        dia = gtk.Dialog(title='Lesson Plans',
+                         parent=None,
+                         flags=0,
+                         buttons=None)
+        dia.set_default_size(500,500)
+        dia.show()
+
+        #dia.vbox.pack_start(scrolled_window, True, True, 0)
+        notebook = gtk.Notebook()
+        # uncomment below to highlight tabs
+        notebook.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(WHITE))
+        notebook.set_tab_pos(gtk.POS_TOP)
+        #notebook.set_default_size(400,400)
+        notebook.show()
+        lessonplans = {}
+        lpdir = os.path.join(self.mdirpath,LANG[self.language]['lpdir'])
+        lpentries = os.listdir(lpdir)
+        for entry in lpentries:
+            fpath = os.path.join(lpdir,entry)
+            lessonplans[entry] = getwrappedfile(fpath,80)
+        lpkeys = lessonplans.keys()
+        lpkeys.sort()
+        for lpkey in lpkeys:
+            lpname = lpkey.replace('_',' ').replace('0','')[:-4]
+            label = gtk.Label(lessonplans[lpkey])
+            #if self.insugar:
+            #    label.modify_fg(gtk.STATE_NORMAL,gtk.gdk.color_parse(WHITE))
+            eb = gtk.EventBox()
+            eb.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(WHITE))
+            #label.set_line_wrap(True)
+            label.show()
+            eb.add(label)
+            eb.show()
+            #tlabel = gtk.Label('Lesson Plan %s' % str(i+1))
+            tlabel = gtk.Label(lpname)
+            tlabel.show()
+            scrolled_window = gtk.ScrolledWindow()
+            scrolled_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
+            scrolled_window.show()
+            scrolled_window.add_with_viewport(eb)
+            notebook.append_page(scrolled_window, tlabel)
+        #dia.action_area.pack_start(notebook, True, True, 0)
+        dia.vbox.pack_start(notebook, True, True, 0)
+        result = dia.run()
+        dia.destroy()
+    """
+
