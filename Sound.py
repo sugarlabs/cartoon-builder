@@ -21,74 +21,64 @@ import Theme
 from Utils import *
 from sugar.activity.activity import get_bundle_path
 
-speaker = Theme.pixmap('images/sounds/speaker.png')
+class Sound:
+    playing = False
+    current = None
+    player = None
+
+    def __init__(self, name, file, sound):
+        self.name = name
+        self.pixbuf = Theme.pixbuf(file, THUMB_SIZE)
+        self.sound = sound
+
+    def thumb(self):
+        return self.pixbuf
+
+    def change(self):
+        Sound.current = self
+        if not Sound.playing: return
+        Sound.player.set_state(gst.STATE_NULL)
+        if not self.sound: return
+
+        Sound.player.set_property('uri', 'file://' + Theme.path(self.sound))
+        Sound.player.set_state(gst.STATE_NULL)
+        Sound.player.set_state(gst.STATE_PLAYING)
 
 THEMES = (
-    { 'name'  :  _('Gobble'),
-      'pixbuf': speaker,
-      'sound' : 'sounds/gobble.wav' },
-    { 'name'  : _('Funk'),
-      'pixbuf': speaker,
-      'sound' : 'sounds/funk.wav' },
-    { 'name'  : _('Giggle'),
-      'pixbuf': speaker,
-      'sound' : 'sounds/giggle.wav' },
-    { 'name'  : _('Jungle'),
-      'pixbuf': speaker,
-      'sound' : 'sounds/jungle.wav' },
-    { 'name'  : _('Mute'),
-      'pixbuf': Theme.pixmap('images/sounds/mute.png'),
-      'sound' : None },
+    Sound(_('Gobble'),  'images/sounds/speaker.png', 'sounds/gobble.wav'),
+    Sound(_('Funk'),    'images/sounds/speaker.png', 'sounds/funk.wav'),
+    Sound(_('Giggle'),  'images/sounds/speaker.png', 'sounds/giggle.wav'),
+    Sound(_('Jungle'),  'images/sounds/speaker.png', 'sounds/jungle.wav'),
+    Sound(_('Mute'),    'images/sounds/mute.png', None),
     None,
-    { 'name'  : _('Custom'),
-      'pixbuf': Theme.pixmap('images/sounds/custom.png'),
-      'sound' : None } )
+    Sound(_('Custom'),  'images/sounds/custom.png', None) )
 
-theme = FileInstanceVariable(THEMES[0])
-playing = FileInstanceVariable(False)
+Sound.current = THEMES[0]
 
 def play():
-    playing.set(True)
-    change(theme.get())
+    Sound.playing = True
+    Sound.current.change()
 
 def stop():
-    playing.set(False)
-    player.set_state(gst.STATE_NULL)
-
-def change(a_theme):
-    if not a_theme: return
-    theme.set(a_theme)
-
-
-    import logging
-    logging.error(theme['name'])
-
-    if not playing.get(): return
-
-    player.set_state(gst.STATE_NULL)
-
-    sound = theme['sound']
-    if not sound: return
-
-    player.set_property('uri', 'file://' + Theme.path(sound))
-    player.set_state(gst.STATE_NULL)
-    player.set_state(gst.STATE_PLAYING)
+    Sound.playing = False
+    Sound.player.set_state(gst.STATE_NULL)
 
 # GSTREAMER STUFF
 
 def _gstmessage_cb(bus, message):
-    t = message.type
-    if t == gst.MESSAGE_EOS:
+    type = message.type
+
+    if type == gst.MESSAGE_EOS:
         # END OF SOUND FILE
-        player.set_state(gst.STATE_NULL)
-        player.set_state(gst.STATE_PLAYING)
-    elif t == gst.MESSAGE_ERROR:
-        player.set_state(gst.STATE_NULL)
+        Sound.player.set_state(gst.STATE_NULL)
+        Sound.player.set_state(gst.STATE_PLAYING)
+    elif type == gst.MESSAGE_ERROR:
+        Sound.player.set_state(gst.STATE_NULL)
 
-player = gst.element_factory_make("playbin", "player")
+Sound.player = gst.element_factory_make("playbin", "player")
 fakesink = gst.element_factory_make('fakesink', "my-fakesink")
-player.set_property("video-sink", fakesink)
+Sound.player.set_property("video-sink", fakesink)
 
-bus = player.get_bus()
+bus = Sound.player.get_bus()
 bus.add_signal_watch()
 bus.connect('message', _gstmessage_cb)

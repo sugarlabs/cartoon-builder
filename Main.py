@@ -120,7 +120,7 @@ class CartoonBuilder:
             self.screen.draw()
 
     def _ground_cb(self, widget, combo):
-        choice = Ground.change(widget.props.value)
+        choice = widget.props.value.change()
 
         if not choice:
             widget.set_active(self._prev_ground)
@@ -128,18 +128,18 @@ class CartoonBuilder:
 
         if id(choice) != id(widget.props.value):
             pos = combo.get_active()
-            combo.append_item(choice, text = choice['name'],
-                    size = (Theme.FRAME_SIZE, Theme.FRAME_SIZE),
-                    pixbuf = choice['pixbuf'], position = pos)
+            combo.append_item(choice, text = choice.name,
+                    size = (Theme.THUMB_SIZE, Theme.THUMB_SIZE),
+                    pixbuf = choice.thumb(), position = pos)
             combo.set_active(pos)
 
         self._prev_ground = widget.get_active()
-        self.screen.bgpixbuf = choice['pixbuf']
+        self.screen.bgpixbuf = choice.orig()
         self.screen.draw()
 
 
     def _sound_cb(self, widget, combo):
-        Sound.change(widget.props.value)
+        widget.props.value.change()
 
     def _char_cb(self, widget):
         return
@@ -384,7 +384,7 @@ class CartoonBuilder:
             frame_box.show()
 
             filmstrip_pixbuf = gtk.gdk.pixbuf_new_from_file_at_scale(
-                    Theme.path('icons/filmstrip.png'), FRAME_SIZE, -1, False)
+                    Theme.path('icons/filmstrip.png'), THUMB_SIZE, -1, False)
 
             filmstrip = gtk.Image()
             filmstrip.set_from_pixbuf(filmstrip_pixbuf);
@@ -398,7 +398,7 @@ class CartoonBuilder:
             frame.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
             frame.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
             frame.props.border_width = 2
-            frame.set_size_request(Theme.FRAME_SIZE, Theme.FRAME_SIZE)
+            frame.set_size_request(Theme.THUMB_SIZE, Theme.THUMB_SIZE)
             frame_box.pack_start(frame, False, False)
             self.tape.append(frame)
 
@@ -427,12 +427,9 @@ class CartoonBuilder:
                     combo.append_separator()
                     continue
 
-                pixbuf = i['pixbuf'].scale_simple(Theme.FRAME_SIZE,
-                        Theme.FRAME_SIZE, gtk.gdk.INTERP_BILINEAR)
-
-                combo.append_item(i, text = i['name'],
-                        size = (Theme.FRAME_SIZE, Theme.FRAME_SIZE),
-                        pixbuf = pixbuf)
+                combo.append_item(i, text = i.name,
+                        size = (Theme.THUMB_SIZE, Theme.THUMB_SIZE),
+                        pixbuf = i.thumb())
 
             combo.connect('changed', cb, combo)
             combo.set_active(0)

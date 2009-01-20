@@ -29,7 +29,7 @@ def get_screen(index):
 def get_tape(index):
     return gtk.gdk.pixbuf_new_from_file_at_size(
             Theme.path('images/pics/Elephant/bigelephant0.gif'),
-            Theme.FRAME_SIZE, Theme.FRAME_SIZE)
+            Theme.THUMB_SIZE, Theme.THUMB_SIZE)
 
 def clean(index):
     pass

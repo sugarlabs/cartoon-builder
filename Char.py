@@ -17,24 +17,26 @@ from gettext import gettext as _
 
 import Theme
 
+class Char:
+    def __init__(self, name, file, dir, custom):
+        self.name = name
+        self.pixbuf = Theme.pixbuf(file, Theme.THUMB_SIZE)
+        self.dir = dir
+        self.custom = custom
+
+    def thumb(self):
+        return self.pixbuf
+
 THEMES = (
-    { 'name'  : _('Elephant'),
-      'pixbuf': Theme.pixmap('images/pics/Elephant/bigelephant0.gif'),
-      'dir'   : 'images/pics/Elephant',
-      'custom': None },
-    { 'name'  : _('Space Blob'),
-      'pixbuf': Theme.pixmap('images/pics/SpaceBlob/bigblob8.gif'),
-      'dir'   : 'images/pics/SpaceBlob',
-      'custom': None },
-    { 'name'  : _('Turkey'),
-      'pixbuf': Theme.pixmap('images/pics/Turkey/bigturkey1.gif'),
-      'dir'   : 'images/pics/Turkey',
-      'custom': None },
+    Char(_('Elephant'),     'images/pics/Elephant/bigelephant0.gif',
+                            'images/pics/Elephant', None),
+    Char(_('Space Blob'),   'images/pics/SpaceBlob/bigblob8.gif',
+                            'images/pics/SpaceBlob', None),
+    Char(_('Turkey'),       'images/pics/Turkey/bigturkey1.gif',
+                            'images/pics/Turkey', None),
     None,
-    { 'name'  : _('Custom'),
-      'pixbuf': Theme.pixmap('images/pics/custom.png'),
-      'dir'   : None,
-      'custom': True } )
+    Char(_('Custom'),       'images/pics/custom.png',
+                            None, True) )
 
 
 

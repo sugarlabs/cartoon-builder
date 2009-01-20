@@ -23,11 +23,11 @@ TRANSIMG = '50x50blank-trans.png'
 DESKTOP_WIDTH = gtk.gdk.screen_width()
 DESKTOP_HEIGHT = gtk.gdk.screen_height() - style.LARGE_ICON_SIZE
 
-FRAME_SIZE = min(100, min(DESKTOP_WIDTH, DESKTOP_HEIGHT) / 8)
-SCREEN_SIZE = min(DESKTOP_WIDTH - 275, DESKTOP_HEIGHT) - FRAME_SIZE*2 
+THUMB_SIZE = min(100, min(DESKTOP_WIDTH, DESKTOP_HEIGHT) / 8)
+SCREEN_SIZE = min(DESKTOP_WIDTH - 275, DESKTOP_HEIGHT) - THUMB_SIZE*2 
 
-FRAME_COUNT = DESKTOP_HEIGHT / FRAME_SIZE*2
-TAPE_COUNT = (DESKTOP_WIDTH - FRAME_SIZE) / FRAME_SIZE
+FRAME_COUNT = DESKTOP_HEIGHT / THUMB_SIZE*2
+TAPE_COUNT = (DESKTOP_WIDTH - THUMB_SIZE) / THUMB_SIZE
 
 BORDER_LEFT = 1
 BORDER_RIGHT = 2
@@ -79,8 +79,11 @@ def path(file):
     else:
         return os.path.join(get_bundle_path(), file)
 
-def pixmap(file, numberr_in_set = None):
-    out = gtk.gdk.pixbuf_new_from_file(path(file))
+def pixbuf(file, size = None):
+    if size:
+        out = gtk.gdk.pixbuf_new_from_file_at_size(path(file), size, size)
+    else:
+        out = gtk.gdk.pixbuf_new_from_file(path(file))
     return out
 
 # customize theme
