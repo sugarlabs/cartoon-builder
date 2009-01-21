@@ -1,1 +1,12 @@
+d make whole interface bigger (like Flipsticks)
+d make the lang chooser a dropdown (like Flipsticks)
+d remove save and open buttons
+d remove my character, my background, and my sound buttons
+ d leave out my character functionality
+d replace file system integration with journal integration
+d add sugar toolbar with activity, background, and sound menus
+ d insert background from background menu (from journal)
+ x insert sound from sound menu (from journal)
+- make buttons bigger
+- make interface screen resolution independent
 - add tooltips

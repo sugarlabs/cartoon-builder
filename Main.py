@@ -90,7 +90,6 @@ class CartoonBuilder:
         self.screen.fgpixbuf = Document.orig(self.tape_selected)
         self.screen.draw()
 
-
     def _play_tape(self):
         self.screen.fgpixbuf = Document.orig(self.play_tape_num)
         self.screen.draw()
@@ -120,7 +119,7 @@ class CartoonBuilder:
         self.screen.draw()
 
     def _frame_cb(self, widget, event, frame):
-        Document.stamp(frame, self.char.orig(frame))
+        Document.stamp(self.tape_selected, self.char.orig(frame))
         self.tape[self.tape_selected].child.set_from_pixbuf(
                 self.char.thumb(frame))
         self._tape_cb(None, None, self.tape_selected)
