@@ -115,9 +115,20 @@ class CartoonBuilder:
                 old_tape.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BLACK))
                 old_tape.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
 
-            self.tape_selected = index
-            self.screen.fgpixbuf = Document.orig(index)
-            self.screen.draw()
+        self.tape_selected = index
+        self.screen.fgpixbuf = Document.orig(index)
+        self.screen.draw()
+
+    def _frame_cb(self, widget, event, frame):
+        Document.stamp(frame, self.char.orig(frame))
+        self.tape[self.tape_selected].child.set_from_pixbuf(
+                self.char.thumb(frame))
+        self._tape_cb(None, None, self.tape_selected)
+
+    def _char_cb(self, widget, combo):
+        self.char = widget.props.value
+        for i in range(len(self.frames)):
+            self.frames[i].set_from_pixbuf(self.char.thumb(i))
 
     def _ground_cb(self, widget, combo):
         choice = widget.props.value.change()
@@ -140,34 +151,17 @@ class CartoonBuilder:
     def _sound_cb(self, widget, combo):
         widget.props.value.change()
 
-    def _char_cb(self, widget, combo):
-        self.char = widget.props.value
-        for i in range(len(self.frames)):
-            self.frames[i].set_from_pixbuf(self.char.thumb(i))
 
-    def _frame_cb(self, widget, event, frame):
-        Document.stamp(frame, self.char.orig(frame))
-        self.tape[self.tape_selected].child.set_from_pixbuf(
-                self.char.thumb(frame))
 
     def _screen_size_cb(self, widget, aloc):
         size = min(aloc.width, aloc.height)
         widget.child.set_size_request(size, size)
 
 
-    def imgdown(self, widget, data=None):
-        #pics = self.getpics(self.imgdir)
-        if len(pics[self.imgstartindex:]) > FRAME_ROWS:
-            self.imgstartindex += 2
-            self.loadimages()
-            self.drawmain()
 
-    def imgup(self, widget, data=None):
-        #pics = self.getpics(self.imgdir)
-        if self.imgstartindex > 0:
-            self.imgstartindex -= 2
-            self.loadimages()
-            self.drawmain()
+
+
+
 
 
 
