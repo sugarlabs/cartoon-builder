@@ -75,7 +75,7 @@ class CartoonBuilder:
         self.play_tape_num = 0
         self._playing = gobject.timeout_add(self.waittime, self._play_tape)
 
-    def stop():
+    def stop(self):
         self._playing = None
 
     def set_tempo(self, tempo):
@@ -151,170 +151,13 @@ class CartoonBuilder:
     def _sound_cb(self, widget, combo):
         widget.props.value.change()
 
-
-
     def _screen_size_cb(self, widget, aloc):
         size = min(aloc.width, aloc.height)
         widget.child.set_size_request(size, size)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def pickimage(self, widget, event, data=None):
-        if data:
-            pixbuf = self.posepixbufs[data-1]
-            scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.frameimgs[self.frame_selected].set_from_pixbuf(scaled_buf)
-            fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.fgpixbufs[self.frame_selected] = fgpixbuf
-            self.fgpixbufpaths[self.frame_selected] = self.poseimgpaths[data-1]
-            self.fgpixbuf = fgpixbuf
-            self.drawmain()
-
-
-
-
-    def loadimages(self):
-        self.posepixbufs = []
-        self.poseimgpaths = []
-
-        pics = self.getpics(self.imgdir)
-        count = 0
-
-        for imgpath in pics[self.imgstartindex:self.imgstartindex+FRAME_ROWS]:
-            pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
-            scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.posepixbufs.append(pixbuf)
-            self.poseimgpaths.append(imgpath)
-            self.images[count].set_from_pixbuf(scaled_buf)
-            count += 1
-
-        for i in range(count,FRAME_ROWS):
-            transpixbuf = self.gettranspixbuf(IMGWIDTH,IMGHEIGHT)
-            imgpath = os.path.join(self.iconsdir,TRANSIMG)
-            img = gtk.Image()
-            img.set_from_pixbuf(transpixbuf)
-            img.show()
-            self.posepixbufs.append(pixbuf)
-            self.poseimgpaths.append(imgpath)
-            self.images[i].set_from_pixbuf(transpixbuf)
-
-    def getpics(self, dirpath):
-        pics = []
-        entries = os.listdir(dirpath)
-        entries.sort()
-        for entry in entries:
-            if entry[-4:].lower() in ['.png','.gif','.jpg']:
-                filepath = os.path.join(dirpath,entry)
-                pics.append(filepath)
-        return pics
-
-
-    def gettranspixbuf(self, width=50, height=50):
-        transimgpath = os.path.join(self.iconsdir,TRANSIMG)
-        pixbuf = gtk.gdk.pixbuf_new_from_file(transimgpath)
-        if width == 50 and height == 50:
-            return pixbuf
-        scaled_buf = pixbuf.scale_simple(width,height,gtk.gdk.INTERP_BILINEAR)
-        return scaled_buf
-
-
-
-
-
-    def __init__(self,insugar,toplevel_window,mdirpath):
-        self.mdirpath = mdirpath
-        self.iconsdir = os.path.join(self.mdirpath, 'icons')
+    def __init__(self):
         self._playing = None
-
         self.waittime = 3*150
-
-
-        self.imgstartindex = 0
-
-        #self.loadimages()
-
-
-
-
-
-        self.tvbox = gtk.VBox()
-        self.tvbox.show()
-        # flow arrows
-        flowbox = gtk.HBox()
-        flowbox.show()
-        yellow_arrow = gtk.Image()
-        yellow_arrow.set_from_file(os.path.join(self.iconsdir, 'yellow_arrow.png'))
-        yellow_arrow.show()
-        flowbox.pack_end(yellow_arrow,True,False,0)
-
-
-
-        topspace = gtk.EventBox()
-        topspace.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
-        topspace.show()
-        topspace.set_border_width(15)
-        self.tvbox.pack_start(topspace,False,False,0)
-
-
-        self.tvbox.pack_start(flowbox,False,False,0)
-
-
-
-
-        self.imgbuttons = []
-        self.images = []
-        # POSE CHOOSER BUTTONS
-        for i in range(1,11):
-            ib = gtk.EventBox()
-            #ib = gtk.Button()
-            #ib.connect('clicked', self.pickimage, i)
-            ib.set_events(gtk.gdk.BUTTON_PRESS_MASK)
-            ib.connect('button_press_event', self.pickimage, i)
-            ib.set_border_width(1)
-            #ib.add(img)
-            ib.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BLACK))
-            ib.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
-            ib.show()
-            img = gtk.Image()
-            img.show()
-            #ib.set_label('')
-            #ib.set_image(img)
-            ib.add(img)
-            self.imgbuttons.append(ib)
-            self.images.append(img)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         self.tape = []
         self.frames = []
 
@@ -524,6 +367,3 @@ class CartoonBuilder:
 
         self.main = yellowbox
         self.main.show_all()
-
-    def main(self):
-        gtk.main()

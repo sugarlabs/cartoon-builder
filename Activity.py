@@ -40,9 +40,7 @@ class CartoonBuilderActivity(activity.Activity):
 
         self.connect("destroy",self.destroy_cb)
         #app = cartoonbuilder(self,'/home/olpc/Activities/CartoonBuilder.activity')
-        bundle_path = activity.get_bundle_path()
-        os.chdir(bundle_path)
-        self.app = CartoonBuilder(True,self, bundle_path)
+        self.app = CartoonBuilder()
         self.set_title('CartoonBuilder')
         toolbox = activity.ActivityToolbox(self)
         bgtoolbar = Toolbar(self,self.app)
