@@ -333,6 +333,7 @@ class CartoonBuilder:
 
 
 
+        # frames table
 
         from math import ceil
 
@@ -340,6 +341,7 @@ class CartoonBuilder:
                 int(ceil(float(FRAME_COUNT) / FRAME_COLS)))
 
         self.table = gtk.Table(rows, columns=Theme.FRAME_COLS, homogeneous=False)
+        self.table.show()
 
         for y in range(rows):
             for x in range(Theme.FRAME_COLS):
@@ -359,13 +361,12 @@ class CartoonBuilder:
 
                 self.table.attach(image_box, x, x+1, y, y+1)
 
+        # frames box
 
-        self.table.show()
-
-        s = VScrolledBox()
-        s.show()
-        s.set_viewport(self.table)
-        s.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BUTTON_BACKGROUND))
+        table_scroll = VScrolledBox()
+        table_scroll.show()
+        table_scroll.set_viewport(self.table)
+        table_scroll.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BUTTON_BACKGROUND))
 
         yellow_frames = gtk.EventBox()
         yellow_frames.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
@@ -374,24 +375,18 @@ class CartoonBuilder:
         table_frames.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
         table_frames.show()
         table_frames.set_border_width(5)
-        table_frames.add(s)
+        table_frames.add(table_scroll)
         yellow_frames.add(table_frames)
-        yellow_frames.props.border_width = 20
 
+        yelow_arrow = gtk.Image()
+        yelow_arrow.set_from_file(Theme.path('icons/yellow_arrow.png'))
+        yelow_arrow.show()
 
-
-
-        """
-        self.tfhbox = gtk.HBox()
-        self.tfhbox.show()
-        #self.tfhbox.pack_start(yellow_frames,True,False,20)
-        #self.tvbox.pack_start(self.tfhbox,False,False,0)
-        """
-        
-
-
-
-
+        frames_box = gtk.VBox()
+        frames_box.show()
+        frames_box.pack_start(yellow_frames, True, True)
+        frames_box.pack_start(yelow_arrow, False, False)
+        frames_box.props.border_width = 20
 
         # screen
 
@@ -496,19 +491,7 @@ class CartoonBuilder:
         cetralbox = gtk.HBox()
         cetralbox.show()
         cetralbox.pack_start(screen_alignment, True, True)
-
-
-
-
-
-
-
-        #s.set_size_request(-1, Theme.THUMB_SIZE * rows)
-
-        #a = gtk.Alignment(0.5, 0.5, 0, 0)
-        #a.add(s)#yellow_frames)
-
-        cetralbox.pack_start(yellow_frames, True, False)
+        cetralbox.pack_start(frames_box, True, False)
 
         hdesktop = gtk.HBox()
         hdesktop.show()
