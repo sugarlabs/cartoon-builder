@@ -24,7 +24,10 @@ class Char:
         self.dir = dir
         self.custom = custom
 
-    def thumb(self):
+    def thumb(self, index = None):
+        return self.pixbuf
+
+    def orig(self, index):
         return self.pixbuf
 
 THEMES = (

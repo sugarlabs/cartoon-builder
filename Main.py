@@ -137,22 +137,18 @@ class CartoonBuilder:
         self.screen.bgpixbuf = choice.orig()
         self.screen.draw()
 
-
     def _sound_cb(self, widget, combo):
         widget.props.value.change()
 
-    def _char_cb(self, widget):
-        return
+    def _char_cb(self, widget, combo):
+        self.char = widget.props.value
+        for i in range(len(self.frames)):
+            self.frames[i].set_from_pixbuf(self.char.thumb(i))
 
-        if self.imgdirindex == 0:
-            self.imgdirindex = (len(self.imgdirs)-1)
-        else:
-            self.imgdirindex -= 1
-
-        self.imgstartindex = 0
-        self.imgdir = self.imgdirs[self.imgdirindex]
-        self.loadimages()
-        self.drawmain()
+    def _frame_cb(self, widget, event, frame):
+        Document.stamp(frame, self.char.orig(frame))
+        self.tape[self.tape_selected].child.set_from_pixbuf(
+                self.char.thumb(frame))
 
     def _screen_size_cb(self, widget, aloc):
         size = min(aloc.width, aloc.height)
@@ -325,13 +321,8 @@ class CartoonBuilder:
 
 
 
-        self.framebuttons = []
-        self.frameimgs = []
-        self.fgpixbufs = []
-        self.fgpixbufpaths = []
         self.tape = []
-
-
+        self.frames = []
 
         # frames table
 
@@ -346,13 +337,14 @@ class CartoonBuilder:
         for y in range(rows):
             for x in range(Theme.FRAME_COLS):
                 image = gtk.Image()
-                image.set_from_pixbuf(Document.thumb(0))
                 image.show()
+                self.frames.append(image)
 
                 image_box = gtk.EventBox()
                 image_box.show()
                 image_box.set_events(gtk.gdk.BUTTON_PRESS_MASK)
-                #image_box.connect('button_press_event', self._tape_cb, i)
+                image_box.connect('button_press_event', self._frame_cb,
+                        y * Theme.FRAME_COLS + x)
                 image_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
                 image_box.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
                 image_box.props.border_width = 2

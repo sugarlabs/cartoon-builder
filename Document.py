@@ -34,6 +34,9 @@ def thumb(index):
 def clean(index):
     pass
 
+def stamp(index, pixbuf):
+    pass
+
 """
 import zipfile
 import StringIO
