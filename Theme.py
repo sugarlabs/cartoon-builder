@@ -14,8 +14,9 @@
 
 import os
 import gtk
+import shutil
 
-from sugar.activity.activity import get_bundle_path
+from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
 
 TRANSIMG = '50x50blank-trans.png'
@@ -77,6 +78,11 @@ OLD_COLOR_BG_BUTTONS = (
     (gtk.STATE_INSENSITIVE,"#027F01"),
     )
 
+SESSION_PATH = os.path.join(get_activity_root(), 'tmp', '.session')
+if os.path.isdir(SESSION_PATH):
+    shutil.rmtree(SESSION_PATH)
+os.mkdir(SESSION_PATH)
+
 def path(file):
     if os.path.isabs(file):
         return file
@@ -92,8 +98,10 @@ def pixbuf(file, size = None):
 
 EMPTY_PIXBUF = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 1, 1)
 
+def scale(pixbuf, size = THUMB_SIZE):
+    return pixbuf.scale_simple(size, size, gtk.gdk.INTERP_BILINEAR)
 
-def choose_pixbuf(out_fun):
+def choose(out_fun):
     from sugar.graphics.objectchooser import ObjectChooser
 
     chooser = ObjectChooser()

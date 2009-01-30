@@ -17,25 +17,82 @@ import gtk
 import Theme
 
 def load(filepath):
+    """
+    def loadfromzip(self, f):
+
+        zf = zipfile.ZipFile(filepath)
+        fnames = zf.namelist()
+        framenames = []
+        for fname in fnames:
+            if fname[-8:] == 'back.png':
+                backname = fname
+            else:
+                framenames.append(fname)
+        framenames.sort()
+        # set the background
+        tmpbgpath = os.path.join(TMPDIR,'back.png')
+        f = file(tmpbgpath,'w')
+
+
+        f.write(zf.read(backname))
+
+
+        f.close()
+        self.setback(tmpbgpath)
+        os.remove(tmpbgpath)
+        self.imgdir = TMPDIR
+        for filepath in framenames:
+            fname = os.path.split(filepath)[1]
+            tmpfilepath = os.path.join(TMPDIR,fname)
+            f = file(tmpfilepath,'w')
+            f.write(zf.read(filepath))
+            f.close()
+        zf.close()
+        self.loadimages()
+        # setup the filmstrip frames
+        pics = self.getpics(self.imgdir)
+        count = 0
+        for imgpath in pics:
+            pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
+            fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+            self.fgpixbufs[count] = fgpixbuf
+            if count == 0:
+                self.fgpixbuf = fgpixbuf
+                self.drawmain()
+            scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
+            self.frameimgs[count].set_from_pixbuf(scaled_buf)
+            count += 1
+        entries = os.listdir(TMPDIR)
+        for entry in entries:
+            entrypath = os.path.join(TMPDIR,entry)
+            os.remove(entrypath)
+    """
     pass
 
 def save(filepath):
     pass
 
-def orig(index):
+def tape_orig(index):
     return gtk.gdk.pixbuf_new_from_file(
             Theme.path('images/pics/Elephant/bigelephant0.gif'))
 
-def thumb(index):
+def tape_thumb(index):
     return gtk.gdk.pixbuf_new_from_file_at_size(
             Theme.path('images/pics/Elephant/bigelephant0.gif'),
             Theme.THUMB_SIZE, Theme.THUMB_SIZE)
 
-def clean(index):
+def tape_clean(index):
     pass
 
-def stamp(index, pixbuf):
+def tape_stamp(index, pixbuf):
     pass
+
+def ground():
+    return ('foo', gtk.gdk.pixbuf_new_from_file(
+            Theme.path('images/pics/Elephant/bigelephant1.gif')))
+
+def sound():
+    return ('foo', 'sounds/jungle.wav')
 
 """
 import zipfile

@@ -13,6 +13,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 import gtk
+import pango
 
 from Theme import *
 import sugar.graphics
@@ -56,6 +57,7 @@ class ComboBox(sugar.graphics.combobox.ComboBox):
 
         if not self._text_renderer and text:
             self._text_renderer = gtk.CellRendererText()
+            self._text_renderer.props.ellipsize = pango.ELLIPSIZE_END
             self.pack_end(self._text_renderer, True)
             self.add_attribute(self._text_renderer, 'text', 1)
 

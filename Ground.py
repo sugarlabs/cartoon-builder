@@ -19,17 +19,22 @@ from sugar.graphics.objectchooser import ObjectChooser
 
 import Theme
 
+def load():
+    ground = Document.ground()
+    custom = Ground(ground[0], None, False)
+    custom._pixbuf = ground[1]
+    THEMES.insert(-1, custom)
+
 class Ground:
     def __init__(self, name, file, custom):
         self.name = name
-        self._pixbuf = Theme.pixbuf(file)
+        if file: self._pixbuf = Theme.pixbuf(file)
         self._custom = custom
         self._thumb = None
 
     def thumb(self):
         if not self._thumb:
-            self._thumb = self._pixbuf.scale_simple(Theme.THUMB_SIZE,
-                    Theme.THUMB_SIZE, gtk.gdk.INTERP_BILINEAR)
+            self._thumb = Theme.scale(self._pixbuf)
         return self._thumb
 
     def orig(self):
@@ -38,22 +43,8 @@ class Ground:
     def change(self):
         if self._custom in (None, False):
             return self
-
-        chooser = ObjectChooser(_('Choose background image'), None,
-                gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT)
-        try:
-            result = chooser.run()
-
-            if result == gtk.RESPONSE_ACCEPT:
-                jobject = chooser.get_selected_object()
-                if jobject and jobject.file_path:
-                    return Ground(jobject.metadata['title'],
-                            jobject.file_path, False)
-        finally:
-            chooser.destroy()
-            del chooser
-
-        return None
+        else:
+            return Theme.choose(lambda title, file: Ground(title, file, False))
 
 THEMES = (
     Ground(_('Saturn'),     'images/backpics/bigbg01.gif', None),

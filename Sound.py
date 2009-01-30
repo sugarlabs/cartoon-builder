@@ -15,44 +15,78 @@
 import os
 import gtk
 import gst
+from glob import glob
 from gettext import gettext as _
 
 import Theme
 from Utils import *
 from sugar.activity.activity import get_bundle_path
 
+TYPE_PREISTALLED = 0
+TYPE_CUSTOM      = 1
+TYPE_JOURNAL     = 2
+
+def load():
+    sound = Document.sound()
+    custom = Sound(sound[0], 'images/sounds/speaker.png', sound[1])
+    THEMES.insert(-1, custom)
+
 class Sound:
     playing = False
     current = None
     player = None
 
-    def __init__(self, name, file, sound):
+    def __init__(self, name, file, sound, type):
         self.name = name
-        self.pixbuf = Theme.pixbuf(file, THUMB_SIZE)
-        self.sound = sound
+        self._thumb = Theme.pixbuf(file, THUMB_SIZE)
+        self._type = type
+
+        if type == TYPE_JOURNAL:
+            l = sorted(glob(os.path.join(Theme.SESSION_PATH, 'sound*')))
+            self._sound = os.path.join(Theme.SESSION_PATH,
+                    'sound.%03d' % (len(l)+1))
+            os.rename(sound, self._sound) 
+        else:
+            self._sound = sound
 
     def thumb(self):
-        return self.pixbuf
+        return self._thumb
 
     def change(self):
-        Sound.current = self
-        if not Sound.playing: return
-        Sound.player.set_state(gst.STATE_NULL)
-        if not self.sound: return
+        out = self
 
-        Sound.player.set_property('uri', 'file://' + Theme.path(self.sound))
+        if self._type == TYPE_CUSTOM:
+            out = Theme.choose(
+                    lambda title, file: Sound(title,
+                    'images/sounds/speaker.png', file, TYPE_JOURNAL))
+            if not out:
+                return None
+
+        Sound.current = self
+        if not Sound.playing: return out
+        Sound.player.set_state(gst.STATE_NULL)
+        if not out._sound: return out
+
+        Sound.player.set_property('uri', 'file://' + Theme.path(out._sound))
         Sound.player.set_state(gst.STATE_NULL)
         Sound.player.set_state(gst.STATE_PLAYING)
 
-THEMES = (
-    Sound(_('Gobble'),  'images/sounds/speaker.png', 'sounds/gobble.wav'),
-    Sound(_('Funk'),    'images/sounds/speaker.png', 'sounds/funk.wav'),
-    Sound(_('Giggle'),  'images/sounds/speaker.png', 'sounds/giggle.wav'),
-    Sound(_('Jungle'),  'images/sounds/speaker.png', 'sounds/jungle.wav'),
-    Sound(_('Mute'),    'images/sounds/mute.png', None),
-    None,
-    Sound(_('Custom'),  'images/sounds/custom.png', None) )
+        return out
 
+THEMES = (
+    Sound(_('Gobble'),  'images/sounds/speaker.png', 'sounds/gobble.wav',
+                        TYPE_PREISTALLED),
+    Sound(_('Funk'),    'images/sounds/speaker.png', 'sounds/funk.wav',
+                        TYPE_PREISTALLED),
+    Sound(_('Giggle'),  'images/sounds/speaker.png', 'sounds/giggle.wav',
+                        TYPE_PREISTALLED),
+    Sound(_('Jungle'),  'images/sounds/speaker.png', 'sounds/jungle.wav',
+                        TYPE_PREISTALLED),
+    Sound(_('Mute'),    'images/sounds/mute.png', None,
+                        TYPE_PREISTALLED),
+    None,
+    Sound(_('Custom'),  'images/sounds/custom.png', None,
+                        TYPE_CUSTOM) )
 Sound.current = THEMES[0]
 
 def play():

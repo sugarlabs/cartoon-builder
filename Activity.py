@@ -24,9 +24,12 @@ from gettext import gettext as _
 
 from sugar.activity.activity import get_activity_root
 
-from Main import *
+from View import View
 from Toolbar import *
 import Document
+import Char
+import Ground
+import Sound
 
 SERVICE = 'org.freedesktop.Telepathy.Tube.Connect'
 IFACE = SERVICE
@@ -39,8 +42,7 @@ class CartoonBuilderActivity(activity.Activity):
         activity.Activity.__init__(self,handle)
 
         self.connect("destroy",self.destroy_cb)
-        #app = cartoonbuilder(self,'/home/olpc/Activities/CartoonBuilder.activity')
-        self.app = CartoonBuilder()
+        self.app = View()
         self.set_title('CartoonBuilder')
         toolbox = activity.ActivityToolbox(self)
         bgtoolbar = Toolbar(self,self.app)
@@ -179,9 +181,13 @@ class CartoonBuilderActivity(activity.Activity):
 
     def read_file(self, filepath):
         Document.load(filepath)
+        Char.load()
+        Ground.load()
+        Sound.load()
 
-    def write_file(self, filepath):
-        Document.save(filepath)
+    #def write_file(self, filepath):
+        #pass
+        #Document.save(filepath)
 
 
 class ConnectGame(ExportedGObject):

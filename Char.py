@@ -19,12 +19,18 @@ from gettext import gettext as _
 import Theme
 import Document
 
+def load():
+    custom = THEMES[-1]
+
+    for i in range(Theme.TAPE_COUNT):
+        custom.origs[i] = Document.tape_orig(i)
+        custom.thumbs[i] = Document.tape_thumb(i)
+
 class Char:
     def __init__(self, name, file, dir, custom):
         self.name = name
         self.pixbuf = Theme.pixbuf(file, Theme.THUMB_SIZE)
         self.custom = custom
-        self.loaded = False
         self.thumbs = {}
         self.origs = {}
         self.files = []
@@ -33,15 +39,6 @@ class Char:
             self.empty_orig = Theme.pixbuf(file)
         else:
             self.files = sorted(glob.glob(Theme.path(dir + '/*')))
-
-    def change(self):
-        if not self.custom or self.loaded:
-            return
-        self.loaded = True
-
-        for i in range(Theme.TAPE_COUNT):
-            self.origs[i] = Document.orig(i)
-            self.thumbs[i] = Document.thumb(i)
 
     def thumb(self, index = None):
         if index == None:
@@ -66,10 +63,9 @@ class Char:
 
         if pix == None:
             if self.custom:
-                pix = Theme.choose_pixbuf(lambda t, file: Theme.pixbuf(file))
+                pix = Theme.choose(lambda t, file: Theme.pixbuf(file))
                 if pix:
-                    self.thumbs[index] = pix.scale_simple(Theme.THUMB_SIZE,
-                            Theme.THUMB_SIZE, gtk.gdk.INTERP_BILINEAR)
+                    self.thumbs[index] = Theme.scale(pix)
                     self.origs[index] = pix
             else:
                 if index < len(self.files):
