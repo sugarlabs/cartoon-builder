@@ -75,51 +75,6 @@ import StringIO
             self.frameimgs[i].set_from_pixbuf(scaled_buf)
 
 
-    def loadfromzip(self, f):
-        # print filepath
-        #zf = zipfile.ZipFile(filepath,'r')
-        zf = zipfile.ZipFile(f)
-        fnames = zf.namelist()
-        framenames = []
-        for fname in fnames:
-            if fname[-8:] == 'back.png':
-                backname = fname
-            else:
-                framenames.append(fname)
-        framenames.sort()
-        # set the background
-        tmpbgpath = os.path.join(TMPDIR,'back.png')
-        f = file(tmpbgpath,'w')
-        f.write(zf.read(backname))
-        f.close()
-        self.setback(tmpbgpath)
-        os.remove(tmpbgpath)
-        self.imgdir = TMPDIR
-        for filepath in framenames:
-            fname = os.path.split(filepath)[1]
-            tmpfilepath = os.path.join(TMPDIR,fname)
-            f = file(tmpfilepath,'w')
-            f.write(zf.read(filepath))
-            f.close()
-        zf.close()
-        self.loadimages()
-        # setup the filmstrip frames
-        pics = self.getpics(self.imgdir)
-        count = 0
-        for imgpath in pics:
-            pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
-            fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.fgpixbufs[count] = fgpixbuf
-            if count == 0:
-                self.fgpixbuf = fgpixbuf
-                self.drawmain()
-            scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.frameimgs[count].set_from_pixbuf(scaled_buf)
-            count += 1
-        entries = os.listdir(TMPDIR)
-        for entry in entries:
-            entrypath = os.path.join(TMPDIR,entry)
-            os.remove(entrypath)
 
     def savetozip(self, f):
         # print filepath

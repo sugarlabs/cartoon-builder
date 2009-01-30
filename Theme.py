@@ -90,6 +90,29 @@ def pixbuf(file, size = None):
         out = gtk.gdk.pixbuf_new_from_file(path(file))
     return out
 
+EMPTY_PIXBUF = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 1, 1)
+
+
+def choose_pixbuf(out_fun):
+    from sugar.graphics.objectchooser import ObjectChooser
+
+    chooser = ObjectChooser()
+    jobject = None
+
+    try:
+        result = chooser.run()
+
+        if result == gtk.RESPONSE_ACCEPT:
+            jobject = chooser.get_selected_object()
+            if jobject and jobject.file_path:
+                return out_fun(jobject.metadata['title'], jobject.file_path)
+    finally:
+        if jobject: jobject.destroy()
+        chooser.destroy()
+        del chooser
+
+    return None
+
 # customize theme
 gtkrc = os.path.join(get_bundle_path(), 'gtkrc')
 gtk.rc_add_default_file(gtkrc)

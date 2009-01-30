@@ -13,22 +13,70 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 import gtk
+import glob
 from gettext import gettext as _
 
 import Theme
+import Document
 
 class Char:
     def __init__(self, name, file, dir, custom):
         self.name = name
         self.pixbuf = Theme.pixbuf(file, Theme.THUMB_SIZE)
-        self.dir = dir
         self.custom = custom
+        self.loaded = False
+        self.thumbs = {}
+        self.origs = {}
+        self.files = []
+
+        if custom:
+            self.empty_orig = Theme.pixbuf(file)
+        else:
+            self.files = sorted(glob.glob(Theme.path(dir + '/*')))
+
+    def change(self):
+        if not self.custom or self.loaded:
+            return
+        self.loaded = True
+
+        for i in range(Theme.TAPE_COUNT):
+            self.origs[i] = Document.orig(i)
+            self.thumbs[i] = Document.thumb(i)
 
     def thumb(self, index = None):
-        return self.pixbuf
+        if index == None:
+            return self.pixbuf
+
+        pix = self.thumbs.get(index)
+
+        if pix == None:
+            if self.custom:
+                pix = self.pixbuf
+            else:
+                if index < len(self.files):
+                    pix = Theme.pixbuf(self.files[index], Theme.THUMB_SIZE)
+                else:
+                    pix = Theme.EMPTY_PIXBUF
+            self.thumbs[index] = pix
+
+        return pix
 
     def orig(self, index):
-        return self.pixbuf
+        pix = self.origs.get(index)
+
+        if pix == None:
+            if self.custom:
+                pix = Theme.choose_pixbuf(lambda t, file: Theme.pixbuf(file))
+                if pix:
+                    self.thumbs[index] = pix.scale_simple(Theme.THUMB_SIZE,
+                            Theme.THUMB_SIZE, gtk.gdk.INTERP_BILINEAR)
+                    self.origs[index] = pix
+            else:
+                if index < len(self.files):
+                    pix = Theme.pixbuf(self.files[index])
+                    self.origs[index] = pix
+
+        return pix
 
 THEMES = (
     Char(_('Elephant'),     'images/pics/Elephant/bigelephant0.gif',

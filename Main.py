@@ -119,13 +119,19 @@ class CartoonBuilder:
         self.screen.draw()
 
     def _frame_cb(self, widget, event, frame):
-        Document.stamp(self.tape_selected, self.char.orig(frame))
-        self.tape[self.tape_selected].child.set_from_pixbuf(
-                self.char.thumb(frame))
+        orig = self.char.orig(frame)
+        if not orig: return
+        thumb = self.char.thumb(frame)
+
+        Document.stamp(self.tape_selected, orig)
+        self.tape[self.tape_selected].child.set_from_pixbuf(thumb)
+        self.frames[frame].set_from_pixbuf(thumb)
+
         self._tape_cb(None, None, self.tape_selected)
 
     def _char_cb(self, widget, combo):
         self.char = widget.props.value
+        self.char.change()
         for i in range(len(self.frames)):
             self.frames[i].set_from_pixbuf(self.char.thumb(i))
 
