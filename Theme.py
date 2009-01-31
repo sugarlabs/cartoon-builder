@@ -96,10 +96,12 @@ def pixbuf(file, size = None):
         out = gtk.gdk.pixbuf_new_from_file(path(file))
     return out
 
-EMPTY_PIXBUF = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, True, 8, 1, 1)
-
 def scale(pixbuf, size = THUMB_SIZE):
     return pixbuf.scale_simple(size, size, gtk.gdk.INTERP_BILINEAR)
+
+EMPTY_FILENAME = 'images/pics/empty.png'
+EMPTY_ORIG = pixbuf(EMPTY_FILENAME)
+EMPTY_THUMB = scale(EMPTY_ORIG)
 
 def choose(out_fun):
     from sugar.graphics.objectchooser import ObjectChooser

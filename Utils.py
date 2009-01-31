@@ -12,8 +12,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import os
 import gtk
 import pango
+import zipfile
 
 from Theme import *
 import sugar.graphics
@@ -21,18 +23,33 @@ from sugar.graphics import style
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.icon import Icon
 
-class FileInstanceVariable:
-    def __init__(self, value = None):
-        self.value = value
 
-    def get(self):
-        return self.value
+class Zip(zipfile.ZipFile):
+    def __init__(self, *args):
+        zipfile.ZipFile.__init__(self, *args)
 
-    def set(self, value):
-        self.value = value
+    """
+    def write_pixbuf(self, arcfile, pixbuf):
+        def push(data, buffer):
+            buffer += data
 
-    def __getitem__(self, key):
-        return self.value[key]
+        buffer = ''
+        pixbuf.save_to_callback(push, 'png', user_data=buffer)
+        self.writestr(arcfile, buffer)
+    """
+
+    def write_pixbuf(self, arcfile, pixbuf):
+        tmpfile = os.path.join(SESSION_PATH, 'tmp.png')
+        pixbuf.save(tmpfile, 'png')
+        self.write(tmpfile, arcfile)
+        os.unlink(tmpfile)
+
+    def read_pixbuf(self, arcfile):
+        tmpfile = os.path.join(SESSION_PATH, 'tmp.png')
+        file(tmpfile, 'w').write(self.read(arcfile))
+        out = gtk.gdk.pixbuf_new_from_file(tmpfile)
+        os.unlink(tmpfile)
+        return out
 
 class ComboBox(sugar.graphics.combobox.ComboBox):
     def __init__(self):

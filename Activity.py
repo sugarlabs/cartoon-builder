@@ -41,21 +41,13 @@ class CartoonBuilderActivity(activity.Activity):
     def __init__(self, handle):
         activity.Activity.__init__(self,handle)
 
-        self.connect("destroy",self.destroy_cb)
         self.app = View()
-        self.set_title('CartoonBuilder')
         toolbox = activity.ActivityToolbox(self)
-        bgtoolbar = Toolbar(self,self.app)
-        toolbox.add_toolbar(_('Background'),bgtoolbar)
-        bgtoolbar.show()
         self.set_toolbox(toolbox)
         toolbox.show()
-        if hasattr(self, '_jobject'):
-            self._jobject.metadata['title'] = 'CartoonBuilder'
-        title_widget = toolbox._activity_toolbar.title
-        title_widget.set_size_request(title_widget.get_layout().get_pixel_size()[0] + 20, -1)
         self.set_canvas(self.app.main)
 
+        """
         # mesh stuff
         self.pservice = presenceservice.get_instance()
         owner = self.pservice.get_owner()
@@ -81,6 +73,17 @@ class CartoonBuilderActivity(activity.Activity):
         else:
             # we are creating the activity
             pass
+        """
+
+    def read_file(self, filepath):
+        Document.load(filepath)
+        Char.load()
+        Ground.load()
+        Sound.load()
+
+    def write_file(self, filepath):
+        Document.save(filepath)
+
 
     def _shared_cb(self,activity):
         self.initiating = True
@@ -175,20 +178,6 @@ class CartoonBuilderActivity(activity.Activity):
                 self.tubes_chan[telepathy.CHANNEL_TYPE_TUBES],
                 id, group_iface=self.text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
             self.game = ConnectGame(tube_conn, self.initiating, self)
-
-    def destroy_cb(self, data=None):
-        return True
-
-    def read_file(self, filepath):
-        Document.load(filepath)
-        Char.load()
-        Ground.load()
-        Sound.load()
-
-    #def write_file(self, filepath):
-        #pass
-        #Document.save(filepath)
-
 
 class ConnectGame(ExportedGObject):
     def __init__(self,tube, is_initiator, activity):

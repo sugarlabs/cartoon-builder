@@ -30,7 +30,7 @@ import Theme
 import Char
 import Ground
 import Sound
-import Document
+from Document import Document
 from Utils import *
 
 class FrameWidget(gtk.DrawingArea):
@@ -160,7 +160,7 @@ class View:
             self.tape.append(frame)
 
             frame_image = gtk.Image()
-            frame_image.set_from_pixbuf(Document.tape_thumb(i))
+            frame_image.set_from_pixbuf(Theme.EMPTY_THUMB)
             frame.add(frame_image)
 
             filmstrip = gtk.Image()
@@ -170,7 +170,6 @@ class View:
             tape.pack_start(frame_box, False, False)
 
         self.tape_selected = -1
-        self._tape_cb(None, None, 0)
 
         # left control box
         
@@ -232,33 +231,39 @@ class View:
         yellowbox.show_all()
 
         self.main = yellowbox
-        yellowbox.connect_after('map', self.map_cb)
+        yellowbox.connect_after('map', self.restore)
 
-    def map_cb(self, widget):
-        def new_combo(themes, cb):
+    def restore(self, widget):
+        def new_combo(themes, cb, selname = None, closure = None):
             combo = ComboBox()
+            sel = 0
 
-            for i in themes:
-                if not i:
+            for i, theme in enumerate(themes):
+                if theme:
+                    combo.append_item(theme, text = theme.name,
+                            size = (Theme.THUMB_SIZE, Theme.THUMB_SIZE),
+                            pixbuf = theme.thumb())
+                    if theme.name == selname:
+                        sel = i
+                else:
                     combo.append_separator()
-                    continue
 
-                combo.append_item(i, text = i.name,
-                        size = (Theme.THUMB_SIZE, Theme.THUMB_SIZE),
-                        pixbuf = i.thumb())
-
-            combo.connect('changed', cb)
-            combo.set_active(0)
+            combo.connect('changed', cb, closure)
+            combo.set_active(sel)
             combo.show()
 
             return combo
 
         self.controlbox.pack_start(new_combo(Char.THEMES, self._char_cb),
                 True, False)
-        self.controlbox.pack_start(new_combo(Ground.THEMES, self._ground_cb),
-                True, False)
-        self.controlbox.pack_start(new_combo(Sound.THEMES, self._combo_cb),
-                True, False)
+        self.controlbox.pack_start(new_combo(Ground.THEMES, self._combo_cb,
+                Document.ground_name, self._ground_cb), True, False)
+        self.controlbox.pack_start(new_combo(Sound.THEMES, self._combo_cb,
+                Document.sound_name, self._sound_cb), True, False)
+
+        for i in range(Theme.TAPE_COUNT):
+            self.tape[i].child.set_from_pixbuf(Theme.scale(Document.tape[i].orig))
+        self._tape_cb(None, None, 0)
 
         return False
 
@@ -277,12 +282,12 @@ class View:
 
     def clear_tape(self):
         for i in range(TAPE_COUNT):
-            Document.tape_clean(i)
-        self.screen.fgpixbuf = Document.tape_orig(self.tape_selected)
+            Document.tape[i].clean()
+        self.screen.fgpixbuf = Document.tape[self.tape_selected].orig
         self.screen.draw()
 
     def _play_tape(self):
-        self.screen.fgpixbuf = Document.tape_orig(self.play_tape_num)
+        self.screen.fgpixbuf = Document.tape[self.play_tape_num].orig
         self.screen.draw()
 
         self.play_tape_num += 1
@@ -306,7 +311,7 @@ class View:
                 old_tape.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
 
         self.tape_selected = index
-        self.screen.fgpixbuf = Document.tape_orig(index)
+        self.screen.fgpixbuf = Document.tape[index].orig
         self.screen.draw()
 
     def _frame_cb(self, widget, event, frame):
@@ -314,23 +319,24 @@ class View:
         if not orig: return
         thumb = self.char.thumb(frame)
 
-        Document.tape_stamp(self.tape_selected, orig)
+        Document.tape[self.tape_selected].orig = orig
+        Document.tape[self.tape_selected].filename = self.char.filename(frame)
+
         self.tape[self.tape_selected].child.set_from_pixbuf(thumb)
         self.frames[frame].set_from_pixbuf(thumb)
-
         self._tape_cb(None, None, self.tape_selected)
 
-    def _char_cb(self, widget):
+    def _char_cb(self, widget, closure):
         self.char = widget.props.value
         for i in range(len(self.frames)):
             self.frames[i].set_from_pixbuf(self.char.thumb(i))
 
-    def _combo_cb(self, widget):
+    def _combo_cb(self, widget, cb):
         choice = widget.props.value.change()
 
         if not choice:
             widget.set_active(self._prev_combo_selected[widget])
-            return None
+            return
 
         if id(choice) != id(widget.props.value):
             pos = widget.get_active()
@@ -340,13 +346,18 @@ class View:
             widget.set_active(pos)
 
         self._prev_combo_selected[widget] = widget.get_active()
-        return choice
+        cb(choice)
 
-    def _ground_cb(self, widget):
-        choice = self._combo_cb(widget)
-        if choice:
-            self.screen.bgpixbuf = choice.orig()
-            self.screen.draw()
+    def _ground_cb(self, choice):
+        self.screen.bgpixbuf = choice.orig()
+        self.screen.draw()
+        Document.ground_name = choice.name
+        Document.ground_orig = choice.orig()
+        Document.ground_filename = choice.filename()
+
+    def _sound_cb(self, choice):
+        Document.sound_name = choice.name
+        Document.sound_filename = choice.filename()
 
     def _screen_size_cb(self, widget, aloc):
         size = min(aloc.width, aloc.height)

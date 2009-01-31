@@ -12,146 +12,114 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import os
 import gtk
+from xml.etree.ElementTree import Element, SubElement, tostring, fromstring
 
 import Theme
+import Utils
 
-def load(filepath):
-    """
-    def loadfromzip(self, f):
+class Document:
+    tape = []
 
-        zf = zipfile.ZipFile(filepath)
-        fnames = zf.namelist()
-        framenames = []
-        for fname in fnames:
-            if fname[-8:] == 'back.png':
-                backname = fname
-            else:
-                framenames.append(fname)
-        framenames.sort()
-        # set the background
-        tmpbgpath = os.path.join(TMPDIR,'back.png')
-        f = file(tmpbgpath,'w')
+    ground_name = None
+    ground_orig = None
+    ground_filename = None
 
+    sound_name = None
+    sound_filename = None
 
-        f.write(zf.read(backname))
+    class Tape:
+        def __init__(self):
+            self.clean()
 
+        def clean(self):
+            self.orig = Theme.EMPTY_ORIG
+            self.filename = Theme.EMPTY_FILENAME
 
-        f.close()
-        self.setback(tmpbgpath)
-        os.remove(tmpbgpath)
-        self.imgdir = TMPDIR
-        for filepath in framenames:
-            fname = os.path.split(filepath)[1]
-            tmpfilepath = os.path.join(TMPDIR,fname)
-            f = file(tmpfilepath,'w')
-            f.write(zf.read(filepath))
-            f.close()
-        zf.close()
-        self.loadimages()
-        # setup the filmstrip frames
-        pics = self.getpics(self.imgdir)
-        count = 0
-        for imgpath in pics:
-            pixbuf = gtk.gdk.pixbuf_new_from_file(imgpath)
-            fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.fgpixbufs[count] = fgpixbuf
-            if count == 0:
-                self.fgpixbuf = fgpixbuf
-                self.drawmain()
-            scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.frameimgs[count].set_from_pixbuf(scaled_buf)
-            count += 1
-        entries = os.listdir(TMPDIR)
-        for entry in entries:
-            entrypath = os.path.join(TMPDIR,entry)
-            os.remove(entrypath)
-    """
-    pass
+    for i in range(Theme.TAPE_COUNT):
+        tape.append(Tape())
 
 def save(filepath):
-    pass
+    zip = Utils.Zip(filepath, 'w')
+    manifest = Element('memorize')
 
-def tape_orig(index):
-    return gtk.gdk.pixbuf_new_from_file(
-            Theme.path('images/pics/Elephant/bigelephant0.gif'))
+    ground = SubElement(manifest, 'ground')
+    if Document.ground_filename:
+        ground.attrib['preinstalled'] = '1'
+        ground.attrib['filename'] = Document.ground_filename
+    else:
+        ground.attrib['preinstalled'] = '0'
+        ground.attrib['filename'] = 'ground.png'
+        zip.write_pixbuf('ground.png', Document.ground_orig)
+    ground.text = Document.ground_name
 
-def tape_thumb(index):
-    return gtk.gdk.pixbuf_new_from_file_at_size(
-            Theme.path('images/pics/Elephant/bigelephant0.gif'),
-            Theme.THUMB_SIZE, Theme.THUMB_SIZE)
+    sound = SubElement(manifest, 'sound')
+    if not os.path.isabs(Document.sound_filename):
+        sound.attrib['preinstalled'] = '1'
+        sound.attrib['filename'] = Document.sound_filename
+    else:
+        sound.attrib['preinstalled'] = '0'
+        sound.attrib['filename'] = 'sound'
+        zip.write(Document.sound_filename, 'sound')
+    sound.text = Document.sound_name
+    
+    saved = {}
+    tape = SubElement(manifest, 'tape')
+    for i in range(Theme.TAPE_COUNT):
+        frame = SubElement(tape, 'frame')
+        if Document.tape[i].filename:
+            frame.attrib['preinstalled'] = '1'
+            frame.attrib['filename'] = Document.tape[i].filename
+        else:
+            frame.attrib['preinstalled'] = '0'
+            arcname = saved.get(Document.tape[i].orig)
+            if not arcname:
+                arcname = saved[Document.tape[i].orig] = 'frame%03d.png' % i
+                zip.write_pixbuf(arcname, Document.tape[i].orig)
+            frame.attrib['filename'] = arcname
 
-def tape_clean(index):
-    pass
+    zip.writestr('MANIFEST.xml', tostring(manifest, encoding='utf-8'))
+    zip.close()
 
-def tape_stamp(index, pixbuf):
-    pass
+    import shutil
+    shutil.copy(filepath, '/tmp/foo.zip')
 
-def ground():
-    return ('foo', gtk.gdk.pixbuf_new_from_file(
-            Theme.path('images/pics/Elephant/bigelephant1.gif')))
+def load(filepath):
+    zip = Utils.Zip(filepath, 'r')
+    manifest = fromstring(zip.read('MANIFEST.xml'))
 
-def sound():
-    return ('foo', 'sounds/jungle.wav')
+    ground = manifest.find('ground')
+    if int(ground.attrib['preinstalled']):
+        Document.ground_orig = Theme.pixbuf(ground.attrib['filename'])
+        Document.ground_filename = ground.attrib['filename']
+    else:
+        Document.ground_orig = zip.read_pixbuf(ground.attrib['filename'])
+    Document.ground_name = ground.text
 
-"""
-import zipfile
-import StringIO
+    sound = manifest.find('sound')
+    if int(sound.attrib['preinstalled']):
+        Document.sound_filename = sound.attrib['filename']
+    else:
+        arcfile = sound.attrib['filename']
+        sndfile = os.path.join(Theme.SESSION_PATH, 'sound.001')
+        file(sndfile, 'w').write(zip.read(arcfile))
+        Document.sound_filename = sndfile
+    Document.sound_name = sound.text
 
-        pics = self.getpics(self.imgdir)
-        pixbuf = gtk.gdk.pixbuf_new_from_file(pics[self.imgstartindex])
-        scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-        self.ccismall.set_from_pixbuf(scaled_buf)
-        self.charlabel.set_label(os.path.split(self.imgdir)[1])
+    loaded = {}
+    for i, frame in enumerate(manifest.findall('tape/frame')):
+        if i >= Theme.TAPE_COUNT:
+            continue
+        if int(frame.attrib['preinstalled']):
+            Document.tape[i].orig = Theme.pixbuf(frame.attrib['filename'])
+            Document.tape[i].filename = frame.attrib['filename']
+        else:
+            pixbuf = loaded.get(frame.attrib['filename'])
+            if not pixbuf:
+                pixbuf = zip.read_pixbuf(frame.attrib['filename'])
+                loaded[frame.attrib['filename']] = pixbuf
+            Document.tape[i].orig = pixbuf
+            Document.tape[i].filename = None
 
-
-    def restore(self, sdata):
-        # THE BELOW SHOULD WORK BUT DOESN'T
-        #zf = StringIO.StringIO(sdata)
-        #self.loadfromzip(zf)
-        # END OF STUFF THAT DOESN'T WORK
-        sdd = pickle.loads(sdata)
-        tmpbgpath = os.path.join(TMPDIR,'back.png')
-        f = file(tmpbgpath,'w')
-        f.write(sdd['pngdata'])
-        f.close()
-        self.setback(tmpbgpath)
-        os.remove(tmpbgpath)
-        transimgpath = os.path.join(self.iconsdir,TRANSIMG)
-        for i in range(len(sdd['fgpixbufpaths'])):
-            filepath = sdd['fgpixbufpaths'][i]
-            if filepath == transimgpath:
-                continue
-            pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
-            fgpixbuf = pixbuf.scale_simple(BGWIDTH,BGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.fgpixbufs[i] = fgpixbuf
-            if i == 0:
-                self.fgpixbuf = fgpixbuf
-                self.drawmain()
-            scaled_buf = pixbuf.scale_simple(IMGWIDTH,IMGHEIGHT,gtk.gdk.INTERP_BILINEAR)
-            self.frameimgs[i].set_from_pixbuf(scaled_buf)
-
-
-
-    def savetozip(self, f):
-        # print filepath
-        #zf = zipfile.ZipFile(filepath,'w')
-        zf = zipfile.ZipFile(f,'w')
-        # add the background file
-        tmpbgpath = os.path.join(TMPDIR,'back.png')
-        self.bgpixbuf.save(tmpbgpath,'png')
-        zf.write(tmpbgpath)
-        os.remove(tmpbgpath)
-        # add the frames
-        count = 1
-        for pixbuf in self.fgpixbufs:
-            filename = '%02d.png' % count
-            filepath = os.path.join(TMPDIR,filename)
-            pixbuf.save(filepath,'png')
-            zf.write(filepath)
-            os.remove(filepath)
-            count += 1
-        zf.close()
-
-
-"""
+    zip.close()

@@ -12,78 +12,97 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import os
 import gtk
 import glob
 from gettext import gettext as _
 
 import Theme
-import Document
+from Document import Document
+
+PREINSTALLED = 0
+CUSTOM       = 1
 
 def load():
     custom = THEMES[-1]
 
+    index = 0
+    loaded = {}
     for i in range(Theme.TAPE_COUNT):
-        custom.origs[i] = Document.tape_orig(i)
-        custom.thumbs[i] = Document.tape_thumb(i)
+        orig = Document.tape[i].orig
+        if Document.tape[i].filename or loaded.has_key(orig):
+            continue
+        loaded[orig] = True
+        custom._origs[index] = orig
+        custom._thumbs[index] = Theme.scale(orig)
+        index += 1
 
 class Char:
-    def __init__(self, name, file, dir, custom):
+    def __init__(self, name, file, dir, type):
         self.name = name
-        self.pixbuf = Theme.pixbuf(file, Theme.THUMB_SIZE)
-        self.custom = custom
-        self.thumbs = {}
-        self.origs = {}
-        self.files = []
+        self._thumb = Theme.pixbuf(file, Theme.THUMB_SIZE)
+        self._type = type
+        self._thumbs = {}
+        self._origs = {}
+        self._filenames = []
 
-        if custom:
-            self.empty_orig = Theme.pixbuf(file)
+        if type != CUSTOM:
+            for i in sorted(glob.glob(Theme.path(dir + '/*'))):
+                self._filenames.append(os.path.join(dir, os.path.basename(i)))
+
+    def filename(self, index):
+        if self._type == CUSTOM:
+            return None
+        elif index >= len(self._filenames):
+            return Theme.EMPTY_FILENAME
         else:
-            self.files = sorted(glob.glob(Theme.path(dir + '/*')))
+            return self._filenames[index]
 
     def thumb(self, index = None):
         if index == None:
-            return self.pixbuf
+            return self._thumb
 
-        pix = self.thumbs.get(index)
+        pix = self._thumbs.get(index)
 
         if pix == None:
-            if self.custom:
-                pix = self.pixbuf
+            if self._type == CUSTOM:
+                pix = self._thumb
             else:
-                if index < len(self.files):
-                    pix = Theme.pixbuf(self.files[index], Theme.THUMB_SIZE)
+                if index < len(self._filenames):
+                    pix = Theme.pixbuf(self._filenames[index], Theme.THUMB_SIZE)
                 else:
-                    pix = Theme.EMPTY_PIXBUF
-            self.thumbs[index] = pix
+                    pix = Theme.EMPTY_THUMB
+            self._thumbs[index] = pix
 
         return pix
 
     def orig(self, index):
-        pix = self.origs.get(index)
+        pix = self._origs.get(index)
 
         if pix == None:
-            if self.custom:
+            if self._type == CUSTOM:
                 pix = Theme.choose(lambda t, file: Theme.pixbuf(file))
                 if pix:
-                    self.thumbs[index] = Theme.scale(pix)
-                    self.origs[index] = pix
+                    self._thumbs[index] = Theme.scale(pix)
+                    self._origs[index] = pix
             else:
-                if index < len(self.files):
-                    pix = Theme.pixbuf(self.files[index])
-                    self.origs[index] = pix
+                if index < len(self._filenames):
+                    pix = Theme.pixbuf(self._filenames[index])
+                    self._origs[index] = pix
+                else:
+                    pix = Theme.EMPTY_ORIG
 
         return pix
 
 THEMES = (
     Char(_('Elephant'),     'images/pics/Elephant/bigelephant0.gif',
-                            'images/pics/Elephant', None),
+                            'images/pics/Elephant', PREINSTALLED),
     Char(_('Space Blob'),   'images/pics/SpaceBlob/bigblob8.gif',
-                            'images/pics/SpaceBlob', None),
+                            'images/pics/SpaceBlob', PREINSTALLED),
     Char(_('Turkey'),       'images/pics/Turkey/bigturkey1.gif',
-                            'images/pics/Turkey', None),
+                            'images/pics/Turkey', PREINSTALLED),
     None,
-    Char(_('Custom'),       'images/pics/custom.png',
-                            None, True) )
+    Char(_('Custom'),       'images/pics/custom.png', None, CUSTOM))
 
 
 
