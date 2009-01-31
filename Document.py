@@ -82,9 +82,6 @@ def save(filepath):
     zip.writestr('MANIFEST.xml', tostring(manifest, encoding='utf-8'))
     zip.close()
 
-    import shutil
-    shutil.copy(filepath, '/tmp/foo.zip')
-
 def load(filepath):
     zip = Utils.Zip(filepath, 'r')
     manifest = fromstring(zip.read('MANIFEST.xml'))

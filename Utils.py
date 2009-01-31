@@ -16,6 +16,7 @@ import os
 import gtk
 import pango
 import zipfile
+import cStringIO
 
 from Theme import *
 import sugar.graphics
@@ -23,26 +24,17 @@ from sugar.graphics import style
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.icon import Icon
 
-
 class Zip(zipfile.ZipFile):
     def __init__(self, *args):
         zipfile.ZipFile.__init__(self, *args)
 
-    """
     def write_pixbuf(self, arcfile, pixbuf):
         def push(data, buffer):
-            buffer += data
+            buffer.write(data)
 
-        buffer = ''
+        buffer = cStringIO.StringIO()
         pixbuf.save_to_callback(push, 'png', user_data=buffer)
-        self.writestr(arcfile, buffer)
-    """
-
-    def write_pixbuf(self, arcfile, pixbuf):
-        tmpfile = os.path.join(SESSION_PATH, 'tmp.png')
-        pixbuf.save(tmpfile, 'png')
-        self.write(tmpfile, arcfile)
-        os.unlink(tmpfile)
+        self.writestr(arcfile, buffer.getvalue())
 
     def read_pixbuf(self, arcfile):
         tmpfile = os.path.join(SESSION_PATH, 'tmp.png')
