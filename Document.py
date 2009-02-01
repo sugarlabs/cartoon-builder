@@ -109,7 +109,10 @@ def load(filepath):
         if i >= Theme.TAPE_COUNT:
             continue
         if int(frame.attrib['preinstalled']):
-            Document.tape[i].orig = Theme.pixbuf(frame.attrib['filename'])
+            if frame.attrib['filename'] == Theme.EMPTY_FILENAME:
+                Document.tape[i].orig = Theme.EMPTY_ORIG
+            else:
+                Document.tape[i].orig = Theme.pixbuf(frame.attrib['filename'])
             Document.tape[i].filename = frame.attrib['filename']
         else:
             pixbuf = loaded.get(frame.attrib['filename'])

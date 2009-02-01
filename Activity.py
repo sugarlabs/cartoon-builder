@@ -25,7 +25,7 @@ from gettext import gettext as _
 from sugar.activity.activity import get_activity_root
 
 from View import View
-from Toolbar import *
+from Toolbar import Toolbar
 import Document
 import Char
 import Ground
@@ -35,7 +35,7 @@ SERVICE = 'org.freedesktop.Telepathy.Tube.Connect'
 IFACE = SERVICE
 PATH = '/org/freedesktop/Telepathy/Tube/Connect'
 
-TMPDIR = os.path.join(get_activity_root(), 'tmp')
+#TMPDIR = os.path.join(get_activity_root(), 'tmp')
 
 class CartoonBuilderActivity(activity.Activity):
     def __init__(self, handle):
@@ -43,6 +43,9 @@ class CartoonBuilderActivity(activity.Activity):
 
         self.app = View()
         toolbox = activity.ActivityToolbox(self)
+        bgtoolbar = Toolbar(self,self.app)
+        toolbox.add_toolbar(_('Background'),bgtoolbar)
+        bgtoolbar.show()
         self.set_toolbox(toolbox)
         toolbox.show()
         self.set_canvas(self.app.main)

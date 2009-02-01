@@ -156,7 +156,7 @@ class View:
             frame.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
             frame.props.border_width = 2
             frame.set_size_request(Theme.THUMB_SIZE, Theme.THUMB_SIZE)
-            frame_box.pack_start(frame, False, False)
+            frame_box.pack_start(frame)
             self.tape.append(frame)
 
             frame_image = gtk.Image()
@@ -213,8 +213,6 @@ class View:
         animframe.set_border_width(5)
         animframe.add(tape_scroll)
         animborder.add(animframe)
-        #animbox = gtk.HBox()
-        #animbox.pack_start(animborder)
 
         tape_box = gtk.VBox()
         tape_box.props.border_width = 10
@@ -280,7 +278,7 @@ class View:
         self._playing = None
 
     def set_tempo(self, tempo):
-        self.waittime = int((6-tempo) * 150)
+        self.waittime = 10 + (10-tempo) * 100
         if self._playing:
             gobject.source_remove(self._playing)
             self._playing = gobject.timeout_add(self.waittime, self._play_tape)
@@ -292,19 +290,28 @@ class View:
         self.screen.draw()
 
     def _play_tape(self):
+        if not self._playing:
+            return False
+
         self.screen.fgpixbuf = Document.tape[self.play_tape_num].orig
         self.screen.draw()
 
-        self.play_tape_num += 1
-        if self.play_tape_num == TAPE_COUNT:
-            self.play_tape_num = 0
-
-        if self._playing:
+        for i in range(Theme.TAPE_COUNT):
+            self.play_tape_num += 1
+            if self.play_tape_num == TAPE_COUNT:
+                self.play_tape_num = 0
+            if Document.tape[self.play_tape_num].orig == Theme.EMPTY_ORIG:
+                continue
             return True
-        else:
-            return False
+
+        self.stop()
+        return False
 
     def _tape_cb(self, widget, event, index):
+        if event and event.button == 3:
+            Document.tape[index].clean()
+            self.tape[index].child.set_from_pixbuf(Theme.EMPTY_THUMB)
+
         tape = self.tape[index]
         tape.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
         tape.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(YELLOW))
@@ -312,24 +319,30 @@ class View:
         if self.tape_selected != index:
             if self.tape_selected != -1:
                 old_tape = self.tape[self.tape_selected]
-                old_tape.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BLACK))
-                old_tape.modify_bg(gtk.STATE_PRELIGHT,gtk.gdk.color_parse(BLACK))
+                old_tape.modify_bg(gtk.STATE_NORMAL,
+                        gtk.gdk.color_parse(BLACK))
+                old_tape.modify_bg(gtk.STATE_PRELIGHT,
+                        gtk.gdk.color_parse(BLACK))
 
         self.tape_selected = index
         self.screen.fgpixbuf = Document.tape[index].orig
         self.screen.draw()
 
     def _frame_cb(self, widget, event, frame):
-        orig = self.char.orig(frame)
-        if not orig: return
-        thumb = self.char.thumb(frame)
+        if event.button == 3:
+            self.char.clean(frame)
+            self.frames[frame].set_from_pixbuf(self.char.thumb(frame))
+        else:
+            orig = self.char.orig(frame)
+            if not orig: return
+            thumb = self.char.thumb(frame)
 
-        Document.tape[self.tape_selected].orig = orig
-        Document.tape[self.tape_selected].filename = self.char.filename(frame)
+            Document.tape[self.tape_selected].orig = orig
+            Document.tape[self.tape_selected].filename = self.char.filename(frame)
 
-        self.tape[self.tape_selected].child.set_from_pixbuf(thumb)
-        self.frames[frame].set_from_pixbuf(thumb)
-        self._tape_cb(None, None, self.tape_selected)
+            self.tape[self.tape_selected].child.set_from_pixbuf(thumb)
+            self.frames[frame].set_from_pixbuf(thumb)
+            self._tape_cb(None, None, self.tape_selected)
 
     def _char_cb(self, widget, closure):
         self.char = widget.props.value

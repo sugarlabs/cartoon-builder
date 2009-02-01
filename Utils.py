@@ -196,9 +196,9 @@ class ScrolledBox(gtk.EventBox):
 
         self._scrolled = gtk.ScrolledWindow()
         if orientation == gtk.ORIENTATION_HORIZONTAL:
-            self._scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_NEVER)
+            self._scrolled.set_policy(arrows_policy, gtk.POLICY_NEVER)
         else:
-            self._scrolled.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+            self._scrolled.set_policy(gtk.POLICY_NEVER, arrows_policy)
         self._scrolled.connect('scroll-event', self._scroll_event_cb)
         box.pack_start(self._scrolled, True, True, 0)
 

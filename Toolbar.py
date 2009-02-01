@@ -24,10 +24,10 @@ import Sound
 from Utils import *
 
 class Toolbar(gtk.Toolbar):
-    def __init__(self, activity, app):
+    def __init__(self, activity, view):
         gtk.Toolbar.__init__(self)
         self.activity = activity
-        self.app = app
+        self.view = view
 
         self.playButton = ToggleToolButton('media-playback-start')
         self.playButton.connect('toggled', self._play_cb)
@@ -65,20 +65,20 @@ class Toolbar(gtk.Toolbar):
         self.show_all()
 
     def _clear_tape_cb(self, widget):
-        self.app.set_tempo(widget.value)
+        self.view.clear_tape()
 
     def _tempo_cb(self, widget):
-        self.app.set_tempo(widget.value)
+        self.view.set_tempo(widget.value)
 
     def _play_cb(self, widget):
         if widget.get_active():
             widget.set_icon_widget(self.pauseButtonImg)
             Sound.play()
-            self.app.play()
+            self.view.play()
         else:
             widget.set_icon_widget(self.playButtonImg)
             Sound.stop()
-            self.app.stop()
+            self.view.stop()
 
 """
 SPANISH = u'Espa\xf1ol'
