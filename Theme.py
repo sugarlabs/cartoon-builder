@@ -84,7 +84,9 @@ if os.path.isdir(SESSION_PATH):
     shutil.rmtree(SESSION_PATH)
 os.mkdir(SESSION_PATH)
 
-def path(file):
+def path(*args):
+    file = os.path.join(*args)
+
     if os.path.isabs(file):
         return file
     else:

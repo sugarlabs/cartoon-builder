@@ -24,12 +24,13 @@ from gettext import gettext as _
 
 from sugar.activity.activity import get_activity_root
 
-from View import View
-from Toolbar import Toolbar
+import Montage
+import Lessons
 import Document
 import Char
 import Ground
 import Sound
+from Toolbars import *
 
 SERVICE = 'org.freedesktop.Telepathy.Tube.Connect'
 IFACE = SERVICE
@@ -41,14 +42,33 @@ class CartoonBuilderActivity(activity.Activity):
     def __init__(self, handle):
         activity.Activity.__init__(self,handle)
 
-        self.app = View()
+        self.notebook = gtk.Notebook()
+        self.notebook.show()
+        self.notebook.props.show_border = False
+        self.notebook.props.show_tabs = False
+        self.notebook.connect_after('map', self._map_cb)
+
+        self.montage = Montage.View()
+        self.notebook.append_page(self.montage)
+        self.lessons = Lessons.View()
+        self.lessons.show()
+        self.notebook.append_page(self.lessons)
+
         toolbox = activity.ActivityToolbox(self)
-        bgtoolbar = Toolbar(self,self.app)
-        toolbox.add_toolbar(_('Background'),bgtoolbar)
-        bgtoolbar.show()
-        self.set_toolbox(toolbox)
         toolbox.show()
-        self.set_canvas(self.app.main)
+        toolbox.connect('current-toolbar-changed', self._toolbar_changed_cb)
+        self.set_toolbox(toolbox)
+
+        montage_bar = MontageToolbar()
+        montage_bar.show()
+        toolbox.add_toolbar(_('Montage'), montage_bar)
+
+        lessons_bar = LessonsToolbar()
+        lessons_bar.show()
+        toolbox.add_toolbar(_('Lessons'), lessons_bar)
+
+        toolbox.set_current_toolbar(1)
+        self.set_canvas(self.notebook)
 
         """
         # mesh stuff
@@ -86,6 +106,20 @@ class CartoonBuilderActivity(activity.Activity):
 
     def write_file(self, filepath):
         Document.save(filepath)
+
+    def _map_cb(self, widget):
+        self.montage.restore()
+
+    def _toolbar_changed_cb(self, widget, index):
+        if index == 2:
+            self.notebook.set_current_page(1)
+        else:
+            self.notebook.set_current_page(0)
+
+
+
+
+
 
 
     def _shared_cb(self,activity):

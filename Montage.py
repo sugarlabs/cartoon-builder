@@ -18,13 +18,8 @@
 ### author: Ed Stoner (ed@whsd.net)
 ### (c) 2007 World Wide Workshop Foundation
 
-import time
-import pygtk
 import gtk
 import gobject
-import gettext
-import os
-import textwrap
 
 import Theme
 import Char
@@ -33,47 +28,92 @@ import Sound
 from Document import Document
 from Utils import *
 
-class FrameWidget(gtk.DrawingArea):
+def play():
+    View.play_tape_num = 0
+    View.playing = gobject.timeout_add(View.delay, _play_tape)
+
+def stop():
+    View.playing = None
+
+def set_tempo(tempo):
+    View.delay = 10 + (10-tempo) * 100
+    if View.playing:
+        gobject.source_remove(View.playing)
+        View.playing = gobject.timeout_add(View.delay, _play_tape)
+
+def clear_tape():
+    for i in range(TAPE_COUNT):
+        Document.tape[i].clean()
+        View.tape[i].child.set_from_pixbuf(Theme.EMPTY_THUMB)
+
+    View.screen.fgpixbuf = Document.tape[View.tape_selected].orig
+    View.screen.draw()
+
+def _play_tape():
+    if not View.playing:
+        return False
+
+    View.screen.fgpixbuf = Document.tape[View.play_tape_num].orig
+    View.screen.draw()
+
+    for i in range(Theme.TAPE_COUNT):
+        View.play_tape_num += 1
+        if View.play_tape_num == TAPE_COUNT:
+            View.play_tape_num = 0
+        if Document.tape[View.play_tape_num].orig == Theme.EMPTY_ORIG:
+            continue
+        return True
+
+    stop()
+    return False
+
+class View(gtk.EventBox):
+    class Screen(gtk.DrawingArea):
+        def __init__(self):
+            gtk.DrawingArea.__init__(self)
+            self.gc = None  # initialized in realize-event handler
+            self.width  = 0 # updated in size-allocate handler
+            self.height = 0 # idem
+            self.bgpixbuf = None
+            self.fgpixbuf = None
+            self.connect('size-allocate', self.on_size_allocate)
+            self.connect('expose-event',  self.on_expose_event)
+            self.connect('realize',       self.on_realize)
+
+        def on_realize(self, widget):
+            self.gc = widget.window.new_gc()
+        
+        def on_size_allocate(self, widget, allocation):
+            self.height = self.width = min(allocation.width, allocation.height)
+        
+        def on_expose_event(self, widget, event):
+            # This is where the drawing takes place
+            if self.bgpixbuf:
+                pixbuf = self.bgpixbuf
+                if pixbuf.get_width != self.width:
+                    pixbuf = Theme.scale(pixbuf, self.width)
+                widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
+
+            if self.fgpixbuf:
+                pixbuf = self.fgpixbuf
+                if pixbuf.get_width != self.width:
+                    pixbuf = Theme.scale(pixbuf, self.width)
+                widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
+
+        def draw(self):
+            self.queue_draw()
+
+    screen = Screen()
+    play_tape_num = 0
+    playing = None
+    delay = 3*150
+    tape_selected = -1
+    tape = []
+
     def __init__(self):
-        gtk.DrawingArea.__init__(self)
-        self.gc = None  # initialized in realize-event handler
-        self.width  = 0 # updated in size-allocate handler
-        self.height = 0 # idem
-        self.bgpixbuf = None
-        self.fgpixbuf = None
-        self.connect('size-allocate', self.on_size_allocate)
-        self.connect('expose-event',  self.on_expose_event)
-        self.connect('realize',       self.on_realize)
+        gtk.EventBox.__init__(self)
 
-    def on_realize(self, widget):
-        self.gc = widget.window.new_gc()
-    
-    def on_size_allocate(self, widget, allocation):
-        self.height = self.width = min(allocation.width, allocation.height)
-    
-    def on_expose_event(self, widget, event):
-        # This is where the drawing takes place
-        if self.bgpixbuf:
-            pixbuf = self.bgpixbuf
-            if pixbuf.get_width != self.width:
-                pixbuf = Theme.scale(pixbuf, self.width)
-            widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
-
-        if self.fgpixbuf:
-            pixbuf = self.fgpixbuf
-            if pixbuf.get_width != self.width:
-                pixbuf = Theme.scale(pixbuf, self.width)
-            widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
-
-    def draw(self):
-        self.queue_draw()
-
-class View:
-    def __init__(self):
-        self._playing = None
-        self.waittime = 3*150
-        self.tape = []
-        self.frames = []
+        self._frames = []
         self._prev_combo_selected = {}
 
         # frames table
@@ -88,7 +128,7 @@ class View:
         for y in range(rows):
             for x in range(Theme.FRAME_COLS):
                 image = gtk.Image()
-                self.frames.append(image)
+                self._frames.append(image)
 
                 image_box = gtk.EventBox()
                 image_box.set_events(gtk.gdk.BUTTON_PRESS_MASK)
@@ -117,7 +157,7 @@ class View:
         yellow_frames.add(table_frames)
 
         yelow_arrow = gtk.Image()
-        yelow_arrow.set_from_file(Theme.path('icons/yellow_arrow.png'))
+        yelow_arrow.set_from_file(Theme.path('icons', 'yellow_arrow.png'))
 
         frames_box = gtk.VBox()
         frames_box.pack_start(yellow_frames, True, True)
@@ -126,7 +166,6 @@ class View:
 
         # screen
 
-        self.screen = FrameWidget()
         screen_pink = gtk.EventBox()
         screen_pink.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(PINK))
         screen_box = gtk.EventBox()
@@ -143,7 +182,7 @@ class View:
             frame_box = gtk.VBox()
 
             filmstrip_pixbuf = gtk.gdk.pixbuf_new_from_file_at_scale(
-                    Theme.path('icons/filmstrip.png'), THUMB_SIZE, -1, False)
+                    Theme.path('icons', 'filmstrip.png'), THUMB_SIZE, -1, False)
 
             filmstrip = gtk.Image()
             filmstrip.set_from_pixbuf(filmstrip_pixbuf);
@@ -157,7 +196,7 @@ class View:
             frame.props.border_width = 2
             frame.set_size_request(Theme.THUMB_SIZE, Theme.THUMB_SIZE)
             frame_box.pack_start(frame)
-            self.tape.append(frame)
+            View.tape.append(frame)
 
             frame_image = gtk.Image()
             frame_image.set_from_pixbuf(Theme.EMPTY_THUMB)
@@ -169,8 +208,6 @@ class View:
 
             tape.pack_start(frame_box, False, False)
 
-        self.tape_selected = -1
-
         # left control box
         
         self.controlbox = gtk.VBox()
@@ -179,7 +216,7 @@ class View:
 
         leftbox = gtk.VBox()
         logo = gtk.Image()
-        logo.set_from_file(Theme.path('icons/logo.png'))
+        logo.set_from_file(Theme.path('icons', 'logo.png'))
         leftbox.set_size_request(logo.props.pixbuf.get_width(), -1)
         leftbox.pack_start(logo, False, False)
         leftbox.pack_start(self.controlbox, True, True)
@@ -205,7 +242,7 @@ class View:
                 gtk.gdk.color_parse(BUTTON_BACKGROUND))
 
         arrow = gtk.Image()
-        arrow.set_from_file(Theme.path('icons/pink_arrow.png'))
+        arrow.set_from_file(Theme.path('icons', 'pink_arrow.png'))
         animborder = gtk.EventBox()
         animborder.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(PINK))
         animframe = gtk.EventBox()
@@ -228,15 +265,11 @@ class View:
         greenbox.set_border_width(5)
         greenbox.add(desktop)
 
-        yellowbox = gtk.EventBox()
-        yellowbox.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
-        yellowbox.add(greenbox)
-        yellowbox.show_all()
+        self.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
+        self.add(greenbox)
+        self.show_all()
 
-        self.main = yellowbox
-        yellowbox.connect_after('map', self.restore)
-
-    def restore(self, widget):
+    def restore(self):
         def new_combo(themes, cb, selname = None, closure = None):
             combo = ComboBox()
             sel = 0
@@ -265,89 +298,52 @@ class View:
                 Document.sound_name, self._sound_cb), True, False)
 
         for i in range(Theme.TAPE_COUNT):
-            self.tape[i].child.set_from_pixbuf(Theme.scale(Document.tape[i].orig))
+            View.tape[i].child.set_from_pixbuf(Theme.scale(Document.tape[i].orig))
         self._tape_cb(None, None, 0)
 
-        return False
-
-    def play(self):
-        self.play_tape_num = 0
-        self._playing = gobject.timeout_add(self.waittime, self._play_tape)
-
-    def stop(self):
-        self._playing = None
-
-    def set_tempo(self, tempo):
-        self.waittime = 10 + (10-tempo) * 100
-        if self._playing:
-            gobject.source_remove(self._playing)
-            self._playing = gobject.timeout_add(self.waittime, self._play_tape)
-
-    def clear_tape(self):
-        for i in range(TAPE_COUNT):
-            Document.tape[i].clean()
-        self.screen.fgpixbuf = Document.tape[self.tape_selected].orig
-        self.screen.draw()
-
-    def _play_tape(self):
-        if not self._playing:
-            return False
-
-        self.screen.fgpixbuf = Document.tape[self.play_tape_num].orig
-        self.screen.draw()
-
-        for i in range(Theme.TAPE_COUNT):
-            self.play_tape_num += 1
-            if self.play_tape_num == TAPE_COUNT:
-                self.play_tape_num = 0
-            if Document.tape[self.play_tape_num].orig == Theme.EMPTY_ORIG:
-                continue
-            return True
-
-        self.stop()
         return False
 
     def _tape_cb(self, widget, event, index):
         if event and event.button == 3:
             Document.tape[index].clean()
-            self.tape[index].child.set_from_pixbuf(Theme.EMPTY_THUMB)
+            View.tape[index].child.set_from_pixbuf(Theme.EMPTY_THUMB)
 
-        tape = self.tape[index]
+        tape = View.tape[index]
         tape.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
         tape.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(YELLOW))
 
-        if self.tape_selected != index:
-            if self.tape_selected != -1:
-                old_tape = self.tape[self.tape_selected]
+        if View.tape_selected != index:
+            if View.tape_selected != -1:
+                old_tape = View.tape[View.tape_selected]
                 old_tape.modify_bg(gtk.STATE_NORMAL,
                         gtk.gdk.color_parse(BLACK))
                 old_tape.modify_bg(gtk.STATE_PRELIGHT,
                         gtk.gdk.color_parse(BLACK))
 
-        self.tape_selected = index
+        View.tape_selected = index
         self.screen.fgpixbuf = Document.tape[index].orig
         self.screen.draw()
 
     def _frame_cb(self, widget, event, frame):
         if event.button == 3:
             self.char.clean(frame)
-            self.frames[frame].set_from_pixbuf(self.char.thumb(frame))
+            self._frames[frame].set_from_pixbuf(self.char.thumb(frame))
         else:
             orig = self.char.orig(frame)
             if not orig: return
             thumb = self.char.thumb(frame)
 
-            Document.tape[self.tape_selected].orig = orig
-            Document.tape[self.tape_selected].filename = self.char.filename(frame)
+            Document.tape[View.tape_selected].orig = orig
+            Document.tape[View.tape_selected].filename = self.char.filename(frame)
 
-            self.tape[self.tape_selected].child.set_from_pixbuf(thumb)
-            self.frames[frame].set_from_pixbuf(thumb)
-            self._tape_cb(None, None, self.tape_selected)
+            View.tape[View.tape_selected].child.set_from_pixbuf(thumb)
+            self._frames[frame].set_from_pixbuf(thumb)
+            self._tape_cb(None, None, View.tape_selected)
 
     def _char_cb(self, widget, closure):
         self.char = widget.props.value
-        for i in range(len(self.frames)):
-            self.frames[i].set_from_pixbuf(self.char.thumb(i))
+        for i in range(len(self._frames)):
+            self._frames[i].set_from_pixbuf(self.char.thumb(i))
 
     def _combo_cb(self, widget, cb):
         choice = widget.props.value.change()

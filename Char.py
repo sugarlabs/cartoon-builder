@@ -47,7 +47,7 @@ class Char:
         self._filenames = []
 
         if type != CUSTOM:
-            for i in sorted(glob.glob(Theme.path(dir + '/*'))):
+            for i in sorted(glob.glob(Theme.path(dir, '*'))):
                 self._filenames.append(os.path.join(dir, os.path.basename(i)))
 
     def filename(self, index):
