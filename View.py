@@ -147,7 +147,7 @@ class View:
 
             filmstrip = gtk.Image()
             filmstrip.set_from_pixbuf(filmstrip_pixbuf);
-            frame_box.pack_start(filmstrip, True, False)
+            frame_box.pack_start(filmstrip, False, False)
 
             frame = gtk.EventBox()
             frame.set_events(gtk.gdk.BUTTON_PRESS_MASK)
@@ -199,6 +199,10 @@ class View:
         hdesktop.pack_start(cetralbox,True,True,0)
 
         # tape box
+        tape_scroll = HScrolledBox(gtk.POLICY_ALWAYS)
+        tape_scroll.set_viewport(tape)
+        tape_scroll.modify_bg(gtk.STATE_NORMAL,
+                gtk.gdk.color_parse(BUTTON_BACKGROUND))
 
         arrow = gtk.Image()
         arrow.set_from_file(Theme.path('icons/pink_arrow.png'))
@@ -207,14 +211,15 @@ class View:
         animframe = gtk.EventBox()
         animframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
         animframe.set_border_width(5)
-        animframe.add(tape)
+        animframe.add(tape_scroll)
         animborder.add(animframe)
-        animbox = gtk.HBox()
-        animbox.pack_start(animborder, True, False)
+        #animbox = gtk.HBox()
+        #animbox.pack_start(animborder)
+
         tape_box = gtk.VBox()
         tape_box.props.border_width = 10
         tape_box.pack_start(arrow, False, False)
-        tape_box.pack_start(animbox, False, False, 0)
+        tape_box.pack_start(animborder)
 
         desktop = gtk.VBox()
         desktop.pack_start(hdesktop,True,True,0)
