@@ -19,10 +19,17 @@ import shutil
 from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
 
-TRANSIMG = '50x50blank-trans.png'
+PREINSTALLED = 0
+CUSTOM       = 1
+JOURNAL      = 2
+RESTORED     = 3
+
+SOUND_SPEAKER = 'images/sounds/speaker.png'
+SOUND_MUTE    = 'images/sounds/custom.png'
+SOUND_CUSTOM  = 'images/sounds/custom.png'
 
 LOGO_WIDTH = 275
-TAPE_COUNT = 13
+TAPE_COUNT = 11
 FRAME_COUNT = 14
 
 DESKTOP_WIDTH = gtk.gdk.screen_width()

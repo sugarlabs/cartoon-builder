@@ -269,7 +269,7 @@ class View(gtk.EventBox):
         self.show_all()
 
     def restore(self):
-        def new_combo(themes, cb, selname = None, closure = None):
+        def new_combo(themes, cb, object = None, closure = None):
             combo = ComboBox()
             sel = 0
 
@@ -278,7 +278,7 @@ class View(gtk.EventBox):
                     combo.append_item(o, text = o.name,
                             size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
                             pixbuf = o.thumb())
-                    if o.name == selname:
+                    if object and o.name == object.name:
                         sel = i
                 else:
                     combo.append_separator()
@@ -292,9 +292,9 @@ class View(gtk.EventBox):
         self.controlbox.pack_start(new_combo(char.THEMES, self._char_cb),
                 False, False)
         self.controlbox.pack_start(new_combo(ground.THEMES, self._combo_cb,
-                Document.ground_name, self._ground_cb), False, False)
+                Document.ground, self._ground_cb), False, False)
         self.controlbox.pack_start(new_combo(sound.THEMES, self._combo_cb,
-                Document.sound_name, self._sound_cb), False, False)
+                Document.sound, self._sound_cb), False, False)
 
         for i in range(theme.TAPE_COUNT):
             View.tape[i].child.set_from_pixbuf(theme.scale(Document.tape[i].orig))
@@ -364,13 +364,10 @@ class View(gtk.EventBox):
     def _ground_cb(self, choice):
         self.screen.bgpixbuf = choice.orig()
         self.screen.draw()
-        Document.ground_name = choice.name
-        Document.ground_orig = choice.orig()
-        Document.ground_filename = choice.filename()
+        Document.ground = choice
 
     def _sound_cb(self, choice):
-        Document.sound_name = choice.name
-        Document.sound_filename = choice.filename()
+        Document.sound = choice
 
     def _screen_size_cb(self, widget, aloc):
         size = min(aloc.width, aloc.height)

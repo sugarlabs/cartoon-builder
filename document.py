@@ -17,17 +17,14 @@ import gtk
 from xml.etree.ElementTree import Element, SubElement, tostring, fromstring
 
 import theme
+from sound import Sound
+from ground import Ground
 from utils import *
 
 class Document:
     tape = []
-
-    ground_name = None
-    ground_orig = None
-    ground_filename = None
-
-    sound_name = None
-    sound_filename = None
+    ground = None
+    sound = None
 
     class Tape:
         def __init__(self):
@@ -44,26 +41,19 @@ def save(filepath):
     zip = Zip(filepath, 'w')
     manifest = Element('memorize')
 
-    ground = SubElement(manifest, 'ground')
-    if Document.ground_filename:
-        ground.attrib['preinstalled'] = '1'
-        ground.attrib['filename'] = Document.ground_filename
-    else:
-        ground.attrib['preinstalled'] = '0'
-        ground.attrib['filename'] = 'ground.png'
-        zip.write_pixbuf('ground.png', Document.ground_orig)
-    ground.text = Document.ground_name
+    def _save(node, arcname, value):
+        if value.custom():
+            node.attrib['custom'] = '1'
+            node.attrib['filename'] = arcname
+            zip.writestr(arcname, value.read())
+        else:
+            node.attrib['custom'] = '0'
+            node.attrib['filename'] = value.filename()
+        node.text = value.name
 
-    sound = SubElement(manifest, 'sound')
-    if not os.path.isabs(Document.sound_filename):
-        sound.attrib['preinstalled'] = '1'
-        sound.attrib['filename'] = Document.sound_filename
-    else:
-        sound.attrib['preinstalled'] = '0'
-        sound.attrib['filename'] = 'sound'
-        zip.write(Document.sound_filename, 'sound')
-    sound.text = Document.sound_name
-    
+    _save(SubElement(manifest, 'ground'), 'ground.png', Document.ground)
+    _save(SubElement(manifest, 'sound'), 'sound', Document.sound)
+
     saved = {}
     tape = SubElement(manifest, 'tape')
     for i in range(theme.TAPE_COUNT):
@@ -82,27 +72,23 @@ def save(filepath):
     zip.writestr('MANIFEST.xml', tostring(manifest, encoding='utf-8'))
     zip.close()
 
+    import shutil
+    shutil.copy(filepath, '/tmp/foo.zip')
+
 def load(filepath):
     zip = Zip(filepath, 'r')
     manifest = fromstring(zip.read('MANIFEST.xml'))
 
-    ground = manifest.find('ground')
-    if int(ground.attrib['preinstalled']):
-        Document.ground_orig = theme.pixbuf(ground.attrib['filename'])
-        Document.ground_filename = ground.attrib['filename']
-    else:
-        Document.ground_orig = zip.read_pixbuf(ground.attrib['filename'])
-    Document.ground_name = ground.text
+    def _load(node, klass):
+        if int(node.attrib['custom']):
+            out = klass(node.text, zip.read(node.attrib['filename']),
+                    theme.RESTORED)
+        else:
+            out = klass(node.text, node.attrib['filename'], theme.PREINSTALLED)
+        return out
 
-    sound = manifest.find('sound')
-    if int(sound.attrib['preinstalled']):
-        Document.sound_filename = sound.attrib['filename']
-    else:
-        arcfile = sound.attrib['filename']
-        sndfile = os.path.join(theme.SESSION_PATH, 'sound.001')
-        file(sndfile, 'w').write(zip.read(arcfile))
-        Document.sound_filename = sndfile
-    Document.sound_name = sound.text
+    Document.ground = _load(manifest.find('ground'), Ground)
+    Document.sound = _load(manifest.find('sound'), Sound)
 
     loaded = {}
     for i, frame in enumerate(manifest.findall('tape/frame')):

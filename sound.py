@@ -19,38 +19,51 @@ from glob import glob
 from gettext import gettext as _
 
 import theme
-from document import Document
 from utils import *
 from sugar.activity.activity import get_bundle_path
 
-PREISTALLED = 0
-CUSTOM      = 1
-TEMPORARY   = 2
-JOURNAL     = 3
-
 def load():
-    if os.path.isabs(Document.sound_filename):
-        custom = Sound(Document.sound_name, 'images/sounds/speaker.png',
-                Document.sound_filename, TEMPORARY)
-        THEMES.insert(-1, custom)
+    from document import Document
+
+    if Document.sound and Document.sound.custom():
+        THEMES.insert(-1, Document.sound)
 
 class Sound:
     playing = False
     current = None
     player = None
 
-    def __init__(self, name, imgfile, soundfile, type):
+    def __init__(self, name, sound, type):
         self.name = name
-        self._thumb = theme.pixbuf(imgfile, THUMB_SIZE)
         self._type = type
 
-        if type == JOURNAL:
+        def _tmpname():
             l = sorted(glob(os.path.join(theme.SESSION_PATH, 'sound*')))
-            self._soundfile = os.path.join(theme.SESSION_PATH,
-                    'sound.%03d' % (len(l)+1))
-            os.rename(soundfile, self._soundfile) 
+            return os.path.join(theme.SESSION_PATH, 'sound.%03d' % (len(l)+1))
+
+        if type == theme.RESTORED:
+            self._thumb = theme.pixbuf(theme.SOUND_CUSTOM, theme.THUMB_SIZE)
+            self._soundfile = _tmpname()
+            file(self._soundfile, 'w').write(sound)
+        elif type == theme.CUSTOM:
+            self._thumb = theme.pixbuf(theme.SOUND_MUTE, theme.THUMB_SIZE)
+            self._soundfile = ''
+        elif type == theme.JOURNAL:
+            self._thumb = theme.pixbuf(theme.SOUND_CUSTOM, theme.THUMB_SIZE)
+            self._soundfile = _tmpname()
+            os.rename(sound, self._soundfile) 
         else:
-            self._soundfile = soundfile
+            self._thumb = theme.pixbuf(theme.SOUND_SPEAKER, theme.THUMB_SIZE)
+            self._soundfile = sound
+
+    def custom(self):
+        return self._type != theme.PREINSTALLED
+
+    def read(self):
+        if not self._soundfile:
+            return ''
+        else:
+            return file(self._soundfile, 'r').read()
 
     def filename(self):
         return self._soundfile
@@ -61,10 +74,9 @@ class Sound:
     def change(self):
         out = self
 
-        if self._type == CUSTOM:
+        if self._type == theme.CUSTOM:
             out = theme.choose(
-                    lambda title, file: Sound(title,
-                    'images/sounds/speaker.png', file, JOURNAL))
+                    lambda title, file: Sound(title, file, theme.JOURNAL))
             if not out:
                 return None
 
@@ -80,19 +92,13 @@ class Sound:
         return out
 
 THEMES = [
-    Sound(_('Gobble'),  'images/sounds/speaker.png', 'sounds/gobble.wav',
-                        PREISTALLED),
-    Sound(_('Funk'),    'images/sounds/speaker.png', 'sounds/funk.wav',
-                        PREISTALLED),
-    Sound(_('Giggle'),  'images/sounds/speaker.png', 'sounds/giggle.wav',
-                        PREISTALLED),
-    Sound(_('Jungle'),  'images/sounds/speaker.png', 'sounds/jungle.wav',
-                        PREISTALLED),
-    Sound(_('Mute'),    'images/sounds/mute.png', '',
-                        PREISTALLED),
+    Sound(_('Gobble'),  'sounds/gobble.wav', theme.PREINSTALLED),
+    Sound(_('Funk'),    'sounds/funk.wav', theme.PREINSTALLED),
+    Sound(_('Giggle'),  'sounds/giggle.wav', theme.PREINSTALLED),
+    Sound(_('Jungle'),  'sounds/jungle.wav', theme.PREINSTALLED),
+    Sound(_('Mute'),    '', theme.PREINSTALLED),
     None,
-    Sound(_('Custom'),  'images/sounds/custom.png', None,
-                        CUSTOM)]
+    Sound(_('Custom'),  None, theme.CUSTOM) ]
 
 Sound.current = THEMES[0]
 
