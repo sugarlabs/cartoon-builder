@@ -162,7 +162,7 @@ class View(gtk.EventBox):
         frames_box = gtk.VBox()
         frames_box.pack_start(yellow_frames, True, True)
         frames_box.pack_start(yelow_arrow, False, False)
-        frames_box.props.border_width = 20
+        frames_box.props.border_width = theme.BORDER_WIDTH
 
         # screen
 
@@ -172,7 +172,7 @@ class View(gtk.EventBox):
         screen_box.set_border_width(5)
         screen_box.add(self.screen)
         screen_pink.add(screen_box)
-        screen_pink.props.border_width = 20
+        screen_pink.props.border_width = theme.BORDER_WIDTH
 
         # tape
 
@@ -211,8 +211,8 @@ class View(gtk.EventBox):
         # left control box
         
         self.controlbox = gtk.VBox()
-        self.controlbox.props.border_width = 10
-        self.controlbox.props.spacing = 10
+        self.controlbox.props.border_width = theme.BORDER_WIDTH
+        self.controlbox.props.spacing = theme.BORDER_WIDTH
 
         leftbox = gtk.VBox()
         logo = gtk.Image()
@@ -236,25 +236,24 @@ class View(gtk.EventBox):
         hdesktop.pack_start(cetralbox,True,True,0)
 
         # tape box
-        tape_scroll = HScrolledBox(gtk.POLICY_ALWAYS)
-        tape_scroll.set_viewport(tape)
-        tape_scroll.modify_bg(gtk.STATE_NORMAL,
-                gtk.gdk.color_parse(BUTTON_BACKGROUND))
 
         arrow = gtk.Image()
         arrow.set_from_file(theme.path('icons', 'pink_arrow.png'))
-        animborder = gtk.EventBox()
-        animborder.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(PINK))
-        animframe = gtk.EventBox()
-        animframe.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
-        animframe.set_border_width(5)
-        animframe.add(tape_scroll)
-        animborder.add(animframe)
+        tape_pink = gtk.EventBox()
+        tape_pink.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(PINK))
+        tape_bg = gtk.EventBox()
+        tape_bg.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        tape_bg.set_border_width(5)
+        tape_bg.add(tape)
+        tape_pink.add(tape_bg)
+
+        tape_hbox = gtk.HBox()
+        tape_hbox.pack_start(tape_pink, True, False)
 
         tape_box = gtk.VBox()
-        tape_box.props.border_width = 10
+        tape_box.props.border_width = theme.BORDER_WIDTH
         tape_box.pack_start(arrow, False, False)
-        tape_box.pack_start(animborder)
+        tape_box.pack_start(tape_hbox)
 
         desktop = gtk.VBox()
         desktop.pack_start(hdesktop,True,True,0)
@@ -291,11 +290,11 @@ class View(gtk.EventBox):
             return combo
 
         self.controlbox.pack_start(new_combo(char.THEMES, self._char_cb),
-                True, False)
+                False, False)
         self.controlbox.pack_start(new_combo(ground.THEMES, self._combo_cb,
-                Document.ground_name, self._ground_cb), True, False)
+                Document.ground_name, self._ground_cb), False, False)
         self.controlbox.pack_start(new_combo(sound.THEMES, self._combo_cb,
-                Document.sound_name, self._sound_cb), True, False)
+                Document.sound_name, self._sound_cb), False, False)
 
         for i in range(theme.TAPE_COUNT):
             View.tape[i].child.set_from_pixbuf(theme.scale(Document.tape[i].orig))
