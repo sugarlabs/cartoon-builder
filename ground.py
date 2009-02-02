@@ -17,8 +17,8 @@ from gettext import gettext as _
 
 from sugar.graphics.objectchooser import ObjectChooser
 
-import Theme
-from Document import Document
+import theme
+from document import Document
 
 PREINSTALLED = 0
 CUSTOM       = 1
@@ -34,7 +34,7 @@ class Ground:
     def __init__(self, name, file, type):
         self.name = name
         self._file = file
-        if file: self._pixbuf = Theme.pixbuf(file)
+        if file: self._pixbuf = theme.pixbuf(file)
         self._type = type
         self._thumb = None
 
@@ -46,7 +46,7 @@ class Ground:
 
     def thumb(self):
         if not self._thumb:
-            self._thumb = Theme.scale(self._pixbuf)
+            self._thumb = theme.scale(self._pixbuf)
         return self._thumb
 
     def orig(self):
@@ -55,7 +55,7 @@ class Ground:
     def change(self):
         if self._type != CUSTOM:
             return self
-        return Theme.choose(lambda title, file: Ground(title, file, TEMPORARY))
+        return theme.choose(lambda title, file: Ground(title, file, TEMPORARY))
 
 THEMES = [
     Ground(_('Saturn'),     'images/backpics/bigbg01.gif', PREINSTALLED),

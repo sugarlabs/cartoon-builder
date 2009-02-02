@@ -16,8 +16,8 @@ import os
 import gtk
 from xml.etree.ElementTree import Element, SubElement, tostring, fromstring
 
-import Theme
-import Utils
+import theme
+from utils import *
 
 class Document:
     tape = []
@@ -34,14 +34,14 @@ class Document:
             self.clean()
 
         def clean(self):
-            self.orig = Theme.EMPTY_ORIG
-            self.filename = Theme.EMPTY_FILENAME
+            self.orig = theme.EMPTY_ORIG
+            self.filename = theme.EMPTY_FILENAME
 
-    for i in range(Theme.TAPE_COUNT):
+    for i in range(theme.TAPE_COUNT):
         tape.append(Tape())
 
 def save(filepath):
-    zip = Utils.Zip(filepath, 'w')
+    zip = Zip(filepath, 'w')
     manifest = Element('memorize')
 
     ground = SubElement(manifest, 'ground')
@@ -66,7 +66,7 @@ def save(filepath):
     
     saved = {}
     tape = SubElement(manifest, 'tape')
-    for i in range(Theme.TAPE_COUNT):
+    for i in range(theme.TAPE_COUNT):
         frame = SubElement(tape, 'frame')
         if Document.tape[i].filename:
             frame.attrib['preinstalled'] = '1'
@@ -83,12 +83,12 @@ def save(filepath):
     zip.close()
 
 def load(filepath):
-    zip = Utils.Zip(filepath, 'r')
+    zip = Zip(filepath, 'r')
     manifest = fromstring(zip.read('MANIFEST.xml'))
 
     ground = manifest.find('ground')
     if int(ground.attrib['preinstalled']):
-        Document.ground_orig = Theme.pixbuf(ground.attrib['filename'])
+        Document.ground_orig = theme.pixbuf(ground.attrib['filename'])
         Document.ground_filename = ground.attrib['filename']
     else:
         Document.ground_orig = zip.read_pixbuf(ground.attrib['filename'])
@@ -99,20 +99,20 @@ def load(filepath):
         Document.sound_filename = sound.attrib['filename']
     else:
         arcfile = sound.attrib['filename']
-        sndfile = os.path.join(Theme.SESSION_PATH, 'sound.001')
+        sndfile = os.path.join(theme.SESSION_PATH, 'sound.001')
         file(sndfile, 'w').write(zip.read(arcfile))
         Document.sound_filename = sndfile
     Document.sound_name = sound.text
 
     loaded = {}
     for i, frame in enumerate(manifest.findall('tape/frame')):
-        if i >= Theme.TAPE_COUNT:
+        if i >= theme.TAPE_COUNT:
             continue
         if int(frame.attrib['preinstalled']):
-            if frame.attrib['filename'] == Theme.EMPTY_FILENAME:
-                Document.tape[i].orig = Theme.EMPTY_ORIG
+            if frame.attrib['filename'] == theme.EMPTY_FILENAME:
+                Document.tape[i].orig = theme.EMPTY_ORIG
             else:
-                Document.tape[i].orig = Theme.pixbuf(frame.attrib['filename'])
+                Document.tape[i].orig = theme.pixbuf(frame.attrib['filename'])
             Document.tape[i].filename = frame.attrib['filename']
         else:
             pixbuf = loaded.get(frame.attrib['filename'])

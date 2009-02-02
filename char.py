@@ -17,8 +17,8 @@ import gtk
 import glob
 from gettext import gettext as _
 
-import Theme
-from Document import Document
+import theme
+from document import Document
 
 PREINSTALLED = 0
 CUSTOM       = 1
@@ -28,33 +28,33 @@ def load():
 
     index = 0
     loaded = {}
-    for i in range(Theme.TAPE_COUNT):
+    for i in range(theme.TAPE_COUNT):
         orig = Document.tape[i].orig
         if Document.tape[i].filename or loaded.has_key(orig):
             continue
         loaded[orig] = True
         custom._origs[index] = orig
-        custom._thumbs[index] = Theme.scale(orig)
+        custom._thumbs[index] = theme.scale(orig)
         index += 1
 
 class Char:
     def __init__(self, name, file, dir, type):
         self.name = name
-        self._thumb = Theme.pixbuf(file, Theme.THUMB_SIZE)
+        self._thumb = theme.pixbuf(file, theme.THUMB_SIZE)
         self._type = type
         self._thumbs = {}
         self._origs = {}
         self._filenames = []
 
         if type != CUSTOM:
-            for i in sorted(glob.glob(Theme.path(dir, '*'))):
+            for i in sorted(glob.glob(theme.path(dir, '*'))):
                 self._filenames.append(os.path.join(dir, os.path.basename(i)))
 
     def filename(self, index):
         if self._type == CUSTOM:
             return None
         elif index >= len(self._filenames):
-            return Theme.EMPTY_FILENAME
+            return theme.EMPTY_FILENAME
         else:
             return self._filenames[index]
 
@@ -69,9 +69,9 @@ class Char:
                 pix = self._thumb
             else:
                 if index < len(self._filenames):
-                    pix = Theme.pixbuf(self._filenames[index], Theme.THUMB_SIZE)
+                    pix = theme.pixbuf(self._filenames[index], theme.THUMB_SIZE)
                 else:
-                    pix = Theme.EMPTY_THUMB
+                    pix = theme.EMPTY_THUMB
             self._thumbs[index] = pix
 
         return pix
@@ -81,16 +81,16 @@ class Char:
 
         if pix == None:
             if self._type == CUSTOM:
-                pix = Theme.choose(lambda t, file: Theme.pixbuf(file))
+                pix = theme.choose(lambda t, file: theme.pixbuf(file))
                 if pix:
-                    self._thumbs[index] = Theme.scale(pix)
+                    self._thumbs[index] = theme.scale(pix)
                     self._origs[index] = pix
             else:
                 if index < len(self._filenames):
-                    pix = Theme.pixbuf(self._filenames[index])
+                    pix = theme.pixbuf(self._filenames[index])
                     self._origs[index] = pix
                 else:
-                    pix = Theme.EMPTY_ORIG
+                    pix = theme.EMPTY_ORIG
 
         return pix
 

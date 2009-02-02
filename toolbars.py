@@ -18,10 +18,10 @@ from gettext import gettext as _
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.toggletoolbutton import ToggleToolButton
 
-import Montage
-import Lessons
-import Sound
-from Utils import *
+import montage
+import lessons
+import sound
+from utils import *
 
 class MontageToolbar(gtk.Toolbar):
     def __init__(self):
@@ -61,27 +61,27 @@ class MontageToolbar(gtk.Toolbar):
         self.show_all()
 
     def _clear_tape_cb(self, widget):
-        Montage.clear_tape()
+        montage.clear_tape()
 
     def _tempo_cb(self, widget):
-        Montage.set_tempo(widget.value)
+        montage.set_tempo(widget.value)
 
     def _play_cb(self, widget):
         if widget.get_active():
             widget.set_icon_widget(self.pauseButtonImg)
-            Sound.play()
-            Montage.play()
+            sound.play()
+            montage.play()
         else:
             widget.set_icon_widget(self.playButtonImg)
-            Sound.stop()
-            Montage.stop()
+            sound.stop()
+            montage.stop()
 
 class LessonsToolbar(gtk.Toolbar):
     def __init__(self):
         gtk.Toolbar.__init__(self)
         self._mask = False
 
-        for lesson in Lessons.THEMES:
+        for lesson in lessons.THEMES:
             button = gtk.ToggleToolButton()
             button.set_label(lesson.name)
             button.connect('clicked', self._lessons_cb, lesson)
@@ -95,7 +95,7 @@ class LessonsToolbar(gtk.Toolbar):
             return
         self._mask = True
 
-        for i, j in enumerate(Lessons.THEMES):
+        for i, j in enumerate(lessons.THEMES):
             if j != lesson:
                 self.get_nth_item(i).set_active(False)
 

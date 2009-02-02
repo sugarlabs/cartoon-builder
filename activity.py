@@ -24,13 +24,13 @@ from gettext import gettext as _
 
 from sugar.activity.activity import get_activity_root
 
-import Montage
-import Lessons
-import Document
-import Char
-import Ground
-import Sound
-from Toolbars import *
+import montage
+import lessons
+import document
+import char
+import ground
+import sound
+from toolbars import *
 
 SERVICE = 'org.freedesktop.Telepathy.Tube.Connect'
 IFACE = SERVICE
@@ -46,11 +46,13 @@ class CartoonBuilderActivity(activity.Activity):
         self.notebook.show()
         self.notebook.props.show_border = False
         self.notebook.props.show_tabs = False
+        # XXX do it after(possible) read_file() invoking
+        # have to rely on calling read_file() from map_cb in sugar-toolkit
         self.notebook.connect_after('map', self._map_cb)
 
-        self.montage = Montage.View()
+        self.montage = montage.View()
         self.notebook.append_page(self.montage)
-        self.lessons = Lessons.View()
+        self.lessons = lessons.View()
         self.lessons.show()
         self.notebook.append_page(self.lessons)
 
@@ -99,13 +101,13 @@ class CartoonBuilderActivity(activity.Activity):
         """
 
     def read_file(self, filepath):
-        Document.load(filepath)
-        Char.load()
-        Ground.load()
-        Sound.load()
+        document.load(filepath)
+        char.load()
+        ground.load()
+        sound.load()
 
     def write_file(self, filepath):
-        Document.save(filepath)
+        document.save(filepath)
 
     def _map_cb(self, widget):
         self.montage.restore()

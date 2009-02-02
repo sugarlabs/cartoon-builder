@@ -18,7 +18,7 @@ import locale
 import logging
 from glob import glob
 
-import Theme
+import theme
 
 THEMES = []
 
@@ -51,12 +51,12 @@ class View(gtk.EventBox):
 
             view_box = gtk.EventBox()
             view_box.add(view)
-            view_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(Theme.WHITE))
+            view_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(theme.WHITE))
             view_box.props.border_width = 10
 
             border_box = gtk.EventBox()
             border_box.add(view_box)
-            border_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(Theme.WHITE))
+            border_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(theme.WHITE))
 
             scrolled_window = gtk.ScrolledWindow()
             scrolled_window.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
@@ -68,9 +68,9 @@ class View(gtk.EventBox):
 
 _lang = locale.getdefaultlocale()[0].split('_')[0]
 
-if not os.path.isdir(Theme.path('lessons', _lang)):
+if not os.path.isdir(theme.path('lessons', _lang)):
     logging.info('Cannot find lessons for language %s, thus use en' % _lang)
     _lang = 'en'
 
-for i, filename in enumerate(sorted(glob(Theme.path('lessons', _lang, '*')))):
+for i, filename in enumerate(sorted(glob(theme.path('lessons', _lang, '*')))):
     THEMES.append(Lesson(i, filename))

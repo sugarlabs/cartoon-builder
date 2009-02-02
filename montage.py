@@ -21,12 +21,12 @@
 import gtk
 import gobject
 
-import Theme
-import Char
-import Ground
-import Sound
-from Document import Document
-from Utils import *
+import theme
+import char
+import ground
+import sound
+from document import Document
+from utils import *
 
 def play():
     View.play_tape_num = 0
@@ -44,7 +44,7 @@ def set_tempo(tempo):
 def clear_tape():
     for i in range(TAPE_COUNT):
         Document.tape[i].clean()
-        View.tape[i].child.set_from_pixbuf(Theme.EMPTY_THUMB)
+        View.tape[i].child.set_from_pixbuf(theme.EMPTY_THUMB)
 
     View.screen.fgpixbuf = Document.tape[View.tape_selected].orig
     View.screen.draw()
@@ -56,11 +56,11 @@ def _play_tape():
     View.screen.fgpixbuf = Document.tape[View.play_tape_num].orig
     View.screen.draw()
 
-    for i in range(Theme.TAPE_COUNT):
+    for i in range(theme.TAPE_COUNT):
         View.play_tape_num += 1
         if View.play_tape_num == TAPE_COUNT:
             View.play_tape_num = 0
-        if Document.tape[View.play_tape_num].orig == Theme.EMPTY_ORIG:
+        if Document.tape[View.play_tape_num].orig == theme.EMPTY_ORIG:
             continue
         return True
 
@@ -91,13 +91,13 @@ class View(gtk.EventBox):
             if self.bgpixbuf:
                 pixbuf = self.bgpixbuf
                 if pixbuf.get_width != self.width:
-                    pixbuf = Theme.scale(pixbuf, self.width)
+                    pixbuf = theme.scale(pixbuf, self.width)
                 widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
 
             if self.fgpixbuf:
                 pixbuf = self.fgpixbuf
                 if pixbuf.get_width != self.width:
-                    pixbuf = Theme.scale(pixbuf, self.width)
+                    pixbuf = theme.scale(pixbuf, self.width)
                 widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
 
         def draw(self):
@@ -123,21 +123,21 @@ class View(gtk.EventBox):
         rows = max((DESKTOP_HEIGHT - THUMB_SIZE*3) / THUMB_SIZE,
                 int(ceil(float(FRAME_COUNT) / FRAME_COLS)))
 
-        self.table = gtk.Table(rows, columns=Theme.FRAME_COLS, homogeneous=False)
+        self.table = gtk.Table(rows, columns=theme.FRAME_COLS, homogeneous=False)
 
         for y in range(rows):
-            for x in range(Theme.FRAME_COLS):
+            for x in range(theme.FRAME_COLS):
                 image = gtk.Image()
                 self._frames.append(image)
 
                 image_box = gtk.EventBox()
                 image_box.set_events(gtk.gdk.BUTTON_PRESS_MASK)
                 image_box.connect('button_press_event', self._frame_cb,
-                        y * Theme.FRAME_COLS + x)
+                        y * theme.FRAME_COLS + x)
                 image_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
                 image_box.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
                 image_box.props.border_width = 2
-                image_box.set_size_request(Theme.THUMB_SIZE, Theme.THUMB_SIZE)
+                image_box.set_size_request(theme.THUMB_SIZE, theme.THUMB_SIZE)
                 image_box.add(image)
 
                 self.table.attach(image_box, x, x+1, y, y+1)
@@ -157,7 +157,7 @@ class View(gtk.EventBox):
         yellow_frames.add(table_frames)
 
         yelow_arrow = gtk.Image()
-        yelow_arrow.set_from_file(Theme.path('icons', 'yellow_arrow.png'))
+        yelow_arrow.set_from_file(theme.path('icons', 'yellow_arrow.png'))
 
         frames_box = gtk.VBox()
         frames_box.pack_start(yellow_frames, True, True)
@@ -182,7 +182,7 @@ class View(gtk.EventBox):
             frame_box = gtk.VBox()
 
             filmstrip_pixbuf = gtk.gdk.pixbuf_new_from_file_at_scale(
-                    Theme.path('icons', 'filmstrip.png'), THUMB_SIZE, -1, False)
+                    theme.path('icons', 'filmstrip.png'), THUMB_SIZE, -1, False)
 
             filmstrip = gtk.Image()
             filmstrip.set_from_pixbuf(filmstrip_pixbuf);
@@ -194,12 +194,12 @@ class View(gtk.EventBox):
             frame.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
             frame.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
             frame.props.border_width = 2
-            frame.set_size_request(Theme.THUMB_SIZE, Theme.THUMB_SIZE)
+            frame.set_size_request(theme.THUMB_SIZE, theme.THUMB_SIZE)
             frame_box.pack_start(frame)
             View.tape.append(frame)
 
             frame_image = gtk.Image()
-            frame_image.set_from_pixbuf(Theme.EMPTY_THUMB)
+            frame_image.set_from_pixbuf(theme.EMPTY_THUMB)
             frame.add(frame_image)
 
             filmstrip = gtk.Image()
@@ -216,7 +216,7 @@ class View(gtk.EventBox):
 
         leftbox = gtk.VBox()
         logo = gtk.Image()
-        logo.set_from_file(Theme.path('icons', 'logo.png'))
+        logo.set_from_file(theme.path('icons', 'logo.png'))
         leftbox.set_size_request(logo.props.pixbuf.get_width(), -1)
         leftbox.pack_start(logo, False, False)
         leftbox.pack_start(self.controlbox, True, True)
@@ -242,7 +242,7 @@ class View(gtk.EventBox):
                 gtk.gdk.color_parse(BUTTON_BACKGROUND))
 
         arrow = gtk.Image()
-        arrow.set_from_file(Theme.path('icons', 'pink_arrow.png'))
+        arrow.set_from_file(theme.path('icons', 'pink_arrow.png'))
         animborder = gtk.EventBox()
         animborder.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(PINK))
         animframe = gtk.EventBox()
@@ -274,12 +274,12 @@ class View(gtk.EventBox):
             combo = ComboBox()
             sel = 0
 
-            for i, theme in enumerate(themes):
-                if theme:
-                    combo.append_item(theme, text = theme.name,
-                            size = (Theme.THUMB_SIZE, Theme.THUMB_SIZE),
-                            pixbuf = theme.thumb())
-                    if theme.name == selname:
+            for i, o in enumerate(themes):
+                if o:
+                    combo.append_item(o, text = o.name,
+                            size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
+                            pixbuf = o.thumb())
+                    if o.name == selname:
                         sel = i
                 else:
                     combo.append_separator()
@@ -290,15 +290,15 @@ class View(gtk.EventBox):
 
             return combo
 
-        self.controlbox.pack_start(new_combo(Char.THEMES, self._char_cb),
+        self.controlbox.pack_start(new_combo(char.THEMES, self._char_cb),
                 True, False)
-        self.controlbox.pack_start(new_combo(Ground.THEMES, self._combo_cb,
+        self.controlbox.pack_start(new_combo(ground.THEMES, self._combo_cb,
                 Document.ground_name, self._ground_cb), True, False)
-        self.controlbox.pack_start(new_combo(Sound.THEMES, self._combo_cb,
+        self.controlbox.pack_start(new_combo(sound.THEMES, self._combo_cb,
                 Document.sound_name, self._sound_cb), True, False)
 
-        for i in range(Theme.TAPE_COUNT):
-            View.tape[i].child.set_from_pixbuf(Theme.scale(Document.tape[i].orig))
+        for i in range(theme.TAPE_COUNT):
+            View.tape[i].child.set_from_pixbuf(theme.scale(Document.tape[i].orig))
         self._tape_cb(None, None, 0)
 
         return False
@@ -306,7 +306,7 @@ class View(gtk.EventBox):
     def _tape_cb(self, widget, event, index):
         if event and event.button == 3:
             Document.tape[index].clean()
-            View.tape[index].child.set_from_pixbuf(Theme.EMPTY_THUMB)
+            View.tape[index].child.set_from_pixbuf(theme.EMPTY_THUMB)
 
         tape = View.tape[index]
         tape.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
@@ -355,7 +355,7 @@ class View(gtk.EventBox):
         if id(choice) != id(widget.props.value):
             pos = widget.get_active()
             widget.append_item(choice, text = choice.name,
-                    size = (Theme.THUMB_SIZE, Theme.THUMB_SIZE),
+                    size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
                     pixbuf = choice.thumb(), position = pos)
             widget.set_active(pos)
 

@@ -18,11 +18,11 @@ import pango
 import zipfile
 import cStringIO
 
-from Theme import *
-import sugar.graphics
+import sugar
 from sugar.graphics import style
-from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.icon import Icon
+
+from theme import *
 
 class Zip(zipfile.ZipFile):
     def __init__(self, *args):

@@ -18,9 +18,9 @@ import gst
 from glob import glob
 from gettext import gettext as _
 
-import Theme
-from Document import Document
-from Utils import *
+import theme
+from document import Document
+from utils import *
 from sugar.activity.activity import get_bundle_path
 
 PREISTALLED = 0
@@ -41,12 +41,12 @@ class Sound:
 
     def __init__(self, name, imgfile, soundfile, type):
         self.name = name
-        self._thumb = Theme.pixbuf(imgfile, THUMB_SIZE)
+        self._thumb = theme.pixbuf(imgfile, THUMB_SIZE)
         self._type = type
 
         if type == JOURNAL:
-            l = sorted(glob(os.path.join(Theme.SESSION_PATH, 'sound*')))
-            self._soundfile = os.path.join(Theme.SESSION_PATH,
+            l = sorted(glob(os.path.join(theme.SESSION_PATH, 'sound*')))
+            self._soundfile = os.path.join(theme.SESSION_PATH,
                     'sound.%03d' % (len(l)+1))
             os.rename(soundfile, self._soundfile) 
         else:
@@ -62,7 +62,7 @@ class Sound:
         out = self
 
         if self._type == CUSTOM:
-            out = Theme.choose(
+            out = theme.choose(
                     lambda title, file: Sound(title,
                     'images/sounds/speaker.png', file, JOURNAL))
             if not out:
@@ -73,7 +73,7 @@ class Sound:
         Sound.player.set_state(gst.STATE_NULL)
         if len(out._soundfile) == 0: return out
 
-        Sound.player.set_property('uri', 'file://' + Theme.path(out._soundfile))
+        Sound.player.set_property('uri', 'file://' + theme.path(out._soundfile))
         Sound.player.set_state(gst.STATE_NULL)
         Sound.player.set_state(gst.STATE_PLAYING)
 
