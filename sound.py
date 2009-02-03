@@ -71,7 +71,7 @@ class Sound:
     def thumb(self):
         return self._thumb
 
-    def change(self):
+    def select(self):
         out = self
 
         if self._type == theme.CUSTOM:
@@ -104,7 +104,7 @@ Sound.current = THEMES[0]
 
 def play():
     Sound.playing = True
-    Sound.current.change()
+    Sound.current.select()
 
 def stop():
     Sound.playing = False

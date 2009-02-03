@@ -25,7 +25,7 @@ import theme
 import char
 import ground
 import sound
-from document import Document
+from document import Document, clean
 from utils import *
 
 def play():
@@ -36,31 +36,31 @@ def stop():
     View.playing = None
 
 def set_tempo(tempo):
-    View.delay = 10 + (10-tempo) * 100
+    View.delay = 10 + (10-int(tempo)) * 100
     if View.playing:
         gobject.source_remove(View.playing)
         View.playing = gobject.timeout_add(View.delay, _play_tape)
 
 def clear_tape():
     for i in range(TAPE_COUNT):
-        Document.tape[i].clean()
+        clean(i)
         View.tape[i].child.set_from_pixbuf(theme.EMPTY_THUMB)
 
-    View.screen.fgpixbuf = Document.tape[View.tape_selected].orig
+    View.screen.fgpixbuf = Document.tape[View.tape_selected].orig()
     View.screen.draw()
 
 def _play_tape():
     if not View.playing:
         return False
 
-    View.screen.fgpixbuf = Document.tape[View.play_tape_num].orig
+    View.screen.fgpixbuf = Document.tape[View.play_tape_num].orig()
     View.screen.draw()
 
     for i in range(theme.TAPE_COUNT):
         View.play_tape_num += 1
         if View.play_tape_num == TAPE_COUNT:
             View.play_tape_num = 0
-        if Document.tape[View.play_tape_num].orig == theme.EMPTY_ORIG:
+        if Document.tape[View.play_tape_num].empty():
             continue
         return True
 
@@ -118,14 +118,10 @@ class View(gtk.EventBox):
 
         # frames table
 
-        from math import ceil
+        self.table = gtk.Table(theme.FRAME_ROWS, columns=theme.FRAME_COLS,
+                homogeneous=False)
 
-        rows = max((DESKTOP_HEIGHT - THUMB_SIZE*3) / THUMB_SIZE,
-                int(ceil(float(FRAME_COUNT) / FRAME_COLS)))
-
-        self.table = gtk.Table(rows, columns=theme.FRAME_COLS, homogeneous=False)
-
-        for y in range(rows):
+        for y in range(theme.FRAME_ROWS):
             for x in range(theme.FRAME_COLS):
                 image = gtk.Image()
                 self._frames.append(image)
@@ -297,14 +293,14 @@ class View(gtk.EventBox):
                 Document.sound, self._sound_cb), False, False)
 
         for i in range(theme.TAPE_COUNT):
-            View.tape[i].child.set_from_pixbuf(theme.scale(Document.tape[i].orig))
+            View.tape[i].child.set_from_pixbuf(Document.tape[i].thumb())
         self._tape_cb(None, None, 0)
 
         return False
 
     def _tape_cb(self, widget, event, index):
         if event and event.button == 3:
-            Document.tape[index].clean()
+            clean(index)
             View.tape[index].child.set_from_pixbuf(theme.EMPTY_THUMB)
 
         tape = View.tape[index]
@@ -320,32 +316,29 @@ class View(gtk.EventBox):
                         gtk.gdk.color_parse(BLACK))
 
         View.tape_selected = index
-        self.screen.fgpixbuf = Document.tape[index].orig
+        self.screen.fgpixbuf = Document.tape[index].orig()
         self.screen.draw()
 
-    def _frame_cb(self, widget, event, frame):
+    def _frame_cb(self, widget, event, i):
+
         if event.button == 3:
-            self.char.clean(frame)
-            self._frames[frame].set_from_pixbuf(self.char.thumb(frame))
+            self.char.clean(i)
+            self._frames[i].set_from_pixbuf(self.char.frames[i].thumb())
         else:
-            orig = self.char.orig(frame)
-            if not orig: return
-            thumb = self.char.thumb(frame)
-
-            Document.tape[View.tape_selected].orig = orig
-            Document.tape[View.tape_selected].filename = self.char.filename(frame)
-
-            View.tape[View.tape_selected].child.set_from_pixbuf(thumb)
-            self._frames[frame].set_from_pixbuf(thumb)
-            self._tape_cb(None, None, View.tape_selected)
+            frame = self.char.frames[i]
+            if frame.select():
+                Document.tape[View.tape_selected] = frame
+                View.tape[View.tape_selected].child.set_from_pixbuf(frame.thumb())
+                self._frames[i].set_from_pixbuf(frame.thumb())
+                self._tape_cb(None, None, View.tape_selected)
 
     def _char_cb(self, widget, closure):
         self.char = widget.props.value
         for i in range(len(self._frames)):
-            self._frames[i].set_from_pixbuf(self.char.thumb(i))
+            self._frames[i].set_from_pixbuf(self.char.frames[i].thumb())
 
     def _combo_cb(self, widget, cb):
-        choice = widget.props.value.change()
+        choice = widget.props.value.select()
 
         if not choice:
             widget.set_active(self._prev_combo_selected[widget])

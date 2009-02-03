@@ -15,7 +15,6 @@
 import os
 import gtk
 import pango
-import zipfile
 import cStringIO
 
 import sugar
@@ -24,17 +23,16 @@ from sugar.graphics.icon import Icon
 
 from theme import *
 
-class Zip(zipfile.ZipFile):
-    def __init__(self, *args):
-        zipfile.ZipFile.__init__(self, *args)
+def pixbuf2str(pixbuf):
+    def push(data, buffer):
+        buffer.write(data)
 
-    def write_pixbuf(self, arcfile, pixbuf):
-        def push(data, buffer):
-            buffer.write(data)
+    buffer = cStringIO.StringIO()
+    pixbuf.save_to_callback(push, 'png', user_data=buffer)
+    return buffer.getvalue()
 
-        buffer = cStringIO.StringIO()
-        pixbuf.save_to_callback(push, 'png', user_data=buffer)
-        self.writestr(arcfile, buffer.getvalue())
+
+
 
     def read_pixbuf(self, arcfile):
         tmpfile = os.path.join(SESSION_PATH, 'tmp.png')
@@ -42,6 +40,7 @@ class Zip(zipfile.ZipFile):
         out = gtk.gdk.pixbuf_new_from_file(tmpfile)
         os.unlink(tmpfile)
         return out
+
 
 class ComboBox(sugar.graphics.combobox.ComboBox):
     def __init__(self):

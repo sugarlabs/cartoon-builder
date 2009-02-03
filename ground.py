@@ -14,12 +14,12 @@
 
 import os
 import gtk
-import cStringIO
 from gettext import gettext as _
 
 from sugar.graphics.objectchooser import ObjectChooser
 
 import theme
+from utils import pixbuf, pixbuf2str
 
 def load():
     from document import Document
@@ -36,7 +36,7 @@ class Ground:
         if type == theme.RESTORED:
             tmpfile = os.path.join(theme.SESSION_PATH, '.tmp.png')
             file(tmpfile, 'w').write(image)
-            self._orig = gtk.gdk.pixbuf_new_from_file(tmpfile)
+            self._orig = theme.pixbuf(tmpfile)
             os.unlink(tmpfile)
             self._filename = 'ground.png'
         else:
@@ -47,12 +47,7 @@ class Ground:
         return self._type != theme.PREINSTALLED
 
     def read(self):
-        def push(data, buffer):
-            buffer.write(data)
-
-        buffer = cStringIO.StringIO()
-        self._orig.save_to_callback(push, 'png', user_data=buffer)
-        return buffer.getvalue()
+        pixbuf2str(self._orig)
 
     def filename(self):
         return self._filename
@@ -65,7 +60,7 @@ class Ground:
     def orig(self):
         return self._orig
 
-    def change(self):
+    def select(self):
         if self._type != theme.CUSTOM:
             return self
         return theme.choose(

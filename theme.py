@@ -15,6 +15,7 @@
 import os
 import gtk
 import shutil
+from math import ceil
 
 from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
@@ -23,6 +24,7 @@ PREINSTALLED = 0
 CUSTOM       = 1
 JOURNAL      = 2
 RESTORED     = 3
+EMPTY        = 4
 
 SOUND_SPEAKER = 'images/sounds/speaker.png'
 SOUND_MUTE    = 'images/sounds/custom.png'
@@ -40,6 +42,9 @@ THUMB_SIZE = min(100, DESKTOP_WIDTH / (TAPE_COUNT+1))
 FRAME_COLS = max(1, ((DESKTOP_WIDTH-LOGO_WIDTH) -
         min(DESKTOP_HEIGHT-THUMB_SIZE-THUMB_SIZE/2, DESKTOP_WIDTH-LOGO_WIDTH))
         / THUMB_SIZE)
+
+FRAME_ROWS = max((DESKTOP_HEIGHT - THUMB_SIZE*3) / THUMB_SIZE,
+        int(ceil(float(FRAME_COUNT) / FRAME_COLS)))
 
 BORDER_WIDTH = 10
 
@@ -101,6 +106,11 @@ def scale(pixbuf, size = THUMB_SIZE):
 EMPTY_FILENAME = 'images/pics/empty.png'
 EMPTY_ORIG = pixbuf(EMPTY_FILENAME)
 EMPTY_THUMB = scale(EMPTY_ORIG)
+
+#CUSTOM_GROUND   EMPTY_FILENAME = 'images/pics/empty.png'
+
+CUSTOM_FRAME_ORIG = pixbuf('images/pics/custom.png')
+CUSTOM_FRAME_THUMB = scale(CUSTOM_FRAME_ORIG)
 
 def choose(out_fun):
     from sugar.graphics.objectchooser import ObjectChooser
