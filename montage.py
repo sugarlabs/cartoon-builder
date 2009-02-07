@@ -64,8 +64,7 @@ def _play_tape():
             continue
         return True
 
-    stop()
-    return False
+    return True
 
 class View(gtk.EventBox):
     class Screen(gtk.DrawingArea):
