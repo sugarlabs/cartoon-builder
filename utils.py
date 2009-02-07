@@ -15,32 +15,12 @@
 import os
 import gtk
 import pango
-import cStringIO
 
 import sugar
 from sugar.graphics import style
 from sugar.graphics.icon import Icon
 
 from theme import *
-
-def pixbuf2str(pixbuf):
-    def push(data, buffer):
-        buffer.write(data)
-
-    buffer = cStringIO.StringIO()
-    pixbuf.save_to_callback(push, 'png', user_data=buffer)
-    return buffer.getvalue()
-
-
-
-
-    def read_pixbuf(self, arcfile):
-        tmpfile = os.path.join(SESSION_PATH, 'tmp.png')
-        file(tmpfile, 'w').write(self.read(arcfile))
-        out = gtk.gdk.pixbuf_new_from_file(tmpfile)
-        os.unlink(tmpfile)
-        return out
-
 
 class ComboBox(sugar.graphics.combobox.ComboBox):
     def __init__(self):

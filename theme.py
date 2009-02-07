@@ -132,6 +132,22 @@ def choose(out_fun):
 
     return None
 
+def pixbuf2str(pixbuf):
+    def push(data, buffer):
+        buffer.write(data)
+
+    import cStringIO
+    buffer = cStringIO.StringIO()
+    pixbuf.save_to_callback(push, 'png', user_data=buffer)
+    return buffer.getvalue()
+
+def str2pixbuf(data):
+    tmpfile = os.path.join(SESSION_PATH, '.tmp.png')
+    file(tmpfile, 'w').write(data)
+    out = theme.pixbuf(tmpfile)
+    os.unlink(tmpfile)
+    return out
+
 # customize theme
 gtkrc = os.path.join(get_bundle_path(), 'gtkrc')
 gtk.rc_add_default_file(gtkrc)

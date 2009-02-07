@@ -16,10 +16,7 @@ import os
 import gtk
 from gettext import gettext as _
 
-from sugar.graphics.objectchooser import ObjectChooser
-
 import theme
-from utils import pixbuf, pixbuf2str
 
 def load():
     from document import Document
@@ -28,29 +25,16 @@ def load():
         THEMES.insert(-1, Document.ground)
 
 class Ground:
-    def __init__(self, name, image, type):
+    def __init__(self, name, id):
         self.name = name
-        self._type = type
+        self.id = id
         self._thumb = None
 
-        if type == theme.RESTORED:
-            tmpfile = os.path.join(theme.SESSION_PATH, '.tmp.png')
-            file(tmpfile, 'w').write(image)
-            self._orig = theme.pixbuf(tmpfile)
-            os.unlink(tmpfile)
-            self._filename = 'ground.png'
-        else:
-            self._filename = image
-            self._orig = theme.pixbuf(image)
-
     def custom(self):
-        return self._type != theme.PREINSTALLED
+        return True
 
     def read(self):
         pixbuf2str(self._orig)
-
-    def filename(self):
-        return self._filename
 
     def thumb(self):
         if not self._thumb:
@@ -61,28 +45,52 @@ class Ground:
         return self._orig
 
     def select(self):
-        if self._type != theme.CUSTOM:
-            return self
-        return theme.choose(
-                lambda title, file: Ground(title, file, theme.JOURNAL))
+        return self
+
+class PreinstalledGround(Ground):
+    def __init__(self, name, filename):
+        Ground.__init__(self, name, filename)
+        self._orig = theme.pixbuf(filename)
+
+    def custom(self):
+        return False
+
+class CustomGround(Ground):
+    def __init__(self, name, filename):
+        Ground.__init__(self, name, None)
+        self._orig = theme.pixbuf(filename)
+
+    def select(self):
+        return theme.choose(lambda jobject: JournalGround(jobject))
+
+class RestoredGround(Ground):
+    def __init__(self, name, id, data):
+        Ground.__init__(self, name, id)
+        self._orig = str2pixbuf(data)
+
+class JournalGround(Ground):
+    def __init__(self, jobject):
+        Ground.__init__(self, jobject.props.metadata['title'],
+                jobject.object_id)
+        self._orig = theme.pixbuf(jobject.file_path)
 
 THEMES = [
-    Ground(_('Saturn'),     'images/backpics/bigbg01.gif', theme.PREINSTALLED),
-    Ground(_('Snowflakes'), 'images/backpics/bigbg02.gif', theme.PREINSTALLED),
-    Ground(_('Eye'),        'images/backpics/bigbg03.gif', theme.PREINSTALLED),
-    Ground(_('Blobs'),      'images/backpics/bigbg04.gif', theme.PREINSTALLED),
-    Ground(_('Star Night'), 'images/backpics/bigbg05.gif', theme.PREINSTALLED),
-    Ground(_('Forest'),     'images/backpics/bigbg06.gif', theme.PREINSTALLED),
-    Ground(_('Spiral'),     'images/backpics/bigbg07.gif', theme.PREINSTALLED),
-    Ground(_('Beam'),       'images/backpics/bigbg08.gif', theme.PREINSTALLED),
-    Ground(_('Cloth'),      'images/backpics/bigbg09.gif', theme.PREINSTALLED),
-    Ground(_('Faces'),      'images/backpics/bigbg10.gif', theme.PREINSTALLED),
-    Ground(_('Leaves'),     'images/backpics/bigbg11.gif', theme.PREINSTALLED),
-    Ground(_('Vegetables'), 'images/backpics/bigbg12.gif', theme.PREINSTALLED),
-    Ground(_('Spotlight'),  'images/backpics/bigbg13.gif', theme.PREINSTALLED),
-    Ground(_('Strips'),     'images/backpics/bigbg14.gif', theme.PREINSTALLED),
-    Ground(_('Scene'),      'images/backpics/bigbg15.gif', theme.PREINSTALLED),
-    Ground(_('Rhombs'),     'images/backpics/bigbg16.gif', theme.PREINSTALLED),
-    Ground(_('Milky Way'),  'images/backpics/bigbg17.gif', theme.PREINSTALLED),
+    PreinstalledGround(_('Saturn'),     'images/backpics/bigbg01.gif'),
+    PreinstalledGround(_('Snowflakes'), 'images/backpics/bigbg02.gif'),
+    PreinstalledGround(_('Eye'),        'images/backpics/bigbg03.gif'),
+    PreinstalledGround(_('Blobs'),      'images/backpics/bigbg04.gif'),
+    PreinstalledGround(_('Star Night'), 'images/backpics/bigbg05.gif'),
+    PreinstalledGround(_('Forest'),     'images/backpics/bigbg06.gif'),
+    PreinstalledGround(_('Spiral'),     'images/backpics/bigbg07.gif'),
+    PreinstalledGround(_('Beam'),       'images/backpics/bigbg08.gif'),
+    PreinstalledGround(_('Cloth'),      'images/backpics/bigbg09.gif'),
+    PreinstalledGround(_('Faces'),      'images/backpics/bigbg10.gif'),
+    PreinstalledGround(_('Leaves'),     'images/backpics/bigbg11.gif'),
+    PreinstalledGround(_('Vegetables'), 'images/backpics/bigbg12.gif'),
+    PreinstalledGround(_('Spotlight'),  'images/backpics/bigbg13.gif'),
+    PreinstalledGround(_('Strips'),     'images/backpics/bigbg14.gif'),
+    PreinstalledGround(_('Scene'),      'images/backpics/bigbg15.gif'),
+    PreinstalledGround(_('Rhombs'),     'images/backpics/bigbg16.gif'),
+    PreinstalledGround(_('Milky Way'),  'images/backpics/bigbg17.gif'),
     None,
-    Ground(_('Custom'),     'images/backpics/custom.png', theme.CUSTOM)]
+    CustomGround(_('Custom'), 'images/backpics/custom.png')]

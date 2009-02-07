@@ -33,72 +33,82 @@ class Sound:
     current = None
     player = None
 
-    def __init__(self, name, sound, type):
+    def __init__(self, name, id, soundfile, thumb):
         self.name = name
-        self._type = type
-
-        def _tmpname():
-            l = sorted(glob(os.path.join(theme.SESSION_PATH, 'sound*')))
-            return os.path.join(theme.SESSION_PATH, 'sound.%03d' % (len(l)+1))
-
-        if type == theme.RESTORED:
-            self._thumb = theme.pixbuf(theme.SOUND_CUSTOM, theme.THUMB_SIZE)
-            self._soundfile = _tmpname()
-            file(self._soundfile, 'w').write(sound)
-        elif type == theme.CUSTOM:
-            self._thumb = theme.pixbuf(theme.SOUND_MUTE, theme.THUMB_SIZE)
-            self._soundfile = ''
-        elif type == theme.JOURNAL:
-            self._thumb = theme.pixbuf(theme.SOUND_CUSTOM, theme.THUMB_SIZE)
-            self._soundfile = _tmpname()
-            os.rename(sound, self._soundfile) 
-        else:
-            self._thumb = theme.pixbuf(theme.SOUND_SPEAKER, theme.THUMB_SIZE)
-            self._soundfile = sound
+        self.id = id
+        self._soundfile = soundfile
+        self._thumb = theme.pixbuf(thumb, theme.THUMB_SIZE)
 
     def custom(self):
-        return self._type != theme.PREINSTALLED
+        return True
 
     def read(self):
-        if not self._soundfile:
-            return ''
-        else:
-            return file(self._soundfile, 'r').read()
-
-    def filename(self):
-        return self._soundfile
+        return file(self._soundfile, 'r').read()
 
     def thumb(self):
         return self._thumb
 
     def select(self):
-        out = self
-
-        if self._type == theme.CUSTOM:
-            out = theme.choose(
-                    lambda title, file: Sound(title, file, theme.JOURNAL))
-            if not out:
-                return None
-
         Sound.current = self
-        if not Sound.playing: return out
-        Sound.player.set_state(gst.STATE_NULL)
-        if len(out._soundfile) == 0: return out
+        if Sound.playing:
+            Sound.player.set_state(gst.STATE_NULL)
+            Sound.player.set_property('uri',
+                    'file://' + theme.path(self._soundfile))
+            Sound.player.set_state(gst.STATE_PLAYING)
+        return self
 
-        Sound.player.set_property('uri', 'file://' + theme.path(out._soundfile))
-        Sound.player.set_state(gst.STATE_NULL)
-        Sound.player.set_state(gst.STATE_PLAYING)
+class PreinstalledSound(Sound):
+    def __init__(self, name, filename):
+        Sound.__init__(self, name, filename, filename, theme.SOUND_SPEAKER)
 
-        return out
+    def custom(self):
+        return False
+
+class MuteSound(Sound):
+    def __init__(self, name):
+        Sound.__init__(self, name, None, None, theme.SOUND_MUTE)
+
+    def custom(self):
+        return False
+
+    def read(self):
+        return ''
+
+    def select(self):
+        Sound.player.set_state(gst.STATE_NULL)
+        return self
+
+class CustomSound(Sound):
+    def __init__(self, name):
+        Sound.__init__(self, name, None, None, theme.SOUND_CUSTOM)
+
+    def select(self):
+        sound = theme.choose(lambda jobject: JournalSound(jobject))
+        if sound:
+            sound.select()
+        return sound
+
+class RestoredSound(Sound):
+    def __init__(self, name, id, data):
+        soundfile = os.path.join(theme.SESSION_PATH, id)
+        Sound.__init__(self, name, id, soundfile, theme.SOUND_CUSTOM)
+        file(soundfile, 'w').write(data)
+
+class JournalSound(Sound):
+    def __init__(self, jobject):
+        soundfile = os.path.join(theme.SESSION_PATH, jobject.object_id)
+        Sound.__init__(self, jobject.props.metadata['title'],
+                jobject.object_id, soundfile, theme.SOUND_CUSTOM)
+        os.rename(jobject.file_path, soundfile) 
 
 THEMES = [
-    Sound(_('Gobble'),  'sounds/gobble.wav', theme.PREINSTALLED),
-    Sound(_('Funk'),    'sounds/funk.wav', theme.PREINSTALLED),
-    Sound(_('Giggle'),  'sounds/giggle.wav', theme.PREINSTALLED),
-    Sound(_('Jungle'),  'sounds/jungle.wav', theme.PREINSTALLED),
-    Sound(_('Mute'),    '', theme.PREINSTALLED),
+    PreinstalledSound(_('Gobble'),  'sounds/gobble.wav'),
+    PreinstalledSound(_('Funk'),    'sounds/funk.wav'),
+    PreinstalledSound(_('Giggle'),  'sounds/giggle.wav'),
+    PreinstalledSound(_('Jungle'),  'sounds/jungle.wav'),
+    MuteSound(_('Mute')),
     None,
-    Sound(_('Custom'),  None, theme.CUSTOM) ]
+    CustomSound(_('Custom')) ]
 
 Sound.current = THEMES[0]
 

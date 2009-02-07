@@ -18,8 +18,8 @@ import cjson
 from zipfile import ZipFile
 
 import theme
-from sound import Sound
-from ground import Ground
+from sound import *
+from ground import *
 from utils import *
 
 from char import Frame
@@ -51,8 +51,8 @@ def save(filepath):
             zip.writestr(arcname, value.read())
         else:
             node['custom'] = False
-            node['filename'] = value.filename()
         node['name'] = value.name
+        node['id'] = value.id
 
     _save(cfg['ground'], 'ground.png', Document.ground)
     _save(cfg['sound'], 'sound', Document.sound)
@@ -86,16 +86,15 @@ def load(filepath):
     zip = ZipFile(filepath, 'r')
     cfg = cjson.decode(zip.read('MANIFEST'))
 
-    def _load(node, klass):
+    def _load(node, restored_class, preinstalled_class):
         if node['custom']:
-            out = klass(node['name'], zip.read(node['filename']),
-                    theme.RESTORED)
+            return restored_class(node['name'], node['id'],
+                    zip.read(node['filename']))
         else:
-            out = klass(node['name'], node['filename'], theme.PREINSTALLED)
-        return out
+            return preinstalled_class(node['name'], node['id'])
 
-    Document.ground = _load(cfg['ground'], Ground)
-    Document.sound = _load(cfg['sound'], Sound)
+    Document.ground = _load(cfg['ground'], RestoredGround, PreinstalledGround)
+    Document.sound = _load(cfg['sound'], RestoredSound, PreinstalledSound)
 
     loaded = {}
     for node in cfg['tape']:
