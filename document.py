@@ -14,8 +14,8 @@
 
 import os
 import gtk
+import cjson
 from zipfile import ZipFile
-from xml.etree.ElementTree import Element, SubElement, tostring, fromstring
 
 import theme
 from sound import Sound
@@ -39,20 +39,23 @@ def clean(index):
 
 def save(filepath):
     zip = ZipFile(filepath, 'w')
-    manifest = Element('memorize')
+
+    cfg = { 'ground': {},
+            'sound' : {},
+            'tape'  : [] }
 
     def _save(node, arcname, value):
         if value.custom():
-            node.attrib['custom'] = '1'
-            node.attrib['filename'] = arcname
+            node['custom'] = True
+            node['filename'] = arcname
             zip.writestr(arcname, value.read())
         else:
-            node.attrib['custom'] = '0'
-            node.attrib['filename'] = value.filename()
-        node.text = value.name
+            node['custom'] = False
+            node['filename'] = value.filename()
+        node['name'] = value.name
 
-    _save(SubElement(manifest, 'ground'), 'ground.png', Document.ground)
-    _save(SubElement(manifest, 'sound'), 'sound', Document.sound)
+    _save(cfg['ground'], 'ground.png', Document.ground)
+    _save(cfg['sound'], 'sound', Document.sound)
 
     arcfiles = {}
     for i, frame in enumerate(
@@ -60,20 +63,20 @@ def save(filepath):
         arcfiles[frame] = 'frame%03d.png' % i
         zip.writestr(arcfiles[frame], frame.read())
 
-    tape = SubElement(manifest, 'tape')
     for i, frame in enumerate(Document.tape):
         if frame.empty():
             continue
-        node = SubElement(tape, 'frame')
+        node = {}
         if frame.custom():
-            node.attrib['custom'] = '1'
-            node.attrib['filename'] = arcfiles[frame]
+            node['custom'] = True
+            node['filename'] = arcfiles[frame]
         else:
-            node.attrib['custom'] = '0'
-            node.attrib['filename'] = frame.filename()
-        node.attrib['index'] = str(i)
+            node['custom'] = False
+            node['filename'] = frame.filename()
+        node['index'] = i
+        cfg['tape'].append(node)
 
-    zip.writestr('MANIFEST.xml', tostring(manifest, encoding='utf-8'))
+    zip.writestr('MANIFEST', cjson.encode(cfg))
     zip.close()
 
     import shutil
@@ -81,26 +84,26 @@ def save(filepath):
 
 def load(filepath):
     zip = ZipFile(filepath, 'r')
-    manifest = fromstring(zip.read('MANIFEST.xml'))
+    cfg = cjson.decode(zip.read('MANIFEST'))
 
     def _load(node, klass):
-        if int(node.attrib['custom']):
-            out = klass(node.text, zip.read(node.attrib['filename']),
+        if node['custom']:
+            out = klass(node['name'], zip.read(node['filename']),
                     theme.RESTORED)
         else:
-            out = klass(node.text, node.attrib['filename'], theme.PREINSTALLED)
+            out = klass(node['name'], node['filename'], theme.PREINSTALLED)
         return out
 
-    Document.ground = _load(manifest.find('ground'), Ground)
-    Document.sound = _load(manifest.find('sound'), Sound)
+    Document.ground = _load(cfg['ground'], Ground)
+    Document.sound = _load(cfg['sound'], Sound)
 
     loaded = {}
-    for node in manifest.findall('tape/frame'):
-        i = int(node.attrib['index'])
+    for node in cfg['tape']:
+        i = node['index']
         if i >= theme.TAPE_COUNT:
             continue
-        filename = node.attrib['filename']
-        if int(node.attrib['custom']):
+        filename = node['filename']
+        if node['custom']:
             frame = loaded.get(filename)
             if not frame:
                 frame = loaded[filename] = Frame(
