@@ -29,37 +29,22 @@ def load():
         custom.frames[i] = f
 
 class Frame:
-    def __init__(self, image, type):
-        self._type =  type
+    def __init__(self, id):
+        self.id = id
         self._thumb = None
         self._orig = None
-        self._filename = None
-
-        if type == theme.RESTORED:
-            tmpfile = os.path.join(theme.SESSION_PATH, '.tmp.png')
-            file(tmpfile, 'w').write(image)
-            self._orig = theme.pixbuf(tmpfile)
-            os.unlink(tmpfile)
-        elif type == theme.CUSTOM:
-            self._thumb = theme.CUSTOM_FRAME_THUMB
-        elif type == theme.EMPTY:
-            self._type = theme.PREINSTALLED
-            self._thumb = theme.EMPTY_THUMB
-            self._orig = theme.EMPTY_ORIG
-        else:
-            self._filename = image
 
     def read(self):
-        if not self._orig:
-            return ''
-        else:
+        if self._orig:
             return pixbuf2str(self._orig)
+        else:
+            return ''
 
     def empty(self):
-        return self._thumb == theme.EMPTY_THUMB
+        return False
 
     def custom(self):
-        return self._type != theme.PREINSTALLED
+        return True
 
     def thumb(self):
         if self._thumb == None:
@@ -67,21 +52,61 @@ class Frame:
         return self._thumb
 
     def orig(self):
-        if self._orig == None:
-            if self._type != theme.PREINSTALLED:
-                return theme.EMPTY_ORIG
-            self._orig = theme.pixbuf(self._filename)
         return self._orig
 
     def select(self):
-        if self._type != theme.CUSTOM or self._orig:
-            return True;
-        self._orig = theme.choose(lambda t, file: theme.pixbuf(file))
-        self._thumb = theme.scale(self.orig())
-        return self._orig != None
+        return True;
 
-    def filename(self):
-        return self._filename
+class PreinstalledFrame(Frame):
+    def __init__(self, filename):
+        Frame.__init__(self, filename)
+        self._filename = filename
+
+    def custom(self):
+        return False
+
+    def orig(self):
+        if self._orig == None:
+            self._orig = theme.pixbuf(self._filename)
+        return self._orig
+
+class EmptyFrame(Frame):
+    def __init__(self):
+        Frame.__init__(self, None)
+        self._thumb = theme.EMPTY_THUMB
+        self._orig = theme.EMPTY_ORIG
+
+    def custom(self):
+        return False
+
+    def empty(self):
+        return True
+
+class RestoredFrame(Frame):
+    def __init__(self, id, data):
+        Frame.__init__(self, id)
+        self._orig = theme.str2pixbuf(data)
+
+class CustomFrame(Frame):
+    def __init__(self):
+        Frame.__init__(self, None)
+        self._thumb = theme.CUSTOM_FRAME_THUMB
+
+    def orig(self):
+        if self._orig == None:
+            return theme.EMPTY_ORIG
+        return self._orig
+
+    def select(self):
+        if self._orig:
+            return True;
+        self.id, self._orig = theme.choose(lambda jobject: (jobject.object_id,
+                    theme.pixbuf(jobject.file_path)), (None, None))
+        if self.id:
+            self._thumb = theme.scale(self._orig)
+            return True
+        else:
+            return False
 
 class Char:
     def __init__(self, name, thumbfile, dir):
@@ -90,16 +115,15 @@ class Char:
 
         if dir:
             for i in sorted(glob.glob(theme.path(dir, '*'))):
-                self.frames.append(Frame(
-                        os.path.join(dir, os.path.basename(i)),
-                        theme.PREINSTALLED))
+                self.frames.append(PreinstalledFrame(
+                        os.path.join(dir, os.path.basename(i))))
             for i in range(len(self.frames)-1,
                     theme.FRAME_ROWS*theme.FRAME_COLS):
-                self.frames.append(Frame(None, theme.EMPTY))
+                self.frames.append(EmptyFrame())
             self._thumb = theme.pixbuf(thumbfile, theme.THUMB_SIZE)
         else:
             for i in range(0, theme.FRAME_ROWS*theme.FRAME_COLS):
-                self.frames.append(Frame(None, theme.CUSTOM))
+                self.frames.append(CustomFrame())
             self._thumb = theme.CUSTOM_FRAME_THUMB
 
     def thumb(self):
@@ -107,7 +131,7 @@ class Char:
 
     def clean(self, index):
         if self.frames[index].custom():
-            self.frames[index] = Frame(None, theme.CUSTOM)
+            self.frames[index] = CustomFrame()
 
 THEMES = (
     Char(_('Elephant'),     'images/pics/Elephant/bigelephant0.gif',

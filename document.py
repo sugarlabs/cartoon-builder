@@ -21,27 +21,26 @@ import theme
 from sound import *
 from ground import *
 from utils import *
-
-from char import Frame
+from char import *
 
 class Document:
     tape = []
     ground = None
     sound = None
 
-
     for i in range(theme.TAPE_COUNT):
-        tape.append(Frame(None, theme.EMPTY))
+        tape.append(EmptyFrame())
 
 def clean(index):
     from char import Frame
-    Document.tape[index] = Frame(None, theme.EMPTY)
+    Document.tape[index] = EmptyFrame()
 
 def save(filepath):
     zip = ZipFile(filepath, 'w')
 
     cfg = { 'ground': {},
             'sound' : {},
+            'frames': {},
             'tape'  : [] }
 
     def _save(node, arcname, value):
@@ -51,30 +50,25 @@ def save(filepath):
             zip.writestr(arcname, value.read())
         else:
             node['custom'] = False
-        node['name'] = value.name
+        node['name'] = unicode(value.name)
         node['id'] = value.id
 
     _save(cfg['ground'], 'ground.png', Document.ground)
     _save(cfg['sound'], 'sound', Document.sound)
 
-    arcfiles = {}
     for i, frame in enumerate(
             [i for i in set(Document.tape) if not i.empty() and i.custom()]):
-        arcfiles[frame] = 'frame%03d.png' % i
-        zip.writestr(arcfiles[frame], frame.read())
+        arcname = 'frame%03d.png' % i
+        cfg['frames'][frame.id] = arcname
+        zip.writestr(arcname, frame.read())
 
     for i, frame in enumerate(Document.tape):
-        if frame.empty():
-            continue
-        node = {}
-        if frame.custom():
-            node['custom'] = True
-            node['filename'] = arcfiles[frame]
-        else:
-            node['custom'] = False
-            node['filename'] = frame.filename()
-        node['index'] = i
-        cfg['tape'].append(node)
+        if not frame.empty():
+            node = {}
+            node['custom'] = frame.custom()
+            node['id'] = frame.id
+            node['index'] = i
+            cfg['tape'].append(node)
 
     zip.writestr('MANIFEST', cjson.encode(cfg))
     zip.close()
@@ -96,19 +90,17 @@ def load(filepath):
     Document.ground = _load(cfg['ground'], RestoredGround, PreinstalledGround)
     Document.sound = _load(cfg['sound'], RestoredSound, PreinstalledSound)
 
-    loaded = {}
+    frames = {}
+
+    for id, arcname in cfg['frames'].items():
+        frames[id] = RestoredFrame(id, zip.read(arcname))
+
     for node in cfg['tape']:
         i = node['index']
-        if i >= theme.TAPE_COUNT:
-            continue
-        filename = node['filename']
-        if node['custom']:
-            frame = loaded.get(filename)
-            if not frame:
-                frame = loaded[filename] = Frame(
-                        zip.read(filename), theme.RESTORED)
-            Document.tape[i] = frame
-        else:
-            Document.tape[i] = Frame(filename, theme.PREINSTALLED)
+        if i < theme.TAPE_COUNT:
+            if node['custom']:
+                Document.tape[i] = frames[node['id']]
+            else:
+                Document.tape[i] = PreinstalledFrame(node['id'])
 
     zip.close()

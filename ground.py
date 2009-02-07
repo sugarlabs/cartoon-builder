@@ -34,7 +34,7 @@ class Ground:
         return True
 
     def read(self):
-        pixbuf2str(self._orig)
+        return theme.pixbuf2str(self._orig)
 
     def thumb(self):
         if not self._thumb:
@@ -61,17 +61,19 @@ class CustomGround(Ground):
         self._orig = theme.pixbuf(filename)
 
     def select(self):
-        return theme.choose(lambda jobject: JournalGround(jobject))
+        try:
+            return theme.choose(lambda jobject: JournalGround(jobject))
+        except:
+            return None
 
 class RestoredGround(Ground):
     def __init__(self, name, id, data):
         Ground.__init__(self, name, id)
-        self._orig = str2pixbuf(data)
+        self._orig = theme.str2pixbuf(data)
 
 class JournalGround(Ground):
     def __init__(self, jobject):
-        Ground.__init__(self, jobject.props.metadata['title'],
-                jobject.object_id)
+        Ground.__init__(self, jobject.metadata['title'], jobject.object_id)
         self._orig = theme.pixbuf(jobject.file_path)
 
 THEMES = [

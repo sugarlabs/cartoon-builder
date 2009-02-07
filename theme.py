@@ -20,12 +20,6 @@ from math import ceil
 from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
 
-PREINSTALLED = 0
-CUSTOM       = 1
-JOURNAL      = 2
-RESTORED     = 3
-EMPTY        = 4
-
 SOUND_SPEAKER = 'images/sounds/speaker.png'
 SOUND_MUTE    = 'images/sounds/custom.png'
 SOUND_CUSTOM  = 'images/sounds/custom.png'
@@ -112,7 +106,7 @@ EMPTY_THUMB = scale(EMPTY_ORIG)
 CUSTOM_FRAME_ORIG = pixbuf('images/pics/custom.png')
 CUSTOM_FRAME_THUMB = scale(CUSTOM_FRAME_ORIG)
 
-def choose(out_fun):
+def choose(out_fun, default=None):
     from sugar.graphics.objectchooser import ObjectChooser
 
     chooser = ObjectChooser()
@@ -124,13 +118,13 @@ def choose(out_fun):
         if result == gtk.RESPONSE_ACCEPT:
             jobject = chooser.get_selected_object()
             if jobject and jobject.file_path:
-                return out_fun(jobject.metadata['title'], jobject.file_path)
+                return out_fun(jobject)
     finally:
         if jobject: jobject.destroy()
         chooser.destroy()
         del chooser
 
-    return None
+    return default
 
 def pixbuf2str(pixbuf):
     def push(data, buffer):
@@ -144,7 +138,7 @@ def pixbuf2str(pixbuf):
 def str2pixbuf(data):
     tmpfile = os.path.join(SESSION_PATH, '.tmp.png')
     file(tmpfile, 'w').write(data)
-    out = theme.pixbuf(tmpfile)
+    out = pixbuf(tmpfile)
     os.unlink(tmpfile)
     return out
 

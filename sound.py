@@ -15,6 +15,7 @@
 import os
 import gtk
 import gst
+import shutil
 from glob import glob
 from gettext import gettext as _
 
@@ -97,9 +98,9 @@ class RestoredSound(Sound):
 class JournalSound(Sound):
     def __init__(self, jobject):
         soundfile = os.path.join(theme.SESSION_PATH, jobject.object_id)
-        Sound.__init__(self, jobject.props.metadata['title'],
+        Sound.__init__(self, jobject.metadata['title'],
                 jobject.object_id, soundfile, theme.SOUND_CUSTOM)
-        os.rename(jobject.file_path, soundfile) 
+        shutil.copy(jobject.file_path, soundfile) 
 
 THEMES = [
     PreinstalledSound(_('Gobble'),  'sounds/gobble.wav'),
