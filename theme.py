@@ -21,7 +21,7 @@ from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
 
 SOUND_SPEAKER = 'images/sounds/speaker.png'
-SOUND_MUTE    = 'images/sounds/custom.png'
+SOUND_MUTE    = 'images/sounds/mute.png'
 SOUND_CUSTOM  = 'images/sounds/custom.png'
 
 LOGO_WIDTH = 275
@@ -100,8 +100,6 @@ def scale(pixbuf, size = THUMB_SIZE):
 EMPTY_FILENAME = 'images/pics/empty.png'
 EMPTY_ORIG = pixbuf(EMPTY_FILENAME)
 EMPTY_THUMB = scale(EMPTY_ORIG)
-
-#CUSTOM_GROUND   EMPTY_FILENAME = 'images/pics/empty.png'
 
 CUSTOM_FRAME_ORIG = pixbuf('images/pics/custom.png')
 CUSTOM_FRAME_THUMB = scale(CUSTOM_FRAME_ORIG)

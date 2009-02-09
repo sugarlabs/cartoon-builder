@@ -6,7 +6,7 @@ d remove my character, my background, and my sound buttons
 d replace file system integration with journal integration
 d add sugar toolbar with activity, background, and sound menus
  d insert background from background menu (from journal)
- x insert sound from sound menu (from journal)
-- make buttons bigger
-- make interface screen resolution independent
-- add tooltips
+ d insert sound from sound menu (from journal)
+d make buttons bigger
+d make interface screen resolution independent
+d add tooltips
