@@ -31,10 +31,11 @@ def load():
 class Frame:
     def __init__(self, id):
         self.id = id
+        self.name = ''
         self._thumb = None
         self._orig = None
 
-    def read(self):
+    def serialize(self):
         if self._orig:
             return pixbuf2str(self._orig)
         else:
@@ -100,9 +101,11 @@ class CustomFrame(Frame):
     def select(self):
         if self._orig:
             return True;
-        self.id, self._orig = theme.choose(lambda jobject: (jobject.object_id,
-                    theme.pixbuf(jobject.file_path)), (None, None))
-        if self.id:
+        self.name, self.id, self._orig = theme.choose(lambda jobject:
+                (jobject.metadata['title'], jobject.object_id,
+                    theme.pixbuf(jobject.file_path)),
+                (None, None, None))
+        if self.name:
             self._thumb = theme.scale(self._orig)
             return True
         else:
@@ -117,14 +120,16 @@ class Char:
             for i in sorted(glob.glob(theme.path(dir, '*'))):
                 self.frames.append(PreinstalledFrame(
                         os.path.join(dir, os.path.basename(i))))
-            for i in range(len(self.frames)-1,
-                    theme.FRAME_ROWS*theme.FRAME_COLS):
-                self.frames.append(EmptyFrame())
             self._thumb = theme.pixbuf(thumbfile, theme.THUMB_SIZE)
+            self._custom = False
         else:
             for i in range(0, theme.FRAME_ROWS*theme.FRAME_COLS):
                 self.frames.append(CustomFrame())
             self._thumb = theme.CUSTOM_FRAME_THUMB
+            self._custom = True
+
+    def custom(self):
+        return self._custom
 
     def thumb(self):
         return self._thumb

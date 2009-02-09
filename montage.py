@@ -20,13 +20,18 @@
 
 import gtk
 import gobject
+import logging
+from gobject import SIGNAL_RUN_FIRST, TYPE_PYOBJECT
 
 import theme
 import char
 import ground
 import sound
 from document import Document, clean
+from screen import Screen
 from utils import *
+
+logger = logging.getLogger('cartoon-builder')
 
 def play():
     View.play_tape_num = 0
@@ -34,6 +39,8 @@ def play():
 
 def stop():
     View.playing = None
+    View.screen.fgpixbuf = Document.tape[View.tape_selected].orig()
+    View.screen.draw()
 
 def set_tempo(tempo):
     View.delay = 10 + (10-int(tempo)) * 100
@@ -67,40 +74,10 @@ def _play_tape():
     return True
 
 class View(gtk.EventBox):
-    class Screen(gtk.DrawingArea):
-        def __init__(self):
-            gtk.DrawingArea.__init__(self)
-            self.gc = None  # initialized in realize-event handler
-            self.width  = 0 # updated in size-allocate handler
-            self.height = 0 # idem
-            self.bgpixbuf = None
-            self.fgpixbuf = None
-            self.connect('size-allocate', self.on_size_allocate)
-            self.connect('expose-event',  self.on_expose_event)
-            self.connect('realize',       self.on_realize)
-
-        def on_realize(self, widget):
-            self.gc = widget.window.new_gc()
-        
-        def on_size_allocate(self, widget, allocation):
-            self.height = self.width = min(allocation.width, allocation.height)
-        
-        def on_expose_event(self, widget, event):
-            # This is where the drawing takes place
-            if self.bgpixbuf:
-                pixbuf = self.bgpixbuf
-                if pixbuf.get_width != self.width:
-                    pixbuf = theme.scale(pixbuf, self.width)
-                widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
-
-            if self.fgpixbuf:
-                pixbuf = self.fgpixbuf
-                if pixbuf.get_width != self.width:
-                    pixbuf = theme.scale(pixbuf, self.width)
-                widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
-
-        def draw(self):
-            self.queue_draw()
+    __gsignals__ = {
+        'frame-changed' : (SIGNAL_RUN_FIRST, None, 2*[TYPE_PYOBJECT]), 
+        'ground-changed': (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]), 
+        'sound-changed' : (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]) } 
 
     screen = Screen()
     play_tape_num = 0
@@ -109,33 +86,116 @@ class View(gtk.EventBox):
     tape_selected = -1
     tape = []
 
+    def set_frame(self, value):
+        tape_num, frame = value
+
+        if frame == None:
+            clean(tape_num)
+            View.tape[tape_num].child.set_from_pixbuf(theme.EMPTY_THUMB)
+        else:
+            if not frame.select():
+                return False
+
+            Document.tape[tape_num] = frame
+            View.tape[tape_num].child.set_from_pixbuf(frame.thumb())
+
+            if frame.custom():
+                index = [i for i, f in enumerate(char.THEMES[-1].frames)
+                        if f == frame][0]
+                if index >= len(self._frames):
+                    first = index / theme.FRAME_COLS * theme.FRAME_COLS
+                    for i in range(first, first + theme.FRAME_COLS):
+                        self._add_frame(i)
+
+            if self.char.custom():
+                self._frames[index].set_from_pixbuf(frame.thumb())
+
+        if View.tape_selected == tape_num:
+            self._tape_cb(None, None, tape_num)
+
+        return True
+
+    def set_ground(self, value):
+        self._set_combo(self._ground_combo, value)
+
+    def set_sound(self, value):
+        self._set_combo(self._sound_combo, value)
+
+    def _set_combo(self, combo, value):
+        try:
+            self._stop_emission = True
+            pos = -1
+
+            for i, item in enumerate(combo.get_model()):
+                if item[0] == value:
+                    pos = i
+                    break
+
+            if pos == -1:
+                combo.append_item(value, text = value.name,
+                        size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
+                        pixbuf = value.thumb())
+                pos = len(combo.get_model())-1
+
+            combo.set_active(pos)
+        finally:
+            self._stop_emission = False
+
+    frame = gobject.property(type=object, getter=None, setter=set_frame)
+    ground = gobject.property(type=object, getter=None, setter=set_ground)
+    sound = gobject.property(type=object, getter=None, setter=set_sound)
+
+    def restore(self):
+        def new_combo(themes, cb, object = None, closure = None):
+            combo = ComboBox()
+            sel = 0
+
+            for i, o in enumerate(themes):
+                if o:
+                    combo.append_item(o, text = o.name,
+                            size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
+                            pixbuf = o.thumb())
+                    if object and o.name == object.name:
+                        sel = i
+                else:
+                    combo.append_separator()
+
+            combo.connect('changed', cb, closure)
+            combo.set_active(sel)
+            combo.show()
+
+            return combo
+
+        self.controlbox.pack_start(new_combo(char.THEMES, self._char_cb),
+                False, False)
+        self._ground_combo =  new_combo(ground.THEMES, self._combo_cb,
+                Document.ground, self._ground_cb)
+        self.controlbox.pack_start(self._ground_combo, False, False)
+        self._sound_combo = new_combo(sound.THEMES, self._combo_cb,
+                Document.sound, self._sound_cb)
+        self.controlbox.pack_start(self._sound_combo, False, False)
+
+        for i in range(theme.TAPE_COUNT):
+            View.tape[i].child.set_from_pixbuf(Document.tape[i].thumb())
+        self._tape_cb(None, None, 0)
+
+        return False
+
     def __init__(self):
         gtk.EventBox.__init__(self)
 
+        self.char = None
         self._frames = []
         self._prev_combo_selected = {}
+        self._stop_emission = False
 
         # frames table
 
-        self.table = gtk.Table(theme.FRAME_ROWS, columns=theme.FRAME_COLS,
+        self.table = gtk.Table(#theme.FRAME_ROWS, columns=theme.FRAME_COLS,
                 homogeneous=False)
 
-        for y in range(theme.FRAME_ROWS):
-            for x in range(theme.FRAME_COLS):
-                image = gtk.Image()
-                self._frames.append(image)
-
-                image_box = gtk.EventBox()
-                image_box.set_events(gtk.gdk.BUTTON_PRESS_MASK)
-                image_box.connect('button_press_event', self._frame_cb,
-                        y * theme.FRAME_COLS + x)
-                image_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
-                image_box.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
-                image_box.props.border_width = 2
-                image_box.set_size_request(theme.THUMB_SIZE, theme.THUMB_SIZE)
-                image_box.add(image)
-
-                self.table.attach(image_box, x, x+1, y, y+1)
+        for i in range(theme.FRAME_ROWS * theme.FRAME_COLS):
+            self._add_frame(i)
 
         # frames box
 
@@ -165,7 +225,7 @@ class View(gtk.EventBox):
         screen_pink.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(PINK))
         screen_box = gtk.EventBox()
         screen_box.set_border_width(5)
-        screen_box.add(self.screen)
+        screen_box.add(View.screen)
         screen_pink.add(screen_box)
         screen_pink.props.border_width = theme.BORDER_WIDTH
 
@@ -263,44 +323,37 @@ class View(gtk.EventBox):
         self.add(greenbox)
         self.show_all()
 
-    def restore(self):
-        def new_combo(themes, cb, object = None, closure = None):
-            combo = ComboBox()
-            sel = 0
+    def _add_frame(self, index):
+        y = index / theme.FRAME_COLS
+        x = index - y*theme.FRAME_COLS
+        logger.debug('add new frame x=%d y=%d index=%d' % (x, y, index))
 
-            for i, o in enumerate(themes):
-                if o:
-                    combo.append_item(o, text = o.name,
-                            size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
-                            pixbuf = o.thumb())
-                    if object and o.name == object.name:
-                        sel = i
-                else:
-                    combo.append_separator()
+        image = gtk.Image()
+        image.show()
+        image.set_from_pixbuf(theme.EMPTY_THUMB)
+        self._frames.append(image)
 
-            combo.connect('changed', cb, closure)
-            combo.set_active(sel)
-            combo.show()
+        image_box = gtk.EventBox()
+        image_box.set_events(gtk.gdk.BUTTON_PRESS_MASK)
+        image_box.connect('button_press_event', self._frame_cb, index)
+        image_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
+        image_box.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
+        image_box.props.border_width = 2
+        image_box.set_size_request(theme.THUMB_SIZE, theme.THUMB_SIZE)
+        image_box.add(image)
 
-            return combo
+        if self.char and self.char.custom():
+            image_box.show()
 
-        self.controlbox.pack_start(new_combo(char.THEMES, self._char_cb),
-                False, False)
-        self.controlbox.pack_start(new_combo(ground.THEMES, self._combo_cb,
-                Document.ground, self._ground_cb), False, False)
-        self.controlbox.pack_start(new_combo(sound.THEMES, self._combo_cb,
-                Document.sound, self._sound_cb), False, False)
+        self.table.attach(image_box, x, x+1, y, y+1)
 
-        for i in range(theme.TAPE_COUNT):
-            View.tape[i].child.set_from_pixbuf(Document.tape[i].thumb())
-        self._tape_cb(None, None, 0)
-
-        return False
+        return image
 
     def _tape_cb(self, widget, event, index):
         if event and event.button == 3:
-            clean(index)
-            View.tape[index].child.set_from_pixbuf(theme.EMPTY_THUMB)
+            self.set_frame((index, None))
+            self.emit('frame-changed', index, None)
+            return
 
         tape = View.tape[index]
         tape.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
@@ -315,26 +368,32 @@ class View(gtk.EventBox):
                         gtk.gdk.color_parse(BLACK))
 
         View.tape_selected = index
-        self.screen.fgpixbuf = Document.tape[index].orig()
-        self.screen.draw()
+        View.screen.fgpixbuf = Document.tape[index].orig()
+        View.screen.draw()
 
     def _frame_cb(self, widget, event, i):
-
         if event.button == 3:
             self.char.clean(i)
             self._frames[i].set_from_pixbuf(self.char.frames[i].thumb())
         else:
-            frame = self.char.frames[i]
-            if frame.select():
-                Document.tape[View.tape_selected] = frame
-                View.tape[View.tape_selected].child.set_from_pixbuf(frame.thumb())
-                self._frames[i].set_from_pixbuf(frame.thumb())
-                self._tape_cb(None, None, View.tape_selected)
+            if i < len(self.char.frames):
+                frame = self.char.frames[i]
+                if not self.set_frame((View.tape_selected, frame)):
+                    return
+            else:
+                frame = None
+                self.set_frame((View.tape_selected, None))
+
+            self.emit('frame-changed', View.tape_selected, frame)
 
     def _char_cb(self, widget, closure):
         self.char = widget.props.value
         for i in range(len(self._frames)):
-            self._frames[i].set_from_pixbuf(self.char.frames[i].thumb())
+            if i < len(self.char.frames):
+                self._frames[i].set_from_pixbuf(self.char.frames[i].thumb())
+                self._frames[i].parent.show()
+            else:
+                self._frames[i].parent.hide()
 
     def _combo_cb(self, widget, cb):
         choice = widget.props.value.select()
@@ -344,22 +403,25 @@ class View(gtk.EventBox):
             return
 
         if id(choice) != id(widget.props.value):
-            pos = widget.get_active()
             widget.append_item(choice, text = choice.name,
                     size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
-                    pixbuf = choice.thumb(), position = pos)
-            widget.set_active(pos)
+                    pixbuf = choice.thumb())
+            widget.set_active(len(widget.get_model())-1)
 
         self._prev_combo_selected[widget] = widget.get_active()
         cb(choice)
 
     def _ground_cb(self, choice):
-        self.screen.bgpixbuf = choice.orig()
-        self.screen.draw()
+        View.screen.bgpixbuf = choice.orig()
+        View.screen.draw()
         Document.ground = choice
+        if not self._stop_emission:
+            self.emit('ground-changed', choice)
 
     def _sound_cb(self, choice):
         Document.sound = choice
+        if not self._stop_emission:
+            self.emit('sound-changed', choice)
 
     def _screen_size_cb(self, widget, aloc):
         size = min(aloc.width, aloc.height)

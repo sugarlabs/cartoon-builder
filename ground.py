@@ -22,7 +22,7 @@ def load():
     from document import Document
 
     if Document.ground and Document.ground.custom():
-        THEMES.insert(-1, Document.ground)
+        THEMES.append(Document.ground)
 
 class Ground:
     def __init__(self, name, id):
@@ -33,7 +33,7 @@ class Ground:
     def custom(self):
         return True
 
-    def read(self):
+    def serialize(self):
         return theme.pixbuf2str(self._orig)
 
     def thumb(self):
@@ -75,6 +75,7 @@ class JournalGround(Ground):
     def __init__(self, jobject):
         Ground.__init__(self, jobject.metadata['title'], jobject.object_id)
         self._orig = theme.pixbuf(jobject.file_path)
+        THEMES.append(self)
 
 THEMES = [
     PreinstalledGround(_('Saturn'),     'images/backpics/bigbg01.gif'),

@@ -47,7 +47,7 @@ def save(filepath):
         if value.custom():
             node['custom'] = True
             node['filename'] = arcname
-            zip.writestr(arcname, value.read())
+            zip.writestr(arcname, value.serialize())
         else:
             node['custom'] = False
         node['name'] = unicode(value.name)
@@ -60,7 +60,7 @@ def save(filepath):
             [i for i in set(Document.tape) if not i.empty() and i.custom()]):
         arcname = 'frame%03d.png' % i
         cfg['frames'][frame.id] = arcname
-        zip.writestr(arcname, frame.read())
+        zip.writestr(arcname, frame.serialize())
 
     for i, frame in enumerate(Document.tape):
         if not frame.empty():

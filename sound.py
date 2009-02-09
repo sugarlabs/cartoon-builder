@@ -27,7 +27,7 @@ def load():
     from document import Document
 
     if Document.sound and Document.sound.custom():
-        THEMES.insert(-1, Document.sound)
+        THEMES.append(Document.sound)
 
 class Sound:
     playing = False
@@ -43,7 +43,7 @@ class Sound:
     def custom(self):
         return True
 
-    def read(self):
+    def serialize(self):
         return file(self._soundfile, 'r').read()
 
     def thumb(self):
@@ -67,12 +67,12 @@ class PreinstalledSound(Sound):
 
 class MuteSound(Sound):
     def __init__(self, name):
-        Sound.__init__(self, name, None, None, theme.SOUND_MUTE)
+        Sound.__init__(self, name, 'mute', None, theme.SOUND_MUTE)
 
     def custom(self):
         return False
 
-    def read(self):
+    def serialize(self):
         return ''
 
     def select(self):
@@ -101,6 +101,7 @@ class JournalSound(Sound):
         Sound.__init__(self, jobject.metadata['title'],
                 jobject.object_id, soundfile, theme.SOUND_CUSTOM)
         shutil.copy(jobject.file_path, soundfile) 
+        THEMES.append(self)
 
 THEMES = [
     PreinstalledSound(_('Gobble'),  'sounds/gobble.wav'),
