@@ -115,7 +115,7 @@ class MontageToolbar(gtk.Toolbar):
 
         clear_tape = ToolButton('sl-reset')
         clear_tape.connect('clicked', self._clear_tape_cb)
-        clear_tape.set_tooltip(_(''))
+        clear_tape.set_tooltip(_('Reset'))
         self.insert(clear_tape, -1)
 
         self.show_all()
