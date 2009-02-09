@@ -1,7 +1,8 @@
 [Activity]
 name = CartoonBuilder
 service_name = com.ywwg.CartoonBuilderActivity
-class = cartoonbuilder.cartoonbuilderActivity
+class = activity.CartoonBuilderActivity
 icon = activity-cartoonbuilder
 activity_version = 1
 show_launcher = yes
+license = GPLv2+

@@ -1,0 +1,22 @@
+style "combobox"
+{
+    color["focus_line"] = "#027F01"
+    bg[NORMAL] = "#027F01"
+    bg[ACTIVE] = "#026002"
+    bg[PRELIGHT] = "#027F01"
+}
+
+style "scrollbar"
+{
+    bg[NORMAL] = "#027F01"
+}
+
+style "fixframe"
+{  
+    color["focus_line"] = "#FFFFFF"
+    bg[NORMAL] = "#808080"
+    bg[ACTIVE] = "#808080"
+    bg[PRELIGHT] = "#808080"
+}
+
+widget "*ComboBox*" style "fixframe"
