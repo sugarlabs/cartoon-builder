@@ -1,3 +1,12 @@
+2
+
+* Support various screen resolutions
+* Use jobjects for characters, backgrounds and sounds
+* Fix OLPC#4742 Implement collaboration
+* Fix OLPC#6213 Crash on import image
+* Fix OLPC#9182 COPYING file is missed
+* Fix OLPC#8460 Cartoon-Builder-1 - "Keep error" msg on close
+
 1
 
 * Initial version (ed@whsd.net)
