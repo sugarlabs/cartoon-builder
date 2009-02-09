@@ -33,45 +33,6 @@ from utils import *
 
 logger = logging.getLogger('cartoon-builder')
 
-def play():
-    View.play_tape_num = 0
-    View.playing = gobject.timeout_add(View.delay, _play_tape)
-
-def stop():
-    View.playing = None
-    View.screen.fgpixbuf = Document.tape[View.tape_selected].orig()
-    View.screen.draw()
-
-def set_tempo(tempo):
-    View.delay = 10 + (10-int(tempo)) * 100
-    if View.playing:
-        gobject.source_remove(View.playing)
-        View.playing = gobject.timeout_add(View.delay, _play_tape)
-
-def clear_tape():
-    for i in range(TAPE_COUNT):
-        clean(i)
-        View.tape[i].child.set_from_pixbuf(theme.EMPTY_THUMB)
-
-    View.screen.fgpixbuf = Document.tape[View.tape_selected].orig()
-    View.screen.draw()
-
-def _play_tape():
-    if not View.playing:
-        return False
-
-    View.screen.fgpixbuf = Document.tape[View.play_tape_num].orig()
-    View.screen.draw()
-
-    for i in range(theme.TAPE_COUNT):
-        View.play_tape_num += 1
-        if View.play_tape_num == TAPE_COUNT:
-            View.play_tape_num = 0
-        if Document.tape[View.play_tape_num].empty():
-            continue
-        return True
-
-    return True
 
 class View(gtk.EventBox):
     __gsignals__ = {
@@ -79,25 +40,21 @@ class View(gtk.EventBox):
         'ground-changed': (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]), 
         'sound-changed' : (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]) } 
 
-    screen = Screen()
-    play_tape_num = 0
-    playing = None
-    delay = 3*150
-    tape_selected = -1
-    tape = []
-
     def set_frame(self, value):
         tape_num, frame = value
 
         if frame == None:
             clean(tape_num)
-            View.tape[tape_num].child.set_from_pixbuf(theme.EMPTY_THUMB)
+            self._tape[tape_num].child.set_from_pixbuf(theme.EMPTY_THUMB)
+
+            if self._emission:
+                self.emit('frame-changed', tape_num, None)
         else:
             if not frame.select():
                 return False
 
             Document.tape[tape_num] = frame
-            View.tape[tape_num].child.set_from_pixbuf(frame.thumb())
+            self._tape[tape_num].child.set_from_pixbuf(frame.thumb())
 
             if frame.custom():
                 index = [i for i, f in enumerate(char.THEMES[-1].frames)
@@ -107,10 +64,13 @@ class View(gtk.EventBox):
                     for i in range(first, first + theme.FRAME_COLS):
                         self._add_frame(i)
 
-            if self.char.custom():
+            if self._char.custom():
                 self._frames[index].set_from_pixbuf(frame.thumb())
 
-        if View.tape_selected == tape_num:
+            if self._emission:
+                self.emit('frame-changed', tape_num, frame)
+
+        if self._tape_selected == tape_num:
             self._tape_cb(None, None, tape_num)
 
         return True
@@ -121,29 +81,17 @@ class View(gtk.EventBox):
     def set_sound(self, value):
         self._set_combo(self._sound_combo, value)
 
-    def _set_combo(self, combo, value):
-        try:
-            self._stop_emission = True
-            pos = -1
+    def get_emittion(self):
+        return self._emission
 
-            for i, item in enumerate(combo.get_model()):
-                if item[0] == value:
-                    pos = i
-                    break
-
-            if pos == -1:
-                combo.append_item(value, text = value.name,
-                        size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
-                        pixbuf = value.thumb())
-                pos = len(combo.get_model())-1
-
-            combo.set_active(pos)
-        finally:
-            self._stop_emission = False
+    def set_emittion(self, value):
+        self._emission = value
 
     frame = gobject.property(type=object, getter=None, setter=set_frame)
     ground = gobject.property(type=object, getter=None, setter=set_ground)
     sound = gobject.property(type=object, getter=None, setter=set_sound)
+    emittion = gobject.property(type=bool, default=True, getter=get_emittion,
+            setter=set_emittion)
 
     def restore(self):
         def new_combo(themes, cb, object = None, closure = None):
@@ -176,18 +124,37 @@ class View(gtk.EventBox):
         self.controlbox.pack_start(self._sound_combo, False, False)
 
         for i in range(theme.TAPE_COUNT):
-            View.tape[i].child.set_from_pixbuf(Document.tape[i].thumb())
+            self._tape[i].child.set_from_pixbuf(Document.tape[i].thumb())
         self._tape_cb(None, None, 0)
 
-        return False
+    def play(self):
+        self._play_tape_num = 0
+        self._playing = gobject.timeout_add(self._delay, self._play_tape)
+
+    def stop(self):
+        self._playing = None
+        self._screen.fgpixbuf = Document.tape[self._tape_selected].orig()
+        self._screen.draw()
+
+    def set_tempo(self, tempo):
+        self._delay = 10 + (10-int(tempo)) * 100
+        if self._playing:
+            gobject.source_remove(self._playing)
+            self._playing = gobject.timeout_add(self._delay, self._play_tape)
 
     def __init__(self):
         gtk.EventBox.__init__(self)
 
-        self.char = None
+        self._screen = Screen()
+        self._play_tape_num = 0
+        self._playing = None
+        self._delay = 3*150
+        self._tape_selected = -1
+        self._tape = []
+        self._char = None
         self._frames = []
         self._prev_combo_selected = {}
-        self._stop_emission = False
+        self._emission = True
 
         # frames table
 
@@ -225,7 +192,7 @@ class View(gtk.EventBox):
         screen_pink.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(PINK))
         screen_box = gtk.EventBox()
         screen_box.set_border_width(5)
-        screen_box.add(View.screen)
+        screen_box.add(self._screen)
         screen_pink.add(screen_box)
         screen_pink.props.border_width = theme.BORDER_WIDTH
 
@@ -251,7 +218,7 @@ class View(gtk.EventBox):
             frame.props.border_width = 2
             frame.set_size_request(theme.THUMB_SIZE, theme.THUMB_SIZE)
             frame_box.pack_start(frame)
-            View.tape.append(frame)
+            self._tape.append(frame)
 
             frame_image = gtk.Image()
             frame_image.set_from_pixbuf(theme.EMPTY_THUMB)
@@ -323,6 +290,39 @@ class View(gtk.EventBox):
         self.add(greenbox)
         self.show_all()
 
+    def _set_combo(self, combo, value):
+        pos = -1
+
+        for i, item in enumerate(combo.get_model()):
+            if item[0] == value:
+                pos = i
+                break
+
+        if pos == -1:
+            combo.append_item(value, text = value.name,
+                    size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
+                    pixbuf = value.thumb())
+            pos = len(combo.get_model())-1
+
+        combo.set_active(pos)
+
+    def _play_tape(self):
+        if not self._playing:
+            return False
+
+        self._screen.fgpixbuf = Document.tape[self._play_tape_num].orig()
+        self._screen.draw()
+
+        for i in range(theme.TAPE_COUNT):
+            self._play_tape_num += 1
+            if self._play_tape_num == TAPE_COUNT:
+                self._play_tape_num = 0
+            if Document.tape[self._play_tape_num].empty():
+                continue
+            return True
+
+        return True
+
     def _add_frame(self, index):
         y = index / theme.FRAME_COLS
         x = index - y*theme.FRAME_COLS
@@ -342,7 +342,7 @@ class View(gtk.EventBox):
         image_box.set_size_request(theme.THUMB_SIZE, theme.THUMB_SIZE)
         image_box.add(image)
 
-        if self.char and self.char.custom():
+        if self._char and self._char.custom():
             image_box.show()
 
         self.table.attach(image_box, x, x+1, y, y+1)
@@ -352,45 +352,42 @@ class View(gtk.EventBox):
     def _tape_cb(self, widget, event, index):
         if event and event.button == 3:
             self.set_frame((index, None))
-            self.emit('frame-changed', index, None)
             return
 
-        tape = View.tape[index]
+        tape = self._tape[index]
         tape.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
         tape.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(YELLOW))
 
-        if View.tape_selected != index:
-            if View.tape_selected != -1:
-                old_tape = View.tape[View.tape_selected]
+        if self._tape_selected != index:
+            if self._tape_selected != -1:
+                old_tape = self._tape[self._tape_selected]
                 old_tape.modify_bg(gtk.STATE_NORMAL,
                         gtk.gdk.color_parse(BLACK))
                 old_tape.modify_bg(gtk.STATE_PRELIGHT,
                         gtk.gdk.color_parse(BLACK))
 
-        View.tape_selected = index
-        View.screen.fgpixbuf = Document.tape[index].orig()
-        View.screen.draw()
+        self._tape_selected = index
+        self._screen.fgpixbuf = Document.tape[index].orig()
+        self._screen.draw()
 
     def _frame_cb(self, widget, event, i):
         if event.button == 3:
-            self.char.clean(i)
-            self._frames[i].set_from_pixbuf(self.char.frames[i].thumb())
+            self._char.clean(i)
+            self._frames[i].set_from_pixbuf(self._char.frames[i].thumb())
         else:
-            if i < len(self.char.frames):
-                frame = self.char.frames[i]
-                if not self.set_frame((View.tape_selected, frame)):
+            if i < len(self._char.frames):
+                frame = self._char.frames[i]
+                if not self.set_frame((self._tape_selected, frame)):
                     return
             else:
                 frame = None
-                self.set_frame((View.tape_selected, None))
-
-            self.emit('frame-changed', View.tape_selected, frame)
+                self.set_frame((self._tape_selected, None))
 
     def _char_cb(self, widget, closure):
-        self.char = widget.props.value
+        self._char = widget.props.value
         for i in range(len(self._frames)):
-            if i < len(self.char.frames):
-                self._frames[i].set_from_pixbuf(self.char.frames[i].thumb())
+            if i < len(self._char.frames):
+                self._frames[i].set_from_pixbuf(self._char.frames[i].thumb())
                 self._frames[i].parent.show()
             else:
                 self._frames[i].parent.hide()
@@ -412,15 +409,15 @@ class View(gtk.EventBox):
         cb(choice)
 
     def _ground_cb(self, choice):
-        View.screen.bgpixbuf = choice.orig()
-        View.screen.draw()
+        self._screen.bgpixbuf = choice.orig()
+        self._screen.draw()
         Document.ground = choice
-        if not self._stop_emission:
+        if self._emission:
             self.emit('ground-changed', choice)
 
     def _sound_cb(self, choice):
         Document.sound = choice
-        if not self._stop_emission:
+        if self._emission:
             self.emit('sound-changed', choice)
 
     def _screen_size_cb(self, widget, aloc):

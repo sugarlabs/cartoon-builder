@@ -76,6 +76,7 @@ class MuteSound(Sound):
         return ''
 
     def select(self):
+        Sound.current = self
         Sound.player.set_state(gst.STATE_NULL)
         return self
 
@@ -111,8 +112,6 @@ THEMES = [
     MuteSound(_('Mute')),
     None,
     CustomSound(_('Custom')) ]
-
-Sound.current = THEMES[0]
 
 def play():
     Sound.playing = True

@@ -32,7 +32,7 @@ class CanvasActivity(Activity):
 
         # XXX do it after(possible) read_file() invoking
         # have to rely on calling read_file() from map_cb in sugar-toolkit
-        canvas.connect_after('map', self._map_cb)
+        canvas.connect_after('map', self._map_canvasactivity_cb)
         self.set_canvas(canvas)
 
     def get_inited(self):
@@ -40,9 +40,10 @@ class CanvasActivity(Activity):
 
     inited = property(type=bool, default=False, getter=get_inited, setter=None)
 
-    def _map_cb(self, widget):
+    def _map_canvasactivity_cb(self, widget):
         self._inited = True
         self.emit('init')
+        return False
 
 class SharedActivity(CanvasActivity):
     __gsignals__ = {
@@ -54,7 +55,7 @@ class SharedActivity(CanvasActivity):
         self.service = service
         self._postpone_tubes = []
 
-        self.connect('init', self._init_sharedactivity_cb)
+        self.connect_after('init', self._init_sharedactivity_cb)
         self.connect('shared', self._shared_cb)
 
         # Owner.props.key
@@ -65,7 +66,7 @@ class SharedActivity(CanvasActivity):
                 # We've already joined
                 self._joined_cb()
 
-    def _init_sharedactivity_cb(self):
+    def _init_sharedactivity_cb(self, sender):
         for i in self._postpone_tubes:
             self.emit('tube', i, self._initiating)
         self._postpone_tubes = []

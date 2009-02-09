@@ -25,6 +25,7 @@ import document
 import char
 import ground
 import sound
+import theme
 from shared import SharedActivity
 from messenger import Messenger, SERVICE
 from utils import *
@@ -52,7 +53,7 @@ class CartoonBuilderActivity(SharedActivity):
         toolbox.connect('current-toolbar-changed', self._toolbar_changed_cb)
         self.set_toolbox(toolbox)
 
-        montage_bar = MontageToolbar()
+        montage_bar = MontageToolbar(self.montage)
         montage_bar.show()
         toolbox.add_toolbar(_('Montage'), montage_bar)
 
@@ -71,7 +72,7 @@ class CartoonBuilderActivity(SharedActivity):
     def write_file(self, filepath):
         document.save(filepath)
 
-    def _init_cb(self, widget):
+    def _init_cb(self, sender):
         self.montage.restore()
 
     def _tube_cb(self, activity, tube_conn, initiating):
@@ -84,8 +85,9 @@ class CartoonBuilderActivity(SharedActivity):
             self.notebook.set_current_page(0)
 
 class MontageToolbar(gtk.Toolbar):
-    def __init__(self):
+    def __init__(self, montage):
         gtk.Toolbar.__init__(self)
+        self.montage = montage
 
         self.playButton = ToggleToolButton('media-playback-start')
         self.playButton.connect('toggled', self._play_cb)
@@ -121,20 +123,21 @@ class MontageToolbar(gtk.Toolbar):
         self.show_all()
 
     def _clear_tape_cb(self, widget):
-        montage.clear_tape()
+        for i in range(theme.TAPE_COUNT):
+            self.montage.props.frame = (i, None)
 
     def _tempo_cb(self, widget):
-        montage.set_tempo(widget.value)
+        self.montage.set_tempo(widget.value)
 
     def _play_cb(self, widget):
         if widget.get_active():
             widget.set_icon_widget(self.pauseButtonImg)
             sound.play()
-            montage.play()
+            self.montage.play()
         else:
             widget.set_icon_widget(self.playButtonImg)
             sound.stop()
-            montage.stop()
+            self.montage.stop()
 
 class LessonsToolbar(gtk.Toolbar):
     def __init__(self):

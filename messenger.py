@@ -273,12 +273,17 @@ def object_select(view, type, oid):
     else:
         object = None
 
-    if type.startswith(FRAME):
-        index = int(type.split(':')[1])
-        view.props.frame = (index, object)
-    elif type.startswith(GROUND):
-        view.props.ground = object
-    elif type.startswith(SOUND):
-        view.props.sound = object
-    else:
-        logger.error('cannot find object to select type=%s oid=%s' % (type, oid))
+    try:
+        view.props.emittion = False
+
+        if type.startswith(FRAME):
+            index = int(type.split(':')[1])
+            view.props.frame = (index, object)
+        elif type.startswith(GROUND):
+            view.props.ground = object
+        elif type.startswith(SOUND):
+            view.props.sound = object
+        else:
+            logger.error('cannot find object to select type=%s oid=%s' % (type, oid))
+    finally:
+        view.props.emittion = True
