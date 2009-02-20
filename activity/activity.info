@@ -1,7 +1,7 @@
 [Activity]
 name = CartoonBuilder
-service_name = com.ywwg.CartoonBuilderActivity
-class = activity.CartoonBuilderActivity
+bundle_id = com.ywwg.CartoonBuilderActivity
+exec = sugar-activity activity.CartoonBuilderActivity -s
 icon = activity-cartoonbuilder
 activity_version = 2
 show_launcher = yes
