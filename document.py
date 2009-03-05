@@ -14,8 +14,13 @@
 
 import os
 import gtk
-import cjson
 from zipfile import ZipFile
+
+try:
+    import json
+    json.dumps
+except (ImportError, AttributeError):
+    import simplejson as json
 
 import theme
 from sound import *
@@ -70,7 +75,7 @@ def save(filepath):
             node['index'] = i
             cfg['tape'].append(node)
 
-    zip.writestr('MANIFEST', cjson.encode(cfg))
+    zip.writestr('MANIFEST', json.dumps(cfg))
     zip.close()
 
     import shutil
@@ -78,7 +83,7 @@ def save(filepath):
 
 def load(filepath):
     zip = ZipFile(filepath, 'r')
-    cfg = cjson.decode(zip.read('MANIFEST'))
+    cfg = json.loads(zip.read('MANIFEST'))
 
     def _load(node, restored_class, preinstalled_class):
         if node['custom']:

@@ -12,11 +12,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-import cjson
 import logging
 import dbus
 from dbus.gobject_service import ExportedGObject
 from dbus.service import method, signal
+
+try:
+    import json
+    json.dumps
+except (ImportError, AttributeError):
+    import simplejson as json
 
 from sugar.presence import presenceservice
 
@@ -34,7 +39,7 @@ PATH = '/org/sugarlabs/CartoonBuilder'
 class Slot:
     def __init__(self, sender=None, raw=None):
         if sender:
-            data = cjson.decode(raw)
+            data = json.loads(raw)
             self.seqno = data['seqno']
             self.oid = data['oid']
             self.sender = sender
@@ -44,7 +49,7 @@ class Slot:
             self.sender = None
 
     def serialize(self):
-        return cjson.encode({
+        return json.dumps({
             'seqno': self.seqno,
             'oid'  : self.oid})
 
