@@ -35,9 +35,6 @@ class CartoonBuilderActivity(SharedActivity):
         self.notebook = gtk.Notebook()
         SharedActivity.__init__(self, self.notebook, SERVICE, handle)
 
-        self.connect('init', self._init_cb)
-        self.connect('tube', self._tube_cb)
-
         self.notebook.show()
         self.notebook.props.show_border = False
         self.notebook.props.show_tabs = False
@@ -63,19 +60,20 @@ class CartoonBuilderActivity(SharedActivity):
 
         toolbox.set_current_toolbar(1)
 
-    def read_file(self, filepath):
+    def new_instance(self):
+        self.montage.restore()
+
+    def resume_instance(self, filepath):
         document.load(filepath)
         char.load()
         ground.load()
         sound.load()
-
-    def write_file(self, filepath):
-        document.save(filepath)
-
-    def _init_cb(self, sender):
         self.montage.restore()
 
-    def _tube_cb(self, activity, tube_conn, initiating):
+    def save_instance(self, filepath):
+        document.save(filepath)
+
+    def share_instance(self, tube_conn, initiating):
         self.messenger = Messenger(tube_conn, initiating, self.montage)
 
     def _toolbar_changed_cb(self, widget, index):

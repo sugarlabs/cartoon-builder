@@ -78,9 +78,6 @@ def save(filepath):
     zip.writestr('MANIFEST', json.dumps(cfg))
     zip.close()
 
-    import shutil
-    shutil.copy(filepath, '/tmp/foo.zip')
-
 def load(filepath):
     zip = ZipFile(filepath, 'r')
     cfg = json.loads(zip.read('MANIFEST'))
