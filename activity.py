@@ -15,6 +15,9 @@
 import gtk
 from gettext import gettext as _
 
+import logging
+logger = logging.getLogger('cartoon-builder')
+
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.toggletoolbutton import ToggleToolButton
 from sugar.activity.activity import ActivityToolbox
@@ -61,9 +64,11 @@ class CartoonBuilderActivity(SharedActivity):
         toolbox.set_current_toolbar(1)
 
     def new_instance(self):
+        logger.debug('new_instance')
         self.montage.restore()
 
     def resume_instance(self, filepath):
+        logger.debug('resume_instance from %s' % filepath)
         document.load(filepath)
         char.load()
         ground.load()
@@ -71,9 +76,11 @@ class CartoonBuilderActivity(SharedActivity):
         self.montage.restore()
 
     def save_instance(self, filepath):
+        logger.debug('save_instance to %s' % filepath)
         document.save(filepath)
 
     def share_instance(self, tube_conn, initiating):
+        logger.debug('share_instance')
         self.messenger = Messenger(tube_conn, initiating, self.montage)
 
     def _toolbar_changed_cb(self, widget, index):
