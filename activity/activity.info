@@ -1,8 +1,8 @@
 [Activity]
 name = CartoonBuilder
 bundle_id = com.ywwg.CartoonBuilderActivity
-exec = sugar-activity activity.CartoonBuilderActivity -s
+exec = sugar-activity activity.CartoonBuilderActivity
 icon = activity-cartoonbuilder
-activity_version = 3
+activity_version = 4
 show_launcher = yes
 license = GPLv2+
