@@ -8,6 +8,8 @@
 ]>
 <svg  version="1.1" id="Layer_3" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="54.763" height="55.079"
 	 viewBox="0 0 54.763 55.079" overflow="visible" enable-background="new 0 0 54.763 55.079" xml:space="preserve">
+<g transform="translate(4,4)">
+<g transform="scale(0.84)">
 <polyline fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" points="53.263,15.14 53.263,53.579 1.5,53.579 1.5,1.5 53.263,1.5 
 	53.263,15.14 "/>
 <rect x="10.702" y="5.302" fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" width="2.054" height="5.125"/>
@@ -30,4 +32,6 @@
 <path fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" d="M44.471,29.193c2.712,3.141,5.423,5.289,7.065,5.373
 	c0.264,0.014,0.602-0.072,0.985-0.228"/>
 <ellipse fill="&fill_color;" stroke="&stroke_color;" stroke-width="3" cx="51.126" cy="27.292" rx="0.247" ry="0.166"/>
+</g>
+</g>
 </svg>
