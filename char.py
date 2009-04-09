@@ -101,7 +101,7 @@ class CustomFrame(Frame):
     def select(self):
         if self._orig:
             return True;
-        self.name, self.id, self._orig = theme.choose(lambda jobject:
+        self.name, self.id, self._orig = theme.choose_image(lambda jobject:
                 (jobject.metadata['title'], jobject.object_id,
                     theme.pixbuf(jobject.file_path)),
                 (None, None, None))

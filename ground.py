@@ -62,7 +62,7 @@ class CustomGround(Ground):
 
     def select(self):
         try:
-            return theme.choose(lambda jobject: JournalGround(jobject))
+            return theme.choose_image(lambda jobject: JournalGround(jobject))
         except:
             return None
 

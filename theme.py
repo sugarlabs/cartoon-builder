@@ -16,9 +16,12 @@ import os
 import gtk
 import shutil
 from math import ceil
+from gettext import gettext as _
 
 from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
+from sugar import mime
+from sugar.graphics.objectchooser import ObjectChooser
 
 SOUND_SPEAKER = 'images/sounds/speaker.png'
 SOUND_MUTE    = 'images/sounds/mute.png'
@@ -104,10 +107,7 @@ EMPTY_THUMB = scale(EMPTY_ORIG)
 CUSTOM_FRAME_ORIG = pixbuf('images/pics/custom.png')
 CUSTOM_FRAME_THUMB = scale(CUSTOM_FRAME_ORIG)
 
-def choose(out_fun, default=None):
-    from sugar.graphics.objectchooser import ObjectChooser
-
-    chooser = ObjectChooser()
+def do_choose(out_fun, default, chooser):
     jobject = None
 
     try:
@@ -123,6 +123,20 @@ def choose(out_fun, default=None):
         del chooser
 
     return default
+
+def choose_image(out_fun, default=None):
+    if hasattr(mime, 'GENERIC_TYPE_IMAGE'):
+        return do_choose(out_fun, default, ObjectChooser(_('Choose image'),
+                what_filter=mime.GENERIC_TYPE_IMAGE))
+    else:
+        return do_choose(out_fun, default, ObjectChooser(_('Choose image')))
+
+def choose_audio(out_fun, default=None):
+    if hasattr(mime, 'GENERIC_TYPE_AUDIO'):
+        return do_choose(out_fun, default, ObjectChooser(_('Choose audio'),
+                what_filter=mime.GENERIC_TYPE_AUDIO))
+    else:
+        return do_choose(out_fun, default, ObjectChooser(_('Choose audio')))
 
 def pixbuf2str(pixbuf):
     def push(data, buffer):

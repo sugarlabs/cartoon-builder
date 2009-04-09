@@ -85,7 +85,7 @@ class CustomSound(Sound):
         Sound.__init__(self, name, None, None, theme.SOUND_CUSTOM)
 
     def select(self):
-        sound = theme.choose(lambda jobject: JournalSound(jobject))
+        sound = theme.choose_audio(lambda jobject: JournalSound(jobject))
         if sound:
             sound.select()
         return sound
