@@ -20,8 +20,6 @@ from gettext import gettext as _
 
 from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
-from sugar import mime
-from sugar.graphics.objectchooser import ObjectChooser
 
 SOUND_SPEAKER = 'images/sounds/speaker.png'
 SOUND_MUTE    = 'images/sounds/mute.png'
@@ -106,53 +104,6 @@ EMPTY_THUMB = scale(EMPTY_ORIG)
 
 CUSTOM_FRAME_ORIG = pixbuf('images/pics/custom.png')
 CUSTOM_FRAME_THUMB = scale(CUSTOM_FRAME_ORIG)
-
-def do_choose(out_fun, default, chooser):
-    jobject = None
-
-    try:
-        result = chooser.run()
-
-        if result == gtk.RESPONSE_ACCEPT:
-            jobject = chooser.get_selected_object()
-            if jobject and jobject.file_path:
-                return out_fun(jobject)
-    finally:
-        if jobject: jobject.destroy()
-        chooser.destroy()
-        del chooser
-
-    return default
-
-def choose_image(out_fun, default=None):
-    if hasattr(mime, 'GENERIC_TYPE_IMAGE'):
-        return do_choose(out_fun, default, ObjectChooser(_('Choose image'),
-                what_filter=mime.GENERIC_TYPE_IMAGE))
-    else:
-        return do_choose(out_fun, default, ObjectChooser(_('Choose image')))
-
-def choose_audio(out_fun, default=None):
-    if hasattr(mime, 'GENERIC_TYPE_AUDIO'):
-        return do_choose(out_fun, default, ObjectChooser(_('Choose audio'),
-                what_filter=mime.GENERIC_TYPE_AUDIO))
-    else:
-        return do_choose(out_fun, default, ObjectChooser(_('Choose audio')))
-
-def pixbuf2str(pixbuf):
-    def push(data, buffer):
-        buffer.write(data)
-
-    import cStringIO
-    buffer = cStringIO.StringIO()
-    pixbuf.save_to_callback(push, 'png', user_data=buffer)
-    return buffer.getvalue()
-
-def str2pixbuf(data):
-    tmpfile = os.path.join(SESSION_PATH, '.tmp.png')
-    file(tmpfile, 'w').write(data)
-    out = pixbuf(tmpfile)
-    os.unlink(tmpfile)
-    return out
 
 # customize theme
 gtkrc = os.path.join(get_bundle_path(), 'gtkrc')

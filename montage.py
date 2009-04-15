@@ -23,6 +23,8 @@ import gobject
 import logging
 from gobject import SIGNAL_RUN_FIRST, TYPE_PYOBJECT
 
+from port.scrolledbox import VScrolledBox
+
 import theme
 import char
 import ground

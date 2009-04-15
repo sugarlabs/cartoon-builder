@@ -14,13 +14,12 @@
 
 import os
 import gtk
-from zipfile import ZipFile
 
-try:
-    import json
-    json.dumps
-except (ImportError, AttributeError):
-    import simplejson as json
+import logging
+logger = logging.getLogger('cartoon-builder')
+
+import port.json as json
+from port.tarball import Tarball
 
 import theme
 from sound import *
@@ -41,7 +40,7 @@ def clean(index):
     Document.tape[index] = EmptyFrame()
 
 def save(filepath):
-    zip = ZipFile(filepath, 'w')
+    tar = Tarball(filepath, 'w')
 
     cfg = { 'ground': {},
             'sound' : {},
@@ -52,7 +51,7 @@ def save(filepath):
         if value.custom():
             node['custom'] = True
             node['filename'] = arcname
-            zip.writestr(arcname, value.serialize())
+            tar.write(arcname, value.serialize())
         else:
             node['custom'] = False
         node['name'] = unicode(value.name)
@@ -65,7 +64,7 @@ def save(filepath):
             [i for i in set(Document.tape) if not i.empty() and i.custom()]):
         arcname = 'frame%03d.png' % i
         cfg['frames'][frame.id] = arcname
-        zip.writestr(arcname, frame.serialize())
+        tar.write(arcname, frame.serialize())
 
     for i, frame in enumerate(Document.tape):
         if not frame.empty():
@@ -75,34 +74,38 @@ def save(filepath):
             node['index'] = i
             cfg['tape'].append(node)
 
-    zip.writestr('MANIFEST', json.dumps(cfg))
-    zip.close()
+    tar.write('MANIFEST', json.dumps(cfg))
+    tar.close()
 
 def load(filepath):
-    zip = ZipFile(filepath, 'r')
-    cfg = json.loads(zip.read('MANIFEST'))
+    try:
+        tar = Tarball(filepath)
+        cfg = json.loads(tar.read('MANIFEST'))
 
-    def _load(node, restored_class, preinstalled_class):
-        if node['custom']:
-            return restored_class(node['name'], node['id'],
-                    zip.read(node['filename']))
-        else:
-            return preinstalled_class(node['name'], node['id'])
-
-    Document.ground = _load(cfg['ground'], RestoredGround, PreinstalledGround)
-    Document.sound = _load(cfg['sound'], RestoredSound, PreinstalledSound)
-
-    frames = {}
-
-    for id, arcname in cfg['frames'].items():
-        frames[id] = RestoredFrame(id, zip.read(arcname))
-
-    for node in cfg['tape']:
-        i = node['index']
-        if i < theme.TAPE_COUNT:
+        def _load(node, restored_class, preinstalled_class):
             if node['custom']:
-                Document.tape[i] = frames[node['id']]
+                return restored_class(node['name'], node['id'],
+                        tar.read(node['filename']))
             else:
-                Document.tape[i] = PreinstalledFrame(node['id'])
+                return preinstalled_class(node['name'], node['id'])
 
-    zip.close()
+        Document.ground = _load(cfg['ground'], RestoredGround, PreinstalledGround)
+        Document.sound = _load(cfg['sound'], RestoredSound, PreinstalledSound)
+
+        frames = {}
+
+        for id, arcname in cfg['frames'].items():
+            frames[id] = RestoredFrame(id, tar.read(arcname))
+
+        for node in cfg['tape']:
+            i = node['index']
+            if i < theme.TAPE_COUNT:
+                if node['custom']:
+                    Document.tape[i] = frames[node['id']]
+                else:
+                    Document.tape[i] = PreinstalledFrame(node['id'])
+
+        tar.close()
+
+    except Exception, e:
+        logger.error('Cannot load jobject: %s' % e)

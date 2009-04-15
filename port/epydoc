@@ -1,0 +1,21 @@
+[epydoc]
+
+modules: *.py
+output: html
+target: html/
+verbosity: 0
+debug: 0
+
+# Generation options
+docformat: epytext
+parse: yes
+introspect: no
+inheritance: listed
+private: no
+imports: no
+sourcecode: yes
+
+# Output options
+name: sugar-port
+url: http://wiki.sugarlabs.org/go/Development_Team/sugar-port
+frames: yes

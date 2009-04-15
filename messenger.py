@@ -17,12 +17,7 @@ import dbus
 from dbus.gobject_service import ExportedGObject
 from dbus.service import method, signal
 
-try:
-    import json
-    json.dumps
-except (ImportError, AttributeError):
-    import simplejson as json
-
+import port.json as json
 from sugar.presence import presenceservice
 
 import char

@@ -17,8 +17,10 @@ import gtk
 import glob
 from gettext import gettext as _
 
+import port.chooser as chooser
+import port.pixbuf as pixbuf
+
 import theme
-from utils import pixbuf, pixbuf2str
 
 def load():
     from document import Document
@@ -37,7 +39,7 @@ class Frame:
 
     def serialize(self):
         if self._orig:
-            return pixbuf2str(self._orig)
+            return pixbuf.to_str(self._orig)
         else:
             return ''
 
@@ -86,7 +88,7 @@ class EmptyFrame(Frame):
 class RestoredFrame(Frame):
     def __init__(self, id, data):
         Frame.__init__(self, id)
-        self._orig = theme.str2pixbuf(data)
+        self._orig = pixbuf.from_str(data)
 
 class CustomFrame(Frame):
     def __init__(self):
@@ -101,10 +103,10 @@ class CustomFrame(Frame):
     def select(self):
         if self._orig:
             return True;
-        self.name, self.id, self._orig = theme.choose_image(lambda jobject:
-                (jobject.metadata['title'], jobject.object_id,
-                    theme.pixbuf(jobject.file_path)),
-                (None, None, None))
+        self.name, self.id, self._orig = chooser.pick(
+                lambda jobject: (jobject.metadata['title'], jobject.object_id,
+                        theme.pixbuf(jobject.file_path)),
+                (None, None, None), what=chooser.IMAGE)
         if self.name:
             self._thumb = theme.scale(self._orig)
             return True

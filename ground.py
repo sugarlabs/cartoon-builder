@@ -16,6 +16,9 @@ import os
 import gtk
 from gettext import gettext as _
 
+import port.chooser as chooser
+import port.pixbuf as pixbuf
+
 import theme
 
 def load():
@@ -34,7 +37,7 @@ class Ground:
         return True
 
     def serialize(self):
-        return theme.pixbuf2str(self._orig)
+        return pixbuf.to_str(self._orig)
 
     def thumb(self):
         if not self._thumb:
@@ -62,14 +65,15 @@ class CustomGround(Ground):
 
     def select(self):
         try:
-            return theme.choose_image(lambda jobject: JournalGround(jobject))
+            return chooser.pick(lambda jobject: JournalGround(jobject),
+                    what=chooser.IMAGE)
         except:
             return None
 
 class RestoredGround(Ground):
     def __init__(self, name, id, data):
         Ground.__init__(self, name, id)
-        self._orig = theme.str2pixbuf(data)
+        self._orig = pixbuf.from_str(data)
 
 class JournalGround(Ground):
     def __init__(self, jobject):

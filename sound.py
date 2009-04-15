@@ -19,6 +19,8 @@ import shutil
 from glob import glob
 from gettext import gettext as _
 
+import port.chooser as chooser
+
 import theme
 from utils import *
 from sugar.activity.activity import get_bundle_path
@@ -85,7 +87,8 @@ class CustomSound(Sound):
         Sound.__init__(self, name, None, None, theme.SOUND_CUSTOM)
 
     def select(self):
-        sound = theme.choose_audio(lambda jobject: JournalSound(jobject))
+        sound = chooser.pick(lambda jobject: JournalSound(jobject),
+                what=chooser.AUDIO)
         if sound:
             sound.select()
         return sound

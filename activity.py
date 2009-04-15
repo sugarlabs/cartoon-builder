@@ -21,6 +21,8 @@ logger = logging.getLogger('cartoon-builder')
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.toggletoolbutton import ToggleToolButton
 from sugar.activity.activity import ActivityToolbox
+from port.activity import SharedActivity
+from port.temposlider import TempoSlider
 
 import montage
 import lessons
@@ -29,7 +31,6 @@ import char
 import ground
 import sound
 import theme
-from shared import SharedActivity
 from messenger import Messenger, SERVICE
 from utils import *
 
