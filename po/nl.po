@@ -2,152 +2,153 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-09 16:10+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2009-05-21 02:51-0400\n"
+"Last-Translator: Myckel Habets <myckel@sdf.lonestar.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.3.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 1.2.1\n"
 
 #: activity/activity.info:2
 msgid "CartoonBuilder"
-msgstr ""
+msgstr "Striptekenaar"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:81
 msgid "Saturn"
-msgstr ""
+msgstr "Saturnus"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:82
 msgid "Snowflakes"
-msgstr ""
+msgstr "Sneeuwvlokjes"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:83
 msgid "Eye"
-msgstr ""
+msgstr "Oog"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:84
 msgid "Blobs"
-msgstr ""
+msgstr "Blobs"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:85
 msgid "Star Night"
-msgstr ""
+msgstr "Sterrennacht"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:86
 msgid "Forest"
-msgstr ""
+msgstr "Bos"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:87
 msgid "Spiral"
-msgstr ""
+msgstr "Spiraal"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:88
 msgid "Beam"
-msgstr ""
+msgstr "Straal"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:89
 msgid "Cloth"
-msgstr ""
+msgstr "Doek"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:90
 msgid "Faces"
-msgstr ""
+msgstr "Gezichten"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:91
 msgid "Leaves"
-msgstr ""
+msgstr "Bladeren"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:92
 msgid "Vegetables"
-msgstr ""
+msgstr "Groenten"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:93
 msgid "Spotlight"
-msgstr ""
+msgstr "Spotlicht"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:94
 msgid "Strips"
-msgstr ""
+msgstr "Strips"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:95
 msgid "Scene"
-msgstr ""
+msgstr "Scene"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:96
 msgid "Rhombs"
-msgstr ""
+msgstr "Rhombs"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:97
 msgid "Milky Way"
-msgstr ""
+msgstr "Melkweg"
 
 #: /home/sugar/src/activities/cartoon-builder/ground.py:99
 #: /home/sugar/src/activities/cartoon-builder/char.py:149
 #: /home/sugar/src/activities/cartoon-builder/sound.py:114
 msgid "Custom"
-msgstr ""
+msgstr "Aangepast"
 
 #: /home/sugar/src/activities/cartoon-builder/char.py:142
 msgid "Elephant"
-msgstr ""
+msgstr "Olifant"
 
 #: /home/sugar/src/activities/cartoon-builder/char.py:144
 msgid "Space Blob"
-msgstr ""
+msgstr "Ruimte Blob"
 
 #: /home/sugar/src/activities/cartoon-builder/char.py:146
 msgid "Turkey"
-msgstr ""
+msgstr "Kalkoen"
 
 #: /home/sugar/src/activities/cartoon-builder/sound.py:108
 msgid "Gobble"
-msgstr ""
+msgstr "Gobble"
 
 #: /home/sugar/src/activities/cartoon-builder/sound.py:109
 msgid "Funk"
-msgstr ""
+msgstr "Funk"
 
 #: /home/sugar/src/activities/cartoon-builder/sound.py:110
 msgid "Giggle"
-msgstr ""
+msgstr "Giegel"
 
 #: /home/sugar/src/activities/cartoon-builder/sound.py:111
 msgid "Jungle"
-msgstr ""
+msgstr "Oerwoud"
 
 #: /home/sugar/src/activities/cartoon-builder/sound.py:112
 msgid "Mute"
-msgstr ""
+msgstr "Dempen"
 
 #: /home/sugar/src/activities/cartoon-builder/theme.py:129
 #: /home/sugar/src/activities/cartoon-builder/theme.py:132
 msgid "Choose image"
-msgstr ""
+msgstr "Afbeelding kiezen"
 
 #: /home/sugar/src/activities/cartoon-builder/theme.py:136
 #: /home/sugar/src/activities/cartoon-builder/theme.py:139
 msgid "Choose audio"
-msgstr ""
+msgstr "Geluid kiezen"
 
 #: /home/sugar/src/activities/cartoon-builder/activity.py:58
 msgid "Montage"
-msgstr ""
+msgstr "Monteren"
 
 #: /home/sugar/src/activities/cartoon-builder/activity.py:62
 msgid "Lessons"
-msgstr ""
+msgstr "Lessen"
 
 #: /home/sugar/src/activities/cartoon-builder/activity.py:100
 msgid "Play / Pause"
-msgstr ""
+msgstr "Afspelen / Pauze"
 
 #: /home/sugar/src/activities/cartoon-builder/activity.py:125
 msgid "Reset"
-msgstr ""
+msgstr "Opnieuw beginnen"
