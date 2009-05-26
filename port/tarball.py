@@ -23,8 +23,6 @@ import zipfile
 import tempfile
 import shutil
 
-import port.pixbuf as pixbuf
-
 class TarballError(Exception):
     """Base Tarball exception."""
     pass
@@ -124,7 +122,10 @@ class Tarball:
 
     def read_pixbuf(self, arcname):
         """Returns pixbuf object of given file from tarball."""
-        return pixbuf.from_str(self.read(arcname))
+        loader = gtk.gdk.pixbuf_loader_new_with_mime_type('image/png')
+        loader.write(self.read(arcname))
+        loader.close()
+        return loader.get_pixbuf()
 
     def write(self, arcname, data, mode=0644):
         """
@@ -147,8 +148,12 @@ class Tarball:
         self.__tar.addfile(info, cStringIO.StringIO(data))
         
     def __write_pixbuf(self, info, data):
-        buffer = pixbuf.to_file(data)
-        buffer.seek(0, os.SEEK_END)
+        def push(pixbuf, buffer):
+            buffer.write(pixbuf)
+
+        buffer = cStringIO.StringIO()
+        data.save_to_callback(push, 'png', user_data=buffer)
+
         info.size = buffer.tell()
         buffer.seek(0)
         self.__tar.addfile(info, buffer)

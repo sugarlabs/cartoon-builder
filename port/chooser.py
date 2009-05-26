@@ -34,9 +34,9 @@ def pick(cb=None, default=None, parent=None, what=None):
 
         * cb(jobject), if object was choosen and cb is not None
         * jobject, if object was choosen and cb is None
-        * None, otherwise
+        * default, otherwise
 
-    NOTE: what make sense only for sugar >= 0.84
+    NOTE: 'what' makes sense only for sugar >= 0.84
     """
     what = what and {'what_filter': what} or {}
     chooser = ObjectChooser(parent=parent, **what)
