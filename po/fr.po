@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-09 16:10+0000\n"
+"POT-Creation-Date: 2009-04-30 18:21-0400\n"
 "PO-Revision-Date: 2009-05-30 01:49-0400\n"
 "Last-Translator: samy boutayeb <s.boutayeb@free.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,134 +21,128 @@ msgstr ""
 msgid "CartoonBuilder"
 msgstr "CartoonBuilder"
 
-#: /home/sugar/src/activities/cartoon-builder/ground.py:81
-msgid "Saturn"
-msgstr "Saturne"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:82
-msgid "Snowflakes"
-msgstr "Flocons de neige"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:83
-msgid "Eye"
-msgstr "Oeil"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:84
-msgid "Blobs"
-msgstr "Taches"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:85
-msgid "Star Night"
-msgstr "Nuit étoilée"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:86
-msgid "Forest"
-msgstr "Forêt"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:87
-msgid "Spiral"
-msgstr "Spirale"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:88
-msgid "Beam"
-msgstr "Faisceau"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:89
-msgid "Cloth"
-msgstr "Tissu"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:90
-msgid "Faces"
-msgstr "Visages"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:91
-msgid "Leaves"
-msgstr "Feuilles"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:92
-msgid "Vegetables"
-msgstr "Légumes"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:93
-msgid "Spotlight"
-msgstr "Projecteur"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:94
-msgid "Strips"
-msgstr "Bandes"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:95
-msgid "Scene"
-msgstr "Scène"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:96
-msgid "Rhombs"
-msgstr "Losanges"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:97
-msgid "Milky Way"
-msgstr "Voie lactée"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:99
-#: /home/sugar/src/activities/cartoon-builder/char.py:149
-#: /home/sugar/src/activities/cartoon-builder/sound.py:114
-msgid "Custom"
-msgstr "Personnalisé"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:142
-msgid "Elephant"
-msgstr "Éléphant"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:144
-msgid "Space Blob"
-msgstr "Tache de l'espace"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:146
-msgid "Turkey"
-msgstr "Dindon"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:108
-msgid "Gobble"
-msgstr "Glouglou"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:109
-msgid "Funk"
-msgstr "Funk"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:110
-msgid "Giggle"
-msgstr "Ricanement"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:111
-msgid "Jungle"
-msgstr "Jungle"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:112
-msgid "Mute"
-msgstr "Son désactivé"
-
-#: /home/sugar/src/activities/cartoon-builder/theme.py:129
-#: /home/sugar/src/activities/cartoon-builder/theme.py:132
-msgid "Choose image"
-msgstr "Choisir une image"
-
-#: /home/sugar/src/activities/cartoon-builder/theme.py:136
-#: /home/sugar/src/activities/cartoon-builder/theme.py:139
-msgid "Choose audio"
-msgstr "Choisir un son"
-
-#: /home/sugar/src/activities/cartoon-builder/activity.py:58
+#: activity.py:59
 msgid "Montage"
 msgstr "Montage"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:62
+#: activity.py:63
 msgid "Lessons"
 msgstr "Leçons"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:100
+#: activity.py:101
 msgid "Play / Pause"
 msgstr "Jouer / Pause"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:125
+#: activity.py:126
 msgid "Reset"
 msgstr "Réinitialiser"
+
+#: char.py:144
+msgid "Elephant"
+msgstr "Éléphant"
+
+#: char.py:146
+msgid "Space Blob"
+msgstr "Tache de l'espace"
+
+#: char.py:148
+msgid "Turkey"
+msgstr "Dindon"
+
+#: char.py:151 ground.py:103 sound.py:117
+msgid "Custom"
+msgstr "Personnalisé"
+
+#: ground.py:85
+msgid "Saturn"
+msgstr "Saturne"
+
+#: ground.py:86
+msgid "Snowflakes"
+msgstr "Flocons de neige"
+
+#: ground.py:87
+msgid "Eye"
+msgstr "Oeil"
+
+#: ground.py:88
+msgid "Blobs"
+msgstr "Taches"
+
+#: ground.py:89
+msgid "Star Night"
+msgstr "Nuit étoilée"
+
+#: ground.py:90
+msgid "Forest"
+msgstr "Forêt"
+
+#: ground.py:91
+msgid "Spiral"
+msgstr "Spirale"
+
+#: ground.py:92
+msgid "Beam"
+msgstr "Faisceau"
+
+#: ground.py:93
+msgid "Cloth"
+msgstr "Tissu"
+
+#: ground.py:94
+msgid "Faces"
+msgstr "Visages"
+
+#: ground.py:95
+msgid "Leaves"
+msgstr "Feuilles"
+
+#: ground.py:96
+msgid "Vegetables"
+msgstr "Légumes"
+
+#: ground.py:97
+msgid "Spotlight"
+msgstr "Projecteur"
+
+#: ground.py:98
+msgid "Strips"
+msgstr "Bandes"
+
+#: ground.py:99
+msgid "Scene"
+msgstr "Scène"
+
+#: ground.py:100
+msgid "Rhombs"
+msgstr "Losanges"
+
+#: ground.py:101
+msgid "Milky Way"
+msgstr "Voie lactée"
+
+#: sound.py:111
+msgid "Gobble"
+msgstr "Glouglou"
+
+#: sound.py:112
+msgid "Funk"
+msgstr "Funk"
+
+#: sound.py:113
+msgid "Giggle"
+msgstr "Ricanement"
+
+#: sound.py:114
+msgid "Jungle"
+msgstr "Jungle"
+
+#: sound.py:115
+msgid "Mute"
+msgstr "Son désactivé"
+
+#~ msgid "Choose image"
+#~ msgstr "Choisir une image"
+
+#~ msgid "Choose audio"
+#~ msgstr "Choisir un son"
