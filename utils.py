@@ -15,15 +15,16 @@
 import gtk
 import pango
 
-import sugar
 from sugar.graphics import style
 from sugar.graphics.icon import Icon
+from sugar.graphics.icon import Icon
+from sugar.graphics.combobox import ComboBox as _ComboBox
 
 from theme import *
 
-class ComboBox(sugar.graphics.combobox.ComboBox):
+class ComboBox(_ComboBox):
     def __init__(self):
-        sugar.graphics.combobox.ComboBox.__init__(self)
+        _ComboBox.__init__(self)
         self.set_name('we-really-need-it-to-use-custom-combobox-colors')
 
     def append_item(self, action_id, text = None, icon_name = None, size = None,
@@ -33,7 +34,8 @@ class ComboBox(sugar.graphics.combobox.ComboBox):
             self._icon_renderer = gtk.CellRendererPixbuf()
 
             settings = self.get_settings()
-            w, h = gtk.icon_size_lookup_for_settings(settings, gtk.ICON_SIZE_MENU)
+            w, h = gtk.icon_size_lookup_for_settings(settings,
+                    gtk.ICON_SIZE_MENU)
             self._icon_renderer.props.stock_size = w
 
             self._icon_renderer.props.xpad = 4
