@@ -19,11 +19,12 @@ import shutil
 from glob import glob
 from gettext import gettext as _
 
-import port.chooser as chooser
+import toolkit.chooser as chooser
 
 import theme
 from utils import *
 from sugar.activity.activity import get_bundle_path
+
 
 def load():
     from document import Document

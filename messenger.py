@@ -17,7 +17,7 @@ import dbus
 from dbus.gobject_service import ExportedGObject
 from dbus.service import method, signal
 
-import port.json as json
+import toolkit.json as json
 from sugar.presence import presenceservice
 
 import char

@@ -21,8 +21,11 @@ logger = logging.getLogger('cartoon-builder')
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.toggletoolbutton import ToggleToolButton
 from sugar.activity.activity import ActivityToolbox
-from port.activity import SharedActivity
-from port.temposlider import TempoSlider
+
+from widgets.temposlider import TempoSlider
+from toolkit.activity import SharedActivity
+from toolkit.toolbarbox import ToolbarBox
+from toolkit.activity_widgets import *
 
 import montage
 import lessons
@@ -33,6 +36,7 @@ import sound
 import theme
 from messenger import Messenger, SERVICE
 from utils import *
+
 
 class CartoonBuilderActivity(SharedActivity):
     def __init__(self, handle):
@@ -49,20 +53,41 @@ class CartoonBuilderActivity(SharedActivity):
         self.lessons.show()
         self.notebook.append_page(self.lessons)
 
-        toolbox = ActivityToolbox(self)
+        toolbox = ToolbarBox()
         toolbox.show()
-        toolbox.connect('current-toolbar-changed', self._toolbar_changed_cb)
-        self.set_toolbox(toolbox)
 
-        montage_bar = MontageToolbar(self.montage)
-        montage_bar.show()
-        toolbox.add_toolbar(_('Montage'), montage_bar)
+        toolbox.toolbar.insert(ActivityToolbarButton(self), -1)
 
-        lessons_bar = LessonsToolbar()
-        lessons_bar.show()
-        toolbox.add_toolbar(_('Lessons'), lessons_bar)
+        separator = gtk.SeparatorToolItem()
+        separator.set_draw(False)
+        toolbox.toolbar.insert(separator, -1)
 
-        toolbox.set_current_toolbar(1)
+        lessons_button = ToggleToolButton('mamamedia')
+        lessons_button.connect('toggled', self.__toggled_lessons_button_cb)
+        lessons_button.set_tooltip(_('Lessons'))
+        toolbox.toolbar.insert(lessons_button, -1)
+
+        separator = gtk.SeparatorToolItem()
+        separator.set_draw(False)
+        toolbox.toolbar.insert(separator, -1)
+
+        self.notebook_toolbar = gtk.Notebook()
+        self.notebook_toolbar.props.show_border = False
+        self.notebook_toolbar.props.show_tabs = False
+        self.notebook_toolbar.append_page(self._create_montage_toolbar())
+        self.notebook_toolbar.append_page(self._create_lessons_toolbar())
+        self.notebook_toolbar.show()
+
+        notebook_item = gtk.ToolItem()
+        notebook_item.set_expand(True)
+        notebook_item.add(self.notebook_toolbar)
+        notebook_item.show()
+        toolbox.toolbar.insert(notebook_item, -1)
+
+        toolbox.toolbar.insert(StopButton(self), -1)
+
+        toolbox.show_all()
+        self.toolbar_box = toolbox
 
     def new_instance(self):
         logger.debug('new_instance')
@@ -84,90 +109,85 @@ class CartoonBuilderActivity(SharedActivity):
         logger.debug('share_instance')
         self.messenger = Messenger(tube_conn, initiating, self.montage)
 
-    def _toolbar_changed_cb(self, widget, index):
-        if index == 2:
-            self.notebook.set_current_page(1)
-        else:
-            self.notebook.set_current_page(0)
+    def _create_montage_toolbar(self):
+        toolbar = gtk.Toolbar()
 
-class MontageToolbar(gtk.Toolbar):
-    def __init__(self, montage):
-        gtk.Toolbar.__init__(self)
-        self.montage = montage
+        playButtonImg = gtk.Image()
+        playButtonImg.show()
+        playButtonImg.set_from_icon_name('media-playback-start',
+                gtk.ICON_SIZE_LARGE_TOOLBAR)
 
-        self.playButton = ToggleToolButton('media-playback-start')
-        self.playButton.connect('toggled', self._play_cb)
-        self.insert(self.playButton, -1)
-        self.playButton.set_tooltip(_('Play / Pause'))
+        pauseButtonImg = gtk.Image()
+        pauseButtonImg.show()
+        pauseButtonImg.set_from_icon_name('media-playback-pause',
+                gtk.ICON_SIZE_LARGE_TOOLBAR)
 
-        # Play button Image
-        self.playButtonImg = gtk.Image()
-        self.playButtonImg.show()
-        self.playButtonImg.set_from_icon_name('media-playback-start', gtk.ICON_SIZE_LARGE_TOOLBAR)
-
-        # Pause button Image
-        self.pauseButtonImg = gtk.Image()
-        self.pauseButtonImg.show()
-        self.pauseButtonImg.set_from_icon_name('media-playback-pause', gtk.ICON_SIZE_LARGE_TOOLBAR)
+        playButton = ToggleToolButton('media-playback-start')
+        playButton.connect('toggled', self.__play_cb, playButtonImg,
+                pauseButtonImg)
+        toolbar.insert(playButton, -1)
+        playButton.set_tooltip(_('Play / Pause'))
 
         tempo = TempoSlider(0, 10)
-        tempo.adjustment.connect("value-changed", self._tempo_cb)
+        tempo.adjustment.connect("value-changed", self.__tempo_cb)
         tempo.set_size_request(250, -1)
         tempo.set_value(5)
         tempo_item = gtk.ToolItem()
         tempo_item.add(tempo)
-        self.insert(tempo_item, -1)
+        toolbar.insert(tempo_item, -1)
 
         separator = gtk.SeparatorToolItem()
-        self.insert(separator,-1)
+        toolbar.insert(separator,-1)
 
         clear_tape = ToolButton('sl-reset')
-        clear_tape.connect('clicked', self._clear_tape_cb)
+        clear_tape.connect('clicked', self.__clear_tape_cb)
         clear_tape.set_tooltip(_('Reset'))
-        self.insert(clear_tape, -1)
+        toolbar.insert(clear_tape, -1)
 
-        self.show_all()
+        toolbar.show_all()
 
-    def _clear_tape_cb(self, widget):
+        return toolbar
+
+    def __clear_tape_cb(self, widget):
         for i in range(theme.TAPE_COUNT):
             self.montage.props.frame = (i, None)
 
-    def _tempo_cb(self, widget):
+    def __tempo_cb(self, widget):
         self.montage.set_tempo(widget.value)
 
-    def _play_cb(self, widget):
+    def __play_cb(self, widget, playButtonImg, pauseButtonImg):
         if widget.get_active():
-            widget.set_icon_widget(self.pauseButtonImg)
+            widget.set_icon_widget(pauseButtonImg)
             sound.play()
             self.montage.play()
         else:
-            widget.set_icon_widget(self.playButtonImg)
+            widget.set_icon_widget(playButtonImg)
             sound.stop()
             self.montage.stop()
 
-class LessonsToolbar(gtk.Toolbar):
-    def __init__(self):
-        gtk.Toolbar.__init__(self)
-        self._mask = False
+    def _create_lessons_toolbar(self):
+        toolbar = gtk.Toolbar()
 
         for lesson in lessons.THEMES:
-            button = gtk.ToggleToolButton()
+            button = gtk.RadioToolButton()
             button.set_label(lesson.name)
-            button.connect('clicked', self._lessons_cb, lesson)
-            self.insert(button, -1)
+            if toolbar.get_n_items():
+                button.props.group = toolbar.get_nth_item(0)
+            button.connect('clicked', self.__lesson_clicked_cb, lesson)
+            toolbar.insert(button, -1)
 
-        self.get_nth_item(0).set_active(True)
-        self.show_all()
+        toolbar.get_nth_item(0).set_active(True)
+        toolbar.show_all()
 
-    def _lessons_cb(self, widget, lesson):
-        if self._mask:
-            return
-        self._mask = True
+        return toolbar
 
-        for i, j in enumerate(lessons.THEMES):
-            if j != lesson:
-                self.get_nth_item(i).set_active(False)
-
-        widget.props.active = True
+    def __lesson_clicked_cb(self, widget, lesson):
         lesson.change()
-        self._mask = False
+
+    def __toggled_lessons_button_cb(self, button):
+        page = button.props.active and 1 or 0
+        self.notebook_toolbar.set_current_page(page)
+        self.notebook.set_current_page(page)
+
+        sound.stop()
+        self.montage.stop()

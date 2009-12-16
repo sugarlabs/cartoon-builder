@@ -16,10 +16,11 @@ import os
 import gtk
 from gettext import gettext as _
 
-import port.chooser as chooser
-import port.pixbuf as pixbuf
+import toolkit.chooser as chooser
+from toolkit import pixbuf
 
 import theme
+
 
 def load():
     from document import Document

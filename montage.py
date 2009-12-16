@@ -23,7 +23,7 @@ import gobject
 import logging
 from gobject import SIGNAL_RUN_FIRST, TYPE_PYOBJECT
 
-from port.scrolledbox import VScrolledBox
+from widgets.scrolledbox import VScrolledBox
 
 import theme
 import char
@@ -38,9 +38,9 @@ logger = logging.getLogger('cartoon-builder')
 
 class View(gtk.EventBox):
     __gsignals__ = {
-        'frame-changed' : (SIGNAL_RUN_FIRST, None, 2*[TYPE_PYOBJECT]), 
-        'ground-changed': (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]), 
-        'sound-changed' : (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]) } 
+        'frame-changed' : (SIGNAL_RUN_FIRST, None, 2*[TYPE_PYOBJECT]),
+        'ground-changed': (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]),
+        'sound-changed' : (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]) }
 
     def set_frame(self, value):
         tape_num, frame = value

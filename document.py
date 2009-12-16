@@ -14,18 +14,20 @@
 
 import os
 import gtk
-
 import logging
-logger = logging.getLogger('cartoon-builder')
 
-import port.json as json
-from port.tarball import Tarball
+import toolkit.json as json
 
 import theme
 from sound import *
 from ground import *
 from utils import *
 from char import *
+
+from toolkit.tarball import Tarball
+
+logger = logging.getLogger('cartoon-builder')
+
 
 class Document:
     tape = []
