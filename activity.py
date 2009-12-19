@@ -122,11 +122,11 @@ class CartoonBuilderActivity(SharedActivity):
         pauseButtonImg.set_from_icon_name('media-playback-pause',
                 gtk.ICON_SIZE_LARGE_TOOLBAR)
 
-        playButton = ToggleToolButton('media-playback-start')
-        playButton.connect('toggled', self.__play_cb, playButtonImg,
+        self.playButton = ToggleToolButton('media-playback-start')
+        self.playButton.connect('toggled', self.__play_cb, playButtonImg,
                 pauseButtonImg)
-        toolbar.insert(playButton, -1)
-        playButton.set_tooltip(_('Play / Pause'))
+        toolbar.insert(self.playButton, -1)
+        self.playButton.set_tooltip(_('Play / Pause'))
 
         tempo = TempoSlider(0, 10)
         tempo.adjustment.connect("value-changed", self.__tempo_cb)
@@ -188,6 +188,4 @@ class CartoonBuilderActivity(SharedActivity):
         page = button.props.active and 1 or 0
         self.notebook_toolbar.set_current_page(page)
         self.notebook.set_current_page(page)
-
-        sound.stop()
-        self.montage.stop()
+        self.playButton.props.active = False
