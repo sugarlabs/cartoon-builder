@@ -1,3 +1,8 @@
+7
+
+* Switch to Sugar Services to treat dependencies
+* Use new toolbar design in all supported sugars
+
 6
 
 * CartoonBuilder fails to launch #1569
