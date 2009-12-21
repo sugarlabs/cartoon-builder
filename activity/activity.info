@@ -1,9 +1,9 @@
 [Activity]
 name = CartoonBuilder
 bundle_id = com.ywwg.CartoonBuilderActivity
-exec = saccharin/0sugar -f -c activity.CartoonBuilderActivity
+exec = saccharin/0sugar --full --class-name activity.CartoonBuilderActivity
 icon = activity-cartoonbuilder
-activity_version = 7
+activity_version = 8
 show_launcher = yes
 license = GPLv2+
 requires = toolkit; widgets
