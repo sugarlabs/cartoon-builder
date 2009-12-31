@@ -22,7 +22,7 @@ from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.toggletoolbutton import ToggleToolButton
 from sugar.activity.activity import ActivityToolbox
 
-from widgets.temposlider import TempoSlider
+from toolkit.temposlider import TempoSlider
 from toolkit.activity import SharedActivity
 from toolkit.toolbarbox import ToolbarBox
 from toolkit.activity_widgets import *
