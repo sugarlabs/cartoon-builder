@@ -53,11 +53,12 @@ class Sound:
         return self._thumb
 
     def select(self):
-        Sound.current = self
-        if Sound.playing:
+        if Sound.current != self:
+            Sound.current = self
             Sound.player.set_state(gst.STATE_NULL)
             Sound.player.set_property('uri',
                     'file://' + theme.path(self._soundfile))
+        if Sound.playing:
             Sound.player.set_state(gst.STATE_PLAYING)
         return self
 
@@ -80,7 +81,7 @@ class MuteSound(Sound):
 
     def select(self):
         Sound.current = self
-        Sound.player.set_state(gst.STATE_NULL)
+        Sound.player.set_state(gst.STATE_PAUSED)
         return self
 
 class CustomSound(Sound):
@@ -123,19 +124,16 @@ def play():
 
 def stop():
     Sound.playing = False
-    Sound.player.set_state(gst.STATE_NULL)
+    Sound.player.set_state(gst.STATE_PAUSED)
 
 # GSTREAMER STUFF
 
-def _gstmessage_cb(bus, message):
-    type = message.type
+def _reload_cb(bus, message):
+    Sound.player.set_state(gst.STATE_READY)
+    Sound.player.set_state(gst.STATE_PLAYING)
 
-    if type == gst.MESSAGE_EOS:
-        # END OF SOUND FILE
-        Sound.player.set_state(gst.STATE_NULL)
-        Sound.player.set_state(gst.STATE_PLAYING)
-    elif type == gst.MESSAGE_ERROR:
-        Sound.player.set_state(gst.STATE_NULL)
+def _error_cb(bus, message):
+    Sound.player.set_state(gst.STATE_NULL)
 
 Sound.player = gst.element_factory_make("playbin", "player")
 fakesink = gst.element_factory_make('fakesink', "my-fakesink")
@@ -143,4 +141,5 @@ Sound.player.set_property("video-sink", fakesink)
 
 bus = Sound.player.get_bus()
 bus.add_signal_watch()
-bus.connect('message', _gstmessage_cb)
+bus.connect('message::eos', _reload_cb)
+bus.connect('message::error', _error_cb)
