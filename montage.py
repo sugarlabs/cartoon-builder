@@ -23,7 +23,7 @@ import gobject
 import logging
 from gobject import SIGNAL_RUN_FIRST, TYPE_PYOBJECT
 
-from widgets.scrolledbox import VScrolledBox
+from toolkit.scrolledbox import VScrolledBox
 
 import theme
 import char
@@ -157,6 +157,7 @@ class View(gtk.EventBox):
         self._frames = []
         self._prev_combo_selected = {}
         self._emission = True
+        self._screen_size_id = None
 
         # frames table
 
@@ -233,7 +234,7 @@ class View(gtk.EventBox):
             tape.pack_start(frame_box, False, False)
 
         # left control box
-        
+
         self.controlbox = gtk.VBox()
         self.controlbox.props.border_width = theme.BORDER_WIDTH
         self.controlbox.props.spacing = theme.BORDER_WIDTH
@@ -244,16 +245,20 @@ class View(gtk.EventBox):
         leftbox.set_size_request(logo.props.pixbuf.get_width(), -1)
         leftbox.pack_start(logo, False, False)
         leftbox.pack_start(self.controlbox, True, True)
-        
+
         # screen box
 
         screen_alignment = gtk.Alignment(0.5, 0.5, 0, 0)
         screen_alignment.add(screen_pink)
-        screen_alignment.connect('size-allocate', self._screen_size_cb)
+
+        box = gtk.EventBox()
+        box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        box.connect('size-allocate', self._screen_size_cb, screen_pink)
+        box.add(screen_alignment)
 
         cetralbox = gtk.HBox()
-        cetralbox.pack_start(screen_alignment, True, True)
-        cetralbox.pack_start(frames_box, True, False)
+        cetralbox.pack_start(box, expand=True, fill=True)
+        cetralbox.pack_start(frames_box, expand=False, fill=True)
 
         hdesktop = gtk.HBox()
         hdesktop.pack_start(leftbox,False,True,0)
@@ -422,6 +427,13 @@ class View(gtk.EventBox):
         if self._emission:
             self.emit('sound-changed', choice)
 
-    def _screen_size_cb(self, widget, aloc):
-        size = min(aloc.width, aloc.height)
-        widget.child.set_size_request(size, size)
+    def _screen_size_cb(self, sender, aloc, widget):
+        def set_size():
+            size = min(aloc.width, aloc.height)
+            widget.set_size_request(size, size)
+            self._screen_size_id = None
+            return False
+
+        if self._screen_size_id is not None:
+            gobject.source_remove(self._screen_size_id)
+        self._screen_size_id = gobject.timeout_add(500, set_size)
