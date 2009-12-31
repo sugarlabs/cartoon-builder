@@ -1,3 +1,8 @@
+9
+
+* Remove redundant gst operations to suppress errors on XO-1
+* Update saccharin startup script
+
 8
 
 * Update saccharin to return 0.82 support
