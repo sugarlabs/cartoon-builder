@@ -66,7 +66,8 @@ class View(gtk.EventBox):
 
         self.show_all()
 
-_lang = locale.getdefaultlocale()[0].split('_')[0]
+_locale = locale.getdefaultlocale()[0]
+_lang = _locale and _locale.split('_')[0] or 'en'
 
 if not os.path.isdir(theme.path('lessons', _lang)):
     logging.info('Cannot find lessons for language %s, thus use en' % _lang)
