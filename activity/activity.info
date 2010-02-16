@@ -1,7 +1,7 @@
 [Activity]
 name = CartoonBuilder
 bundle_id = com.ywwg.CartoonBuilderActivity
-exec = .0sugar-injection/launcher activity.CartoonBuilderActivity
+exec = .0sugar-injection/launcher sugar-activity activity.CartoonBuilderActivity
 icon = activity-cartoonbuilder
 activity_version = 9
 show_launcher = yes
