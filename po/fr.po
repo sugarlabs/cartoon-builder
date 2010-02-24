@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-30 18:21-0400\n"
+"POT-Creation-Date: 2009-12-17 00:31-0500\n"
 "PO-Revision-Date: 2009-05-30 01:49-0400\n"
 "Last-Translator: samy boutayeb <s.boutayeb@free.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,125 +21,124 @@ msgstr ""
 msgid "CartoonBuilder"
 msgstr "CartoonBuilder"
 
-#: activity.py:59
-msgid "Montage"
-msgstr "Montage"
-
-#: activity.py:63
+#: activity.py:67
 msgid "Lessons"
 msgstr "Leçons"
 
-#: activity.py:101
+#: activity.py:129
 msgid "Play / Pause"
 msgstr "Jouer / Pause"
 
-#: activity.py:126
+#: activity.py:144
 msgid "Reset"
 msgstr "Réinitialiser"
 
-#: char.py:144
+#: char.py:145
 msgid "Elephant"
 msgstr "Éléphant"
 
-#: char.py:146
+#: char.py:147
 msgid "Space Blob"
 msgstr "Tache de l'espace"
 
-#: char.py:148
+#: char.py:149
 msgid "Turkey"
 msgstr "Dindon"
 
-#: char.py:151 ground.py:103 sound.py:117
+#: char.py:152 ground.py:104 sound.py:118
 msgid "Custom"
 msgstr "Personnalisé"
 
-#: ground.py:85
+#: ground.py:86
 msgid "Saturn"
 msgstr "Saturne"
 
-#: ground.py:86
+#: ground.py:87
 msgid "Snowflakes"
 msgstr "Flocons de neige"
 
-#: ground.py:87
+#: ground.py:88
 msgid "Eye"
 msgstr "Oeil"
 
-#: ground.py:88
+#: ground.py:89
 msgid "Blobs"
 msgstr "Taches"
 
-#: ground.py:89
+#: ground.py:90
 msgid "Star Night"
 msgstr "Nuit étoilée"
 
-#: ground.py:90
+#: ground.py:91
 msgid "Forest"
 msgstr "Forêt"
 
-#: ground.py:91
+#: ground.py:92
 msgid "Spiral"
 msgstr "Spirale"
 
-#: ground.py:92
+#: ground.py:93
 msgid "Beam"
 msgstr "Faisceau"
 
-#: ground.py:93
+#: ground.py:94
 msgid "Cloth"
 msgstr "Tissu"
 
-#: ground.py:94
+#: ground.py:95
 msgid "Faces"
 msgstr "Visages"
 
-#: ground.py:95
+#: ground.py:96
 msgid "Leaves"
 msgstr "Feuilles"
 
-#: ground.py:96
+#: ground.py:97
 msgid "Vegetables"
 msgstr "Légumes"
 
-#: ground.py:97
+#: ground.py:98
 msgid "Spotlight"
 msgstr "Projecteur"
 
-#: ground.py:98
+#: ground.py:99
 msgid "Strips"
 msgstr "Bandes"
 
-#: ground.py:99
+#: ground.py:100
 msgid "Scene"
 msgstr "Scène"
 
-#: ground.py:100
+#: ground.py:101
 msgid "Rhombs"
 msgstr "Losanges"
 
-#: ground.py:101
+#: ground.py:102
 msgid "Milky Way"
 msgstr "Voie lactée"
 
-#: sound.py:111
+#: sound.py:112
 msgid "Gobble"
 msgstr "Glouglou"
 
-#: sound.py:112
+#: sound.py:113
 msgid "Funk"
 msgstr "Funk"
 
-#: sound.py:113
+#: sound.py:114
 msgid "Giggle"
 msgstr "Ricanement"
 
-#: sound.py:114
+#: sound.py:115
 msgid "Jungle"
 msgstr "Jungle"
 
-#: sound.py:115
+#: sound.py:116
 msgid "Mute"
 msgstr "Son désactivé"
+
+#~ msgid "Montage"
+#~ msgstr "Montage"
 
 #~ msgid "Choose image"
 #~ msgstr "Choisir une image"
