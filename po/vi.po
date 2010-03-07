@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-30 18:21-0400\n"
+"POT-Creation-Date: 2009-12-17 00:31-0500\n"
 "PO-Revision-Date: 2009-09-25 09:38-0400\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,122 +21,121 @@ msgstr ""
 msgid "CartoonBuilder"
 msgstr "Tạo Hoạt Hình"
 
-#: activity.py:59
-msgid "Montage"
-msgstr "Sự dựng phim"
-
-#: activity.py:63
+#: activity.py:67
 msgid "Lessons"
 msgstr "Bài học"
 
-#: activity.py:101
+#: activity.py:129
 msgid "Play / Pause"
 msgstr "Chạy / Tạm dừng"
 
-#: activity.py:126
+#: activity.py:144
 msgid "Reset"
 msgstr "Đặt lại"
 
-#: char.py:144
+#: char.py:145
 msgid "Elephant"
 msgstr "Con voi"
 
-#: char.py:146
+#: char.py:147
 msgid "Space Blob"
 msgstr "Giọt vũ trụ"
 
-#: char.py:148
+#: char.py:149
 msgid "Turkey"
 msgstr "Gà tây"
 
-#: char.py:151 ground.py:103 sound.py:117
+#: char.py:152 ground.py:104 sound.py:118
 msgid "Custom"
 msgstr "Tự chọn"
 
-#: ground.py:85
+#: ground.py:86
 msgid "Saturn"
 msgstr "Sao Thổ"
 
-#: ground.py:86
+#: ground.py:87
 msgid "Snowflakes"
 msgstr "Bông tuyết"
 
-#: ground.py:87
+#: ground.py:88
 msgid "Eye"
 msgstr "Mắt"
 
-#: ground.py:88
+#: ground.py:89
 msgid "Blobs"
 msgstr "Giọt"
 
-#: ground.py:89
+#: ground.py:90
 msgid "Star Night"
 msgstr "Đêm sao"
 
-#: ground.py:90
+#: ground.py:91
 msgid "Forest"
 msgstr "Rừng"
 
-#: ground.py:91
+#: ground.py:92
 msgid "Spiral"
 msgstr "Xoắn ốc"
 
-#: ground.py:92
+#: ground.py:93
 msgid "Beam"
 msgstr "Tia"
 
-#: ground.py:93
+#: ground.py:94
 msgid "Cloth"
 msgstr "Vải"
 
-#: ground.py:94
+#: ground.py:95
 msgid "Faces"
 msgstr "Mặt"
 
-#: ground.py:95
+#: ground.py:96
 msgid "Leaves"
 msgstr "Lá cây"
 
-#: ground.py:96
+#: ground.py:97
 msgid "Vegetables"
 msgstr "Rau"
 
-#: ground.py:97
+#: ground.py:98
 msgid "Spotlight"
 msgstr "Ánh sáng chấm"
 
-#: ground.py:98
+#: ground.py:99
 msgid "Strips"
 msgstr "Mảnh"
 
-#: ground.py:99
+#: ground.py:100
 msgid "Scene"
 msgstr "Cảnh"
 
-#: ground.py:100
+#: ground.py:101
 msgid "Rhombs"
 msgstr "Hình thoi"
 
-#: ground.py:101
+#: ground.py:102
 msgid "Milky Way"
 msgstr "Ngân hà"
 
-#: sound.py:111
+#: sound.py:112
 msgid "Gobble"
 msgstr "Gộp gộp"
 
-#: sound.py:112
+#: sound.py:113
 msgid "Funk"
 msgstr "Sôi nổi"
 
-#: sound.py:113
+#: sound.py:114
 msgid "Giggle"
 msgstr "Rúc rích"
 
-#: sound.py:114
+#: sound.py:115
 msgid "Jungle"
 msgstr "Rừng nhiệt đới"
 
-#: sound.py:115
+#: sound.py:116
 msgid "Mute"
 msgstr "Câm"
+
+#~ msgid "Montage"
+#~ msgstr "Sự dựng phim"
