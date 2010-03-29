@@ -2,140 +2,140 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-30 18:21-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-12-17 00:31-0500\n"
+"PO-Revision-Date: 2010-03-27 22:30+0200\n"
+"Last-Translator: shellige <email@hellige-online.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.3.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.3\n"
 
 #: activity/activity.info:2
 msgid "CartoonBuilder"
-msgstr ""
+msgstr "Comic-Zeichner"
 
-#: activity.py:59
-msgid "Montage"
-msgstr ""
-
-#: activity.py:63
+#: activity.py:67
 msgid "Lessons"
-msgstr ""
+msgstr "Lektionen"
 
-#: activity.py:101
+#: activity.py:129
 msgid "Play / Pause"
-msgstr ""
+msgstr "Abspielen / Anhalten"
 
-#: activity.py:126
+#: activity.py:144
 msgid "Reset"
-msgstr ""
+msgstr "Zurücksetzen"
 
-#: char.py:144
+#: char.py:145
 msgid "Elephant"
-msgstr ""
+msgstr "Elefant"
 
-#: char.py:146
+#: char.py:147
 msgid "Space Blob"
 msgstr ""
 
-#: char.py:148
+#: char.py:149
 msgid "Turkey"
-msgstr ""
+msgstr "Truthahn"
 
-#: char.py:151 ground.py:103 sound.py:117
+#: char.py:152 ground.py:104 sound.py:118
 msgid "Custom"
 msgstr ""
 
-#: ground.py:85
-msgid "Saturn"
-msgstr ""
-
 #: ground.py:86
-msgid "Snowflakes"
-msgstr ""
+msgid "Saturn"
+msgstr "Saturn"
 
 #: ground.py:87
-msgid "Eye"
-msgstr ""
+msgid "Snowflakes"
+msgstr "Schneeflocken"
 
 #: ground.py:88
-msgid "Blobs"
-msgstr ""
+msgid "Eye"
+msgstr "Auge"
 
 #: ground.py:89
-msgid "Star Night"
-msgstr ""
+msgid "Blobs"
+msgstr "Kleckse"
 
 #: ground.py:90
-msgid "Forest"
-msgstr ""
+msgid "Star Night"
+msgstr "Sternennacht"
 
 #: ground.py:91
-msgid "Spiral"
-msgstr ""
+msgid "Forest"
+msgstr "Wald"
 
 #: ground.py:92
-msgid "Beam"
-msgstr ""
+msgid "Spiral"
+msgstr "Spirale"
 
 #: ground.py:93
+msgid "Beam"
+msgstr "Strahl"
+
+#: ground.py:94
 msgid "Cloth"
 msgstr ""
 
-#: ground.py:94
-msgid "Faces"
-msgstr ""
-
 #: ground.py:95
-msgid "Leaves"
-msgstr ""
+msgid "Faces"
+msgstr "Gesichter"
 
 #: ground.py:96
-msgid "Vegetables"
-msgstr ""
+msgid "Leaves"
+msgstr "Blätter"
 
 #: ground.py:97
+msgid "Vegetables"
+msgstr "Gemüse"
+
+#: ground.py:98
 msgid "Spotlight"
 msgstr ""
 
-#: ground.py:98
-msgid "Strips"
-msgstr ""
-
 #: ground.py:99
-msgid "Scene"
-msgstr ""
+msgid "Strips"
+msgstr "Streifen"
 
 #: ground.py:100
-msgid "Rhombs"
-msgstr ""
+#, fuzzy
+msgid "Scene"
+msgstr "Szene"
 
 #: ground.py:101
-msgid "Milky Way"
-msgstr ""
+msgid "Rhombs"
+msgstr "Rauten"
 
-#: sound.py:111
-msgid "Gobble"
-msgstr ""
+#: ground.py:102
+msgid "Milky Way"
+msgstr "Milchstraße"
 
 #: sound.py:112
-msgid "Funk"
-msgstr ""
+msgid "Gobble"
+msgstr "Verschlingen"
 
 #: sound.py:113
-msgid "Giggle"
-msgstr ""
+msgid "Funk"
+msgstr "Fürchten"
 
 #: sound.py:114
-msgid "Jungle"
-msgstr ""
+#, fuzzy
+msgid "Giggle"
+msgstr "Gekicher"
 
 #: sound.py:115
+msgid "Jungle"
+msgstr "Dschungel"
+
+#: sound.py:116
+#, fuzzy
 msgid "Mute"
-msgstr ""
+msgstr "Stille"
