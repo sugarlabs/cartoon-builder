@@ -1,3 +1,9 @@
+10
+
+* Switch to restricted 0sugar mode until more complex solution is accessible,
+  like Saccharin sugar distribution
+* Add zh_TW and de translations
+
 9
 
 * Remove redundant gst operations to suppress errors on XO-1
