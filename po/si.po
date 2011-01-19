@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: cartoonbuilder\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-12-17 00:31-0500\n"
-"PO-Revision-Date: 2011-01-19 05:50+0200\n"
+"PO-Revision-Date: 2011-01-19 05:51+0200\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhalese <sulochani@gmail.com>\n"
 "Language: si\n"
@@ -118,7 +118,7 @@ msgstr "පත්‍ර"
 
 #: ground.py:97
 msgid "Vegetables"
-msgstr "එළවලු"
+msgstr "එළවළු"
 
 #: ground.py:98
 msgid "Spotlight"
