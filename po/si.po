@@ -2,152 +2,166 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Sulochani Dharmawardana <sulochani@gmail.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: cartoonbuilder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-09 16:10+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2009-12-17 00:31-0500\n"
+"PO-Revision-Date: 2011-01-19 05:50+0200\n"
+"Last-Translator: Danishka Navin <danishka@gmail.com>\n"
+"Language-Team: Sinhalese <sulochani@gmail.com>\n"
+"Language: si\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.3.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.3\n"
 
 #: activity/activity.info:2
 msgid "CartoonBuilder"
-msgstr ""
+msgstr "කාටුන් නිර්මාණකරු"
 
-#: /home/sugar/src/activities/cartoon-builder/ground.py:81
-msgid "Saturn"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:82
-msgid "Snowflakes"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:83
-msgid "Eye"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:84
-msgid "Blobs"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:85
-msgid "Star Night"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:86
-msgid "Forest"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:87
-msgid "Spiral"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:88
-msgid "Beam"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:89
-msgid "Cloth"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:90
-msgid "Faces"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:91
-msgid "Leaves"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:92
-msgid "Vegetables"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:93
-msgid "Spotlight"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:94
-msgid "Strips"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:95
-msgid "Scene"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:96
-msgid "Rhombs"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:97
-msgid "Milky Way"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:99
-#: /home/sugar/src/activities/cartoon-builder/char.py:149
-#: /home/sugar/src/activities/cartoon-builder/sound.py:114
-msgid "Custom"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:142
-msgid "Elephant"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:144
-msgid "Space Blob"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:146
-msgid "Turkey"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:108
-msgid "Gobble"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:109
-msgid "Funk"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:110
-msgid "Giggle"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:111
-msgid "Jungle"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:112
-msgid "Mute"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/theme.py:129
-#: /home/sugar/src/activities/cartoon-builder/theme.py:132
-msgid "Choose image"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/theme.py:136
-#: /home/sugar/src/activities/cartoon-builder/theme.py:139
-msgid "Choose audio"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/activity.py:58
-msgid "Montage"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/activity.py:62
+#: activity.py:67
 msgid "Lessons"
-msgstr ""
+msgstr "පාඩම්"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:100
+#: activity.py:129
 msgid "Play / Pause"
-msgstr ""
+msgstr "වාදනය / විරාමය"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:125
+#: activity.py:144
 msgid "Reset"
-msgstr ""
+msgstr "පෙරසෙ"
+
+#: char.py:145
+msgid "Elephant"
+msgstr "අලියා"
+
+#: char.py:147
+msgid "Space Blob"
+msgstr "අවකාශ පොද"
+
+#: char.py:149
+msgid "Turkey"
+msgstr "කළුකුමා"
+
+#: char.py:152 ground.py:104 sound.py:118
+msgid "Custom"
+msgstr "රිසිලෙස"
+
+#: ground.py:86
+msgid "Saturn"
+msgstr "සෙනසුරු"
+
+#: ground.py:87
+msgid "Snowflakes"
+msgstr "හිම රොද"
+
+#: ground.py:88
+msgid "Eye"
+msgstr "ඇස"
+
+#: ground.py:89
+msgid "Blobs"
+msgstr "බින්දු"
+
+#: ground.py:90
+msgid "Star Night"
+msgstr "තරු සහිත රාත්‍රිය"
+
+#: ground.py:91
+msgid "Forest"
+msgstr "කැලය"
+
+#: ground.py:92
+msgid "Spiral"
+msgstr "සර්පිලාකාර"
+
+#: ground.py:93
+msgid "Beam"
+msgstr "කිරණ කදම්බය"
+
+#: ground.py:94
+msgid "Cloth"
+msgstr "ඇඳුම්"
+
+#: ground.py:95
+msgid "Faces"
+msgstr "මුහුණු"
+
+#: ground.py:96
+msgid "Leaves"
+msgstr "පත්‍ර"
+
+#: ground.py:97
+msgid "Vegetables"
+msgstr "එළවලු"
+
+#: ground.py:98
+msgid "Spotlight"
+msgstr "පිරික්සුම් පහන"
+
+#: ground.py:99
+msgid "Strips"
+msgstr "පටි"
+
+#: ground.py:100
+msgid "Scene"
+msgstr "දර්ශනය"
+
+#: ground.py:101
+msgid "Rhombs"
+msgstr "රොම්බස"
+
+#: ground.py:102
+msgid "Milky Way"
+msgstr "ක්ෂීර පථය"
+
+#: sound.py:112
+msgid "Gobble"
+msgstr "ගොබ්ල්"
+
+#: sound.py:113
+msgid "Funk"
+msgstr "ෆන්ක්"
+
+#: sound.py:114
+msgid "Giggle"
+msgstr "සිනහව"
+
+#: sound.py:115
+msgid "Jungle"
+msgstr "වනාන්තරය"
+
+#: sound.py:116
+msgid "Mute"
+msgstr "නිහඬ"
+
+#~ msgid "Montage"
+#~ msgstr "‍සමෝධානය"
+
+#~ msgid "Choose image"
+#~ msgstr "පිංතූරය තෝරන්න"
