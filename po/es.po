@@ -54,11 +54,111 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-17 00:31-0500\n"
+"POT-Creation-Date: 2009-04-09 16:10+0000\n"
 "PO-Revision-Date: 2009-05-22 20:31-0400\n"
 "Last-Translator: Alejandro J. Cura <alecu@vortech.com.ar>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,127 +173,134 @@ msgstr ""
 msgid "CartoonBuilder"
 msgstr "Creador de Historietas"
 
-#: activity.py:67
-msgid "Lessons"
-msgstr "Lecciones"
-
-#: activity.py:129
-msgid "Play / Pause"
-msgstr "Reproducir / Pausar"
-
-#: activity.py:144
-msgid "Reset"
-msgstr "Reiniciar"
-
-#: char.py:145
-msgid "Elephant"
-msgstr "Elefante"
-
-#: char.py:147
-msgid "Space Blob"
-msgstr "Gota Espacial"
-
-#: char.py:149
-msgid "Turkey"
-msgstr "Pavo"
-
-#: char.py:152 ground.py:104 sound.py:118
-msgid "Custom"
-msgstr "Personalizado"
-
-#: ground.py:86
+#: /home/sugar/src/activities/cartoon-builder/ground.py:81
 msgid "Saturn"
 msgstr "Saturno"
 
-#: ground.py:87
+#: /home/sugar/src/activities/cartoon-builder/ground.py:82
 msgid "Snowflakes"
 msgstr "Copos de Nieve"
 
-#: ground.py:88
+#: /home/sugar/src/activities/cartoon-builder/ground.py:83
 msgid "Eye"
 msgstr "Ojo"
 
-#: ground.py:89
+#: /home/sugar/src/activities/cartoon-builder/ground.py:84
 msgid "Blobs"
 msgstr "Gotas"
 
-#: ground.py:90
+#: /home/sugar/src/activities/cartoon-builder/ground.py:85
 msgid "Star Night"
 msgstr "Noche Estrellada"
 
-#: ground.py:91
+#: /home/sugar/src/activities/cartoon-builder/ground.py:86
 msgid "Forest"
 msgstr "Bosque"
 
-#: ground.py:92
+#: /home/sugar/src/activities/cartoon-builder/ground.py:87
 msgid "Spiral"
 msgstr "Espiral"
 
-#: ground.py:93
+#: /home/sugar/src/activities/cartoon-builder/ground.py:88
 msgid "Beam"
 msgstr "Rayo"
 
-#: ground.py:94
+#: /home/sugar/src/activities/cartoon-builder/ground.py:89
 msgid "Cloth"
 msgstr "Tela"
 
-#: ground.py:95
+#: /home/sugar/src/activities/cartoon-builder/ground.py:90
 msgid "Faces"
 msgstr "Caras"
 
-#: ground.py:96
+#: /home/sugar/src/activities/cartoon-builder/ground.py:91
 msgid "Leaves"
 msgstr "Hojas"
 
-#: ground.py:97
+#: /home/sugar/src/activities/cartoon-builder/ground.py:92
 msgid "Vegetables"
 msgstr "Vegetales"
 
-#: ground.py:98
+#: /home/sugar/src/activities/cartoon-builder/ground.py:93
 msgid "Spotlight"
 msgstr "Foco de luz"
 
-#: ground.py:99
+#: /home/sugar/src/activities/cartoon-builder/ground.py:94
 msgid "Strips"
 msgstr "Cintas"
 
-#: ground.py:100
+#: /home/sugar/src/activities/cartoon-builder/ground.py:95
 msgid "Scene"
 msgstr "Escena"
 
-#: ground.py:101
+#: /home/sugar/src/activities/cartoon-builder/ground.py:96
 msgid "Rhombs"
 msgstr "Rombos"
 
-#: ground.py:102
+#: /home/sugar/src/activities/cartoon-builder/ground.py:97
 msgid "Milky Way"
 msgstr "Vía Láctea"
 
-#: sound.py:112
+#: /home/sugar/src/activities/cartoon-builder/ground.py:99
+#: /home/sugar/src/activities/cartoon-builder/char.py:149
+#: /home/sugar/src/activities/cartoon-builder/sound.py:114
+msgid "Custom"
+msgstr "Personalizado"
+
+#: /home/sugar/src/activities/cartoon-builder/char.py:142
+msgid "Elephant"
+msgstr "Elefante"
+
+#: /home/sugar/src/activities/cartoon-builder/char.py:144
+msgid "Space Blob"
+msgstr "Gota Espacial"
+
+#: /home/sugar/src/activities/cartoon-builder/char.py:146
+msgid "Turkey"
+msgstr "Pavo"
+
+#: /home/sugar/src/activities/cartoon-builder/sound.py:108
 msgid "Gobble"
 msgstr "Devorar"
 
-#: sound.py:113
+#: /home/sugar/src/activities/cartoon-builder/sound.py:109
 msgid "Funk"
 msgstr "Funk"
 
-#: sound.py:114
+#: /home/sugar/src/activities/cartoon-builder/sound.py:110
 msgid "Giggle"
 msgstr "Risa"
 
-#: sound.py:115
+#: /home/sugar/src/activities/cartoon-builder/sound.py:111
 msgid "Jungle"
 msgstr "Jungla"
 
-#: sound.py:116
+#: /home/sugar/src/activities/cartoon-builder/sound.py:112
 msgid "Mute"
 msgstr "Silenciar"
 
-#~ msgid "Montage"
-#~ msgstr "Montaje"
+#: /home/sugar/src/activities/cartoon-builder/theme.py:129
+#: /home/sugar/src/activities/cartoon-builder/theme.py:132
+msgid "Choose image"
+msgstr "Elegir imagen"
 
-#~ msgid "Choose image"
-#~ msgstr "Elegir imagen"
+#: /home/sugar/src/activities/cartoon-builder/theme.py:136
+#: /home/sugar/src/activities/cartoon-builder/theme.py:139
+msgid "Choose audio"
+msgstr "Elegir audio"
 
-#~ msgid "Choose audio"
-#~ msgstr "Elegir audio"
+#: /home/sugar/src/activities/cartoon-builder/activity.py:58
+msgid "Montage"
+msgstr "Montaje"
+
+#: /home/sugar/src/activities/cartoon-builder/activity.py:62
+msgid "Lessons"
+msgstr "Lecciones"
+
+#: /home/sugar/src/activities/cartoon-builder/activity.py:100
+msgid "Play / Pause"
+msgstr "Reproducir / Pausar"
+
+#: /home/sugar/src/activities/cartoon-builder/activity.py:125
+msgid "Reset"
+msgstr "Reiniciar"
