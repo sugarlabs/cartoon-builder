@@ -2,140 +2,189 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-09 11:12+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-04-09 16:10+0000\n"
+"PO-Revision-Date: 2011-03-08 05:23+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.1\n"
 
 #: activity/activity.info:2
 msgid "CartoonBuilder"
-msgstr ""
+msgstr "CartoonBuilder"
 
-#: ground.py:81
+#: /home/sugar/src/activities/cartoon-builder/ground.py:81
 msgid "Saturn"
-msgstr ""
+msgstr "Saturn"
 
-#: ground.py:82
+#: /home/sugar/src/activities/cartoon-builder/ground.py:82
 msgid "Snowflakes"
-msgstr ""
+msgstr "Snowflakes"
 
-#: ground.py:83
+#: /home/sugar/src/activities/cartoon-builder/ground.py:83
 msgid "Eye"
-msgstr ""
+msgstr "Eye"
 
-#: ground.py:84
+#: /home/sugar/src/activities/cartoon-builder/ground.py:84
 msgid "Blobs"
-msgstr ""
+msgstr "Blobs"
 
-#: ground.py:85
+#: /home/sugar/src/activities/cartoon-builder/ground.py:85
 msgid "Star Night"
-msgstr ""
+msgstr "Star Night"
 
-#: ground.py:86
+#: /home/sugar/src/activities/cartoon-builder/ground.py:86
 msgid "Forest"
-msgstr ""
+msgstr "Forest"
 
-#: ground.py:87
+#: /home/sugar/src/activities/cartoon-builder/ground.py:87
 msgid "Spiral"
-msgstr ""
+msgstr "Spiral"
 
-#: ground.py:88
+#: /home/sugar/src/activities/cartoon-builder/ground.py:88
 msgid "Beam"
-msgstr ""
+msgstr "Beam"
 
-#: ground.py:89
+#: /home/sugar/src/activities/cartoon-builder/ground.py:89
 msgid "Cloth"
-msgstr ""
+msgstr "Cloth"
 
-#: ground.py:90
+#: /home/sugar/src/activities/cartoon-builder/ground.py:90
 msgid "Faces"
-msgstr ""
+msgstr "Faces"
 
-#: ground.py:91
+#: /home/sugar/src/activities/cartoon-builder/ground.py:91
 msgid "Leaves"
-msgstr ""
+msgstr "Leaves"
 
-#: ground.py:92
+#: /home/sugar/src/activities/cartoon-builder/ground.py:92
 msgid "Vegetables"
-msgstr ""
+msgstr "Vegetables"
 
-#: ground.py:93
+#: /home/sugar/src/activities/cartoon-builder/ground.py:93
 msgid "Spotlight"
-msgstr ""
+msgstr "Spotlight"
 
-#: ground.py:94
+#: /home/sugar/src/activities/cartoon-builder/ground.py:94
 msgid "Strips"
-msgstr ""
+msgstr "Strips"
 
-#: ground.py:95
+#: /home/sugar/src/activities/cartoon-builder/ground.py:95
 msgid "Scene"
-msgstr ""
+msgstr "Scene"
 
-#: ground.py:96
+#: /home/sugar/src/activities/cartoon-builder/ground.py:96
 msgid "Rhombs"
-msgstr ""
+msgstr "Rhombs"
 
-#: ground.py:97
+#: /home/sugar/src/activities/cartoon-builder/ground.py:97
 msgid "Milky Way"
-msgstr ""
+msgstr "Milky Way"
 
-#: ground.py:99 char.py:149 sound.py:113
+#: /home/sugar/src/activities/cartoon-builder/ground.py:99
+#: /home/sugar/src/activities/cartoon-builder/char.py:149
+#: /home/sugar/src/activities/cartoon-builder/sound.py:114
 msgid "Custom"
-msgstr ""
+msgstr "Custom"
 
-#: char.py:142
+#: /home/sugar/src/activities/cartoon-builder/char.py:142
 msgid "Elephant"
-msgstr ""
+msgstr "Elephant"
 
-#: char.py:144
+#: /home/sugar/src/activities/cartoon-builder/char.py:144
 msgid "Space Blob"
-msgstr ""
+msgstr "Space Blob"
 
-#: char.py:146
+#: /home/sugar/src/activities/cartoon-builder/char.py:146
 msgid "Turkey"
-msgstr ""
+msgstr "Turkey"
 
-#: sound.py:107
+#: /home/sugar/src/activities/cartoon-builder/sound.py:108
 msgid "Gobble"
-msgstr ""
+msgstr "Gobble"
 
-#: sound.py:108
+#: /home/sugar/src/activities/cartoon-builder/sound.py:109
 msgid "Funk"
-msgstr ""
+msgstr "Funk"
 
-#: sound.py:109
+#: /home/sugar/src/activities/cartoon-builder/sound.py:110
 msgid "Giggle"
-msgstr ""
+msgstr "Giggle"
 
-#: sound.py:110
+#: /home/sugar/src/activities/cartoon-builder/sound.py:111
 msgid "Jungle"
-msgstr ""
+msgstr "Jungle"
 
-#: sound.py:111
+#: /home/sugar/src/activities/cartoon-builder/sound.py:112
 msgid "Mute"
-msgstr ""
+msgstr "Mute"
 
-#: activity.py:57
+#: /home/sugar/src/activities/cartoon-builder/theme.py:129
+#: /home/sugar/src/activities/cartoon-builder/theme.py:132
+msgid "Choose image"
+msgstr "Choose image"
+
+#: /home/sugar/src/activities/cartoon-builder/theme.py:136
+#: /home/sugar/src/activities/cartoon-builder/theme.py:139
+msgid "Choose audio"
+msgstr "Choose audio"
+
+#: /home/sugar/src/activities/cartoon-builder/activity.py:58
 msgid "Montage"
-msgstr ""
+msgstr "Montage"
 
-#: activity.py:61
+#: /home/sugar/src/activities/cartoon-builder/activity.py:62
 msgid "Lessons"
-msgstr ""
+msgstr "Lessons"
 
-#: activity.py:93
+#: /home/sugar/src/activities/cartoon-builder/activity.py:100
 msgid "Play / Pause"
-msgstr ""
+msgstr "Play / Pause"
 
-#: activity.py:118
+#: /home/sugar/src/activities/cartoon-builder/activity.py:125
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
