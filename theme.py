@@ -22,63 +22,64 @@ from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
 
 SOUND_SPEAKER = 'images/sounds/speaker.png'
-SOUND_MUTE    = 'images/sounds/mute.png'
-SOUND_CUSTOM  = 'images/sounds/custom.png'
+SOUND_MUTE = 'images/sounds/mute.png'
+SOUND_CUSTOM = 'images/sounds/custom.png'
 
-LOGO_WIDTH = 275
+LOGO_WIDTH = style.zoom(275)
 TAPE_COUNT = 11
 FRAME_COUNT = 14
 
 DESKTOP_WIDTH = gtk.gdk.screen_width()
 DESKTOP_HEIGHT = gtk.gdk.screen_height() - style.LARGE_ICON_SIZE
 
-THUMB_SIZE = min(100, DESKTOP_WIDTH / (TAPE_COUNT+1))
+THUMB_SIZE = style.zoom(min(100, DESKTOP_WIDTH / (TAPE_COUNT + 1)))
 
-FRAME_COLS = max(1, ((DESKTOP_WIDTH-LOGO_WIDTH) -
-        min(DESKTOP_HEIGHT-THUMB_SIZE-THUMB_SIZE/2, DESKTOP_WIDTH-LOGO_WIDTH))
-        / THUMB_SIZE)
+FRAME_COLS = style.zoom(max(1, ((DESKTOP_WIDTH - LOGO_WIDTH) -
+        min(DESKTOP_HEIGHT - THUMB_SIZE - THUMB_SIZE / 2, DESKTOP_WIDTH - LOGO_WIDTH))
+        / THUMB_SIZE))
 
-FRAME_ROWS = max((DESKTOP_HEIGHT - THUMB_SIZE*3) / THUMB_SIZE,
+FRAME_ROWS = max((DESKTOP_HEIGHT - THUMB_SIZE * 3) / THUMB_SIZE,
         int(ceil(float(FRAME_COUNT) / FRAME_COLS)))
 
-BORDER_WIDTH = 10
+BORDER_WIDTH = style.zoom(10)
 
 # Colors from the Rich's UI design
 
-GRAY = "#B7B7B7" # gray
-PINK = "#FF0099" # pink
-YELLOW = "#FFFF00" # yellow
+GRAY = "#B7B7B7"  # gray
+PINK = "#FF0099"  # pink
+YELLOW = "#FFFF00"  # yellow
 WHITE = "#FFFFFF"
 BLACK = "#000000"
-BACKGROUND = "#66CC00" # light green
-BUTTON_FOREGROUND = "#CCFB99" # very light green
-BUTTON_BACKGROUND = "#027F01" # dark green
+BACKGROUND = "#66CC00"  # light green
+BUTTON_FOREGROUND = "#CCFB99"  # very light green
+BUTTON_BACKGROUND = "#027F01"  # dark green
 COLOR_FG_BUTTONS = (
-    (gtk.STATE_NORMAL,"#CCFF99"),
-    (gtk.STATE_ACTIVE,"#CCFF99"),
-    (gtk.STATE_PRELIGHT,"#CCFF99"),
-    (gtk.STATE_SELECTED,"#CCFF99"),
-    (gtk.STATE_INSENSITIVE,"#CCFF99"),
-    ) # very light green
+    (gtk.STATE_NORMAL, "#CCFF99"),
+    (gtk.STATE_ACTIVE, "#CCFF99"),
+    (gtk.STATE_PRELIGHT, "#CCFF99"),
+    (gtk.STATE_SELECTED, "#CCFF99"),
+    (gtk.STATE_INSENSITIVE, "#CCFF99"),
+    )  # very light green
 COLOR_BG_BUTTONS = (
-    (gtk.STATE_NORMAL,"#027F01"),
-    (gtk.STATE_ACTIVE,"#CCFF99"),
-    (gtk.STATE_PRELIGHT,"#016D01"),
-    (gtk.STATE_SELECTED,"#CCFF99"),
-    (gtk.STATE_INSENSITIVE,"#027F01"),
+    (gtk.STATE_NORMAL, "#027F01"),
+    (gtk.STATE_ACTIVE, "#CCFF99"),
+    (gtk.STATE_PRELIGHT, "#016D01"),
+    (gtk.STATE_SELECTED, "#CCFF99"),
+    (gtk.STATE_INSENSITIVE, "#027F01"),
     )
 OLD_COLOR_BG_BUTTONS = (
-    (gtk.STATE_NORMAL,"#027F01"),
-    (gtk.STATE_ACTIVE,"#014D01"),
-    (gtk.STATE_PRELIGHT,"#016D01"),
-    (gtk.STATE_SELECTED,"#027F01"),
-    (gtk.STATE_INSENSITIVE,"#027F01"),
+    (gtk.STATE_NORMAL, "#027F01"),
+    (gtk.STATE_ACTIVE, "#014D01"),
+    (gtk.STATE_PRELIGHT, "#016D01"),
+    (gtk.STATE_SELECTED, "#027F01"),
+    (gtk.STATE_INSENSITIVE, "#027F01"),
     )
 
 SESSION_PATH = os.path.join(get_activity_root(), 'tmp', '.session')
 if os.path.isdir(SESSION_PATH):
     shutil.rmtree(SESSION_PATH)
 os.mkdir(SESSION_PATH)
+
 
 def path(*args):
     file = os.path.join(*args)
@@ -88,14 +89,16 @@ def path(*args):
     else:
         return os.path.join(get_bundle_path(), file)
 
-def pixbuf(file, size = None):
+
+def pixbuf(file, size=None):
     if size:
         out = gtk.gdk.pixbuf_new_from_file_at_size(path(file), size, size)
     else:
         out = gtk.gdk.pixbuf_new_from_file(path(file))
     return out
 
-def scale(pixbuf, size = THUMB_SIZE):
+
+def scale(pixbuf, size=THUMB_SIZE):
     return pixbuf.scale_simple(size, size, gtk.gdk.INTERP_BILINEAR)
 
 EMPTY_FILENAME = 'images/pics/empty.png'
