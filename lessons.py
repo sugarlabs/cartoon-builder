@@ -22,6 +22,7 @@ import theme
 
 THEMES = []
 
+
 class Lesson:
     def __init__(self, index, filename):
         self.index = index
@@ -31,6 +32,7 @@ class Lesson:
 
     def change(self):
         View.notebook.set_current_page(self.index)
+
 
 class View(gtk.EventBox):
     notebook = None
