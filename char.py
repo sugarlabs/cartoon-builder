@@ -31,6 +31,7 @@ def load():
             [i for i in set(Document.tape) if not i.empty() and i.custom()]):
         custom.frames[i] = f
 
+
 class Frame:
     def __init__(self, id):
         self.id = id
@@ -59,7 +60,8 @@ class Frame:
         return self._orig
 
     def select(self):
-        return True;
+        return True
+
 
 class PreinstalledFrame(Frame):
     def __init__(self, filename):
@@ -74,6 +76,7 @@ class PreinstalledFrame(Frame):
             self._orig = theme.pixbuf(self._filename)
         return self._orig
 
+
 class EmptyFrame(Frame):
     def __init__(self):
         Frame.__init__(self, None)
@@ -84,12 +87,14 @@ class EmptyFrame(Frame):
         return False
 
     def empty(self):
-        return True
+        return True;
+
 
 class RestoredFrame(Frame):
     def __init__(self, id, data):
         Frame.__init__(self, id)
         self._orig = pixbuf.from_str(data)
+
 
 class CustomFrame(Frame):
     def __init__(self):
@@ -114,6 +119,7 @@ class CustomFrame(Frame):
         else:
             return False
 
+
 class Char:
     def __init__(self, name, thumbfile, dir):
         self.name = name
@@ -126,7 +132,7 @@ class Char:
             self._thumb = theme.pixbuf(thumbfile, theme.THUMB_SIZE)
             self._custom = False
         else:
-            for i in range(0, theme.FRAME_ROWS*theme.FRAME_COLS):
+            for i in range(0, theme.FRAME_ROWS * theme.FRAME_COLS):
                 self.frames.append(CustomFrame())
             self._thumb = theme.CUSTOM_FRAME_THUMB
             self._custom = True
