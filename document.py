@@ -37,17 +37,19 @@ class Document:
     for i in range(theme.TAPE_COUNT):
         tape.append(EmptyFrame())
 
+
 def clean(index):
     from char import Frame
     Document.tape[index] = EmptyFrame()
 
+
 def save(filepath):
     tar = Tarball(filepath, 'w')
 
-    cfg = { 'ground': {},
-            'sound' : {},
+    cfg = {'ground': {},
+            'sound': {},
             'frames': {},
-            'tape'  : [] }
+            'tape': []}
 
     def _save(node, arcname, value):
         if value.custom():
@@ -78,6 +80,7 @@ def save(filepath):
 
     tar.write('MANIFEST', json.dumps(cfg))
     tar.close()
+
 
 def load(filepath):
     try:
