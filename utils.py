@@ -22,13 +22,14 @@ from sugar.graphics.combobox import ComboBox as _ComboBox
 
 from theme import *
 
+
 class ComboBox(_ComboBox):
     def __init__(self):
         _ComboBox.__init__(self)
         self.set_name('we-really-need-it-to-use-custom-combobox-colors')
 
-    def append_item(self, action_id, text = None, icon_name = None, size = None,
-            pixbuf = None, position = None):
+    def append_item(self, action_id, text=None, icon_name=None, size=None,
+            pixbuf=None, position=None):
 
         if not self._icon_renderer and (icon_name or pixbuf):
             self._icon_renderer = gtk.CellRendererPixbuf()
