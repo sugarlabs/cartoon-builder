@@ -28,6 +28,7 @@ def load():
     if Document.ground and Document.ground.custom():
         THEMES.append(Document.ground)
 
+
 class Ground:
     def __init__(self, name, id):
         self.name = name
@@ -51,6 +52,7 @@ class Ground:
     def select(self):
         return self
 
+
 class PreinstalledGround(Ground):
     def __init__(self, name, filename):
         Ground.__init__(self, name, filename)
@@ -58,6 +60,7 @@ class PreinstalledGround(Ground):
 
     def custom(self):
         return False
+
 
 class CustomGround(Ground):
     def __init__(self, name, filename):
@@ -71,10 +74,12 @@ class CustomGround(Ground):
         except:
             return None
 
+
 class RestoredGround(Ground):
     def __init__(self, name, id, data):
         Ground.__init__(self, name, id)
         self._orig = pixbuf.from_str(data)
+
 
 class JournalGround(Ground):
     def __init__(self, jobject):

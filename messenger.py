@@ -31,6 +31,7 @@ SERVICE = 'org.sugarlabs.CartoonBuilder'
 IFACE = SERVICE
 PATH = '/org/sugarlabs/CartoonBuilder'
 
+
 class Slot:
     def __init__(self, sender=None, raw=None):
         if sender:
@@ -46,7 +47,8 @@ class Slot:
     def serialize(self):
         return json.dumps({
             'seqno': self.seqno,
-            'oid'  : self.oid})
+            'oid': self.oid})
+
 
 class Messenger(ExportedGObject):
     def __init__(self, tube, initiator, view):
@@ -86,7 +88,6 @@ class Messenger(ExportedGObject):
                         self._pong_cb, '_pong', IFACE, path=PATH,
                         sender_keyword='sender')
                 self._ping()
-
 
             self._tube.add_signal_receiver(self._notify_cb, '_notify', IFACE,
                     path=PATH, sender_keyword='sender')
@@ -215,14 +216,16 @@ class Messenger(ExportedGObject):
     def _sound_changed_cb(self, sender, sound):
         self._send(SOUND, sound.id)
 
-FRAME  = 'frame'
+
+FRAME = 'frame'
 GROUND = 'ground'
-SOUND  = 'sound'
+SOUND = 'sound'
 
 OBJECTS = {
-    FRAME  : char.THEMES[-1].frames,
-    GROUND : ground.THEMES,
-    SOUND  : sound.THEMES }
+    FRAME: char.THEMES[-1].frames,
+    GROUND: ground.THEMES,
+    SOUND: sound.THEMES}
+
 
 def object_find(type, oid):
     if type.startswith(FRAME):
@@ -237,6 +240,7 @@ def object_find(type, oid):
             if i and i.id == oid:
                 return i
     return None
+
 
 def object_new(type, oid, name, raw):
     logger.debug('add new object type=%s oid=%s' % (type, oid))
@@ -257,6 +261,7 @@ def object_new(type, oid, name, raw):
 
     OBJECTS[type.split(':')[0]].append(object)
 
+
 def object_serialize(type, oid):
     object = object_find(type, oid)
 
@@ -266,6 +271,7 @@ def object_serialize(type, oid):
         logger.error('cannot find object to serialize type=%s oid=%s' \
                 % (type, oid))
         return ('', '')
+
 
 def object_select(view, type, oid):
     if oid:

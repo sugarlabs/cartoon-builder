@@ -16,7 +16,6 @@ import os
 import gtk
 import shutil
 from math import ceil
-from gettext import gettext as _
 
 from sugar.activity.activity import get_bundle_path, get_activity_root
 from sugar.graphics import style
