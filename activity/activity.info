@@ -5,7 +5,6 @@ summary   = Make a cartoon by creating a sequence of poses inside a filmstrip
 homepage  = http://wiki.sugarlabs.org/go/Activities/Cartoon_Builder
 license   = GPLv3
 
-version   = %(activity_version)s
 stability = stable
 
 icon      = activity-cartoonbuilder
