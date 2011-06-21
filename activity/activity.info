@@ -11,4 +11,4 @@ icon      = activity-cartoonbuilder
 exec      = sugar-activity activity.CartoonBuilderActivity
 
 bundle_id = com.ywwg.CartoonBuilderActivity
-activity_version = 12
+version = 12
