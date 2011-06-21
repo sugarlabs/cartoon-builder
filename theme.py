@@ -24,23 +24,23 @@ SOUND_SPEAKER = 'images/sounds/speaker.png'
 SOUND_MUTE    = 'images/sounds/mute.png'
 SOUND_CUSTOM  = 'images/sounds/custom.png'
 
-LOGO_WIDTH = 275
+LOGO_WIDTH = style.zoom(275)
 TAPE_COUNT = 11
 FRAME_COUNT = 14
 
 DESKTOP_WIDTH = gtk.gdk.screen_width()
 DESKTOP_HEIGHT = gtk.gdk.screen_height() - style.LARGE_ICON_SIZE
 
-THUMB_SIZE = min(100, DESKTOP_WIDTH / (TAPE_COUNT+1))
+THUMB_SIZE = style.zoom(min(100, DESKTOP_WIDTH / (TAPE_COUNT+1)))
 
-FRAME_COLS = max(1, ((DESKTOP_WIDTH-LOGO_WIDTH) -
+FRAME_COLS = style.zoom(max(1, ((DESKTOP_WIDTH-LOGO_WIDTH) -
         min(DESKTOP_HEIGHT-THUMB_SIZE-THUMB_SIZE/2, DESKTOP_WIDTH-LOGO_WIDTH))
-        / THUMB_SIZE)
+        / THUMB_SIZE))
 
 FRAME_ROWS = max((DESKTOP_HEIGHT - THUMB_SIZE*3) / THUMB_SIZE,
         int(ceil(float(FRAME_COUNT) / FRAME_COLS)))
 
-BORDER_WIDTH = 10
+BORDER_WIDTH = style.zoom(10)
 
 # Colors from the Rich's UI design
 
