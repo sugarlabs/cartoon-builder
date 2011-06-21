@@ -10,5 +10,8 @@ stability = stable
 icon      = activity-cartoonbuilder
 exec      = sugar-activity activity.CartoonBuilderActivity
 
+version   = %(activity_version)s
+
+#deprecated options
 bundle_id = com.ywwg.CartoonBuilderActivity
-version = 12
+activity_version = 12
