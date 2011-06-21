@@ -1,9 +1,16 @@
 [Activity]
-name = CartoonBuilder
-bundle_id = com.ywwg.CartoonBuilderActivity
-exec = .0sugar/launch sugar-activity activity.CartoonBuilderActivity
-icon = activity-cartoonbuilder
+implement = cartoon-builder
+name      = Cartoon Builder
+summary   = Make a cartoon by creating a sequence of poses inside a filmstrip
+homepage  = http://wiki.sugarlabs.org/go/Activities/Cartoon_Builder
+license   = GPLv3
+
+version   = %(activity_version)s
+stability = stable
+
+icon      = activity-cartoonbuilder
+exec      = sugar-activity activity.CartoonBuilderActivity
+
+# Deprecated options
+bundle_id = com.ywwg.CartoonBuilderActivity3
 activity_version = 11
-show_launcher = yes
-license = GPLv2+
-requires = toolkit/python
