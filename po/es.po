@@ -159,7 +159,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2011-08-16 04:44+0200\n"
+"PO-Revision-Date: 2011-08-26 17:40+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -182,7 +182,6 @@ msgid "Reset"
 msgstr "Reiniciar"
 
 #: activity/activity.info:2
-#, fuzzy
 msgid "Cartoon Builder"
 msgstr "Creador de Historietas"
 
@@ -208,7 +207,7 @@ msgstr "Saturno"
 
 #: ground.py:92
 msgid "Snowflakes"
-msgstr "Copos de Nieve"
+msgstr "Copos de nieve"
 
 #: ground.py:93
 msgid "Eye"
@@ -315,7 +314,6 @@ msgid "Private"
 msgstr "Privado"
 
 #: toolkit/activity_widgets.py:134
-#, fuzzy
 msgid "My Neighborhood"
 msgstr "Mi Vecindario"
 
