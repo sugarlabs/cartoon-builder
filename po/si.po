@@ -22,6 +22,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Sulochani Dharmawardana <sulochani@gmail.com>, 2009.
@@ -29,20 +33,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cartoonbuilder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-17 00:31-0500\n"
+"POT-Creation-Date: 2011-08-04 13:18+0000\n"
 "PO-Revision-Date: 2011-01-19 05:51+0200\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhalese <sulochani@gmail.com>\n"
-"Language: si\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.3\n"
-
-#: activity/activity.info:2
-msgid "CartoonBuilder"
-msgstr "කාටුන් නිර්මාණකරු"
 
 #: activity.py:67
 msgid "Lessons"
@@ -56,112 +56,153 @@ msgstr "වාදනය / විරාමය"
 msgid "Reset"
 msgstr "පෙරසෙ"
 
-#: char.py:145
+#: activity/activity.info:2
+#, fuzzy
+msgid "Cartoon Builder"
+msgstr "කාටුන් නිර්මාණකරු"
+
+#: char.py:151
 msgid "Elephant"
 msgstr "අලියා"
 
-#: char.py:147
+#: char.py:153
 msgid "Space Blob"
 msgstr "අවකාශ පොද"
 
-#: char.py:149
+#: char.py:155
 msgid "Turkey"
 msgstr "කළුකුමා"
 
-#: char.py:152 ground.py:104 sound.py:118
+#: char.py:158 ground.py:109 sound.py:119
 msgid "Custom"
 msgstr "රිසිලෙස"
 
-#: ground.py:86
+#: ground.py:91
 msgid "Saturn"
 msgstr "සෙනසුරු"
 
-#: ground.py:87
+#: ground.py:92
 msgid "Snowflakes"
 msgstr "හිම රොද"
 
-#: ground.py:88
+#: ground.py:93
 msgid "Eye"
 msgstr "ඇස"
 
-#: ground.py:89
+#: ground.py:94
 msgid "Blobs"
 msgstr "බින්දු"
 
-#: ground.py:90
+#: ground.py:95
 msgid "Star Night"
 msgstr "තරු සහිත රාත්‍රිය"
 
-#: ground.py:91
+#: ground.py:96
 msgid "Forest"
 msgstr "කැලය"
 
-#: ground.py:92
+#: ground.py:97
 msgid "Spiral"
 msgstr "සර්පිලාකාර"
 
-#: ground.py:93
+#: ground.py:98
 msgid "Beam"
 msgstr "කිරණ කදම්බය"
 
-#: ground.py:94
+#: ground.py:99
 msgid "Cloth"
 msgstr "ඇඳුම්"
 
-#: ground.py:95
+#: ground.py:100
 msgid "Faces"
 msgstr "මුහුණු"
 
-#: ground.py:96
+#: ground.py:101
 msgid "Leaves"
 msgstr "පත්‍ර"
 
-#: ground.py:97
+#: ground.py:102
 msgid "Vegetables"
 msgstr "එළවළු"
 
-#: ground.py:98
+#: ground.py:103
 msgid "Spotlight"
 msgstr "පිරික්සුම් පහන"
 
-#: ground.py:99
+#: ground.py:104
 msgid "Strips"
 msgstr "පටි"
 
-#: ground.py:100
+#: ground.py:105
 msgid "Scene"
 msgstr "දර්ශනය"
 
-#: ground.py:101
+#: ground.py:106
 msgid "Rhombs"
 msgstr "රොම්බස"
 
-#: ground.py:102
+#: ground.py:107
 msgid "Milky Way"
 msgstr "ක්ෂීර පථය"
 
-#: sound.py:112
+#: sound.py:113
 msgid "Gobble"
 msgstr "ගොබ්ල්"
 
-#: sound.py:113
+#: sound.py:114
 msgid "Funk"
 msgstr "ෆන්ක්"
 
-#: sound.py:114
+#: sound.py:115
 msgid "Giggle"
 msgstr "සිනහව"
 
-#: sound.py:115
+#: sound.py:116
 msgid "Jungle"
 msgstr "වනාන්තරය"
 
-#: sound.py:116
+#: sound.py:117
 msgid "Mute"
 msgstr "නිහඬ"
 
-#~ msgid "Montage"
-#~ msgstr "‍සමෝධානය"
+#: toolkit/activity_widgets.py:83
+msgid "Stop"
+msgstr ""
+
+#: toolkit/activity_widgets.py:95
+msgid "Undo"
+msgstr ""
+
+#: toolkit/activity_widgets.py:103
+msgid "Redo"
+msgstr ""
+
+#: toolkit/activity_widgets.py:110
+msgid "Copy"
+msgstr ""
+
+#: toolkit/activity_widgets.py:117
+msgid "Paste"
+msgstr ""
+
+#: toolkit/activity_widgets.py:127
+msgid "Private"
+msgstr ""
+
+#: toolkit/activity_widgets.py:134
+msgid "My Neighborhood"
+msgstr ""
+
+#: toolkit/activity_widgets.py:166
+msgid "Keep"
+msgstr ""
+
+#: toolkit/activity_widgets.py:344
+msgid "Activity"
+msgstr ""
 
 #~ msgid "Choose image"
 #~ msgstr "පිංතූරය තෝරන්න"
+
+#~ msgid "Montage"
+#~ msgstr "‍සමෝධානය"
