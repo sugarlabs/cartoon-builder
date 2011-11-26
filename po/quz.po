@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2011-11-12 19:06+0200\n"
+"PO-Revision-Date: 2011-11-26 08:35+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: quz\n"
@@ -27,7 +27,7 @@ msgstr "Puqllay / Sayay"
 #  "Reiniciar"
 #: activity.py:144
 msgid "Reset"
-msgstr ""
+msgstr "Wakmanta qallarichiy"
 
 #  "Creador de Historietas"
 #: activity/activity.info:2
@@ -52,7 +52,7 @@ msgstr ""
 #  "Personalizado"
 #: char.py:158 ground.py:109 sound.py:119
 msgid "Custom"
-msgstr ""
+msgstr "Kamariy"
 
 #  "Saturno"
 #: ground.py:91
@@ -87,7 +87,7 @@ msgstr ""
 #  "Espiral"
 #: ground.py:97
 msgid "Spiral"
-msgstr ""
+msgstr "Espiral"
 
 #  "Rayo"
 #: ground.py:98
@@ -196,15 +196,16 @@ msgstr ""
 
 #  "Mi Vecindario"
 #: toolkit/activity_widgets.py:134
+#, fuzzy
 msgid "My Neighborhood"
-msgstr ""
+msgstr "Suyucha"
 
 #  "Guardar"
 #: toolkit/activity_widgets.py:166
 msgid "Keep"
-msgstr ""
+msgstr "Kikinchata waqaychay"
 
 #  "Actividad"
 #: toolkit/activity_widgets.py:344
 msgid "Activity"
-msgstr ""
+msgstr "Ruwana"
