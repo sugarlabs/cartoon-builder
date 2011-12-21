@@ -26,149 +26,178 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-09 16:10+0000\n"
-"PO-Revision-Date: 2011-07-29 19:27+0200\n"
-"Last-Translator:  <anush.mkrtchyan@ca1492.com>\n"
+"POT-Creation-Date: 2011-08-04 13:18+0000\n"
+"PO-Revision-Date: 2011-12-21 19:37+0200\n"
+"Last-Translator: anush.mkrtchyan <anush.mkrtchyan@ca1492.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
-#: activity/activity.info:2
-msgid "CartoonBuilder"
-msgstr "ՄուլտֆիլմՊատրաստող"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:81
-msgid "Saturn"
-msgstr "Սատուրն"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:82
-msgid "Snowflakes"
-msgstr "Ձյունափաթիլներ"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:83
-msgid "Eye"
-msgstr "Աչք"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:84
-msgid "Blobs"
-msgstr "Գնդիկներ"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:85
-msgid "Star Night"
-msgstr "Աստղային Գիշեր"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:86
-msgid "Forest"
-msgstr "Անտառ"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:87
-msgid "Spiral"
-msgstr "Պտուտակաձև"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:88
-msgid "Beam"
-msgstr "Ճառագայթ"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:89
-msgid "Cloth"
-msgstr "Գործվածք"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:90
-msgid "Faces"
-msgstr "Երեսներ"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:91
-msgid "Leaves"
-msgstr "Տերևներ"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:92
-msgid "Vegetables"
-msgstr "Բանջարեղեն"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:93
-msgid "Spotlight"
-msgstr "Լուսարձակ"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:94
-msgid "Strips"
-msgstr "Շերտեր"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:95
-msgid "Scene"
-msgstr "Տեսարան"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:96
-msgid "Rhombs"
-msgstr "Շեղանկյուններ"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:97
-msgid "Milky Way"
-msgstr "Ծիր Կաթին"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:99
-#: /home/sugar/src/activities/cartoon-builder/char.py:149
-#: /home/sugar/src/activities/cartoon-builder/sound.py:114
-msgid "Custom"
-msgstr "Հարմարեցրած"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:142
-msgid "Elephant"
-msgstr "Փիղ"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:144
-msgid "Space Blob"
-msgstr "Տիեզերագունդ"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:146
-msgid "Turkey"
-msgstr "Հնդկահավ"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:108
-msgid "Gobble"
-msgstr "Գոբլին"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:109
-msgid "Funk"
-msgstr "Վախկոտ"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:110
-msgid "Giggle"
-msgstr "Քրքջալ"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:111
-msgid "Jungle"
-msgstr "Ջունգլի"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:112
-msgid "Mute"
-msgstr "Անձայն"
-
-#: /home/sugar/src/activities/cartoon-builder/theme.py:129
-#: /home/sugar/src/activities/cartoon-builder/theme.py:132
-msgid "Choose image"
-msgstr "Ընտրել պատկերը"
-
-#: /home/sugar/src/activities/cartoon-builder/theme.py:136
-#: /home/sugar/src/activities/cartoon-builder/theme.py:139
-msgid "Choose audio"
-msgstr "Ընտրել աուդիո"
-
-#: /home/sugar/src/activities/cartoon-builder/activity.py:58
-msgid "Montage"
-msgstr "Մոնտաժ"
-
-#: /home/sugar/src/activities/cartoon-builder/activity.py:62
+#: activity.py:67
 msgid "Lessons"
 msgstr "Դասեր"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:100
+#: activity.py:129
 msgid "Play / Pause"
 msgstr "նվագարկել / Դադար"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:125
+#: activity.py:144
 msgid "Reset"
 msgstr "Վերականգնել"
+
+#: activity/activity.info:2
+msgid "Cartoon Builder"
+msgstr "Մուլտֆիլմ Պատրաստող"
+
+#: char.py:151
+msgid "Elephant"
+msgstr "Փիղ"
+
+#: char.py:153
+msgid "Space Blob"
+msgstr "Տիեզերագունդ"
+
+#: char.py:155
+msgid "Turkey"
+msgstr "Հնդկահավ"
+
+#: char.py:158 ground.py:109 sound.py:119
+msgid "Custom"
+msgstr "Հարմարեցրած"
+
+#: ground.py:91
+msgid "Saturn"
+msgstr "Սատուրն"
+
+#: ground.py:92
+msgid "Snowflakes"
+msgstr "Ձյունափաթիլներ"
+
+#: ground.py:93
+msgid "Eye"
+msgstr "Աչք"
+
+#: ground.py:94
+msgid "Blobs"
+msgstr "Գնդիկներ"
+
+#: ground.py:95
+msgid "Star Night"
+msgstr "Աստղային Գիշեր"
+
+#: ground.py:96
+msgid "Forest"
+msgstr "Անտառ"
+
+#: ground.py:97
+msgid "Spiral"
+msgstr "Գալարաձև"
+
+#: ground.py:98
+msgid "Beam"
+msgstr "Ճառագայթ"
+
+#: ground.py:99
+msgid "Cloth"
+msgstr "Գործվածք"
+
+#: ground.py:100
+msgid "Faces"
+msgstr "Երեսներ"
+
+#: ground.py:101
+msgid "Leaves"
+msgstr "Տերևներ"
+
+#: ground.py:102
+msgid "Vegetables"
+msgstr "Բանջարեղեն"
+
+#: ground.py:103
+msgid "Spotlight"
+msgstr "Լուսարձակ"
+
+#: ground.py:104
+msgid "Strips"
+msgstr "Շերտեր"
+
+#: ground.py:105
+msgid "Scene"
+msgstr "Տեսարան"
+
+#: ground.py:106
+msgid "Rhombs"
+msgstr "Շեղանկյուններ"
+
+#: ground.py:107
+msgid "Milky Way"
+msgstr "Ծիր Կաթին"
+
+#: sound.py:113
+msgid "Gobble"
+msgstr "Գոբլին"
+
+#: sound.py:114
+msgid "Funk"
+msgstr "Վախկոտ"
+
+#: sound.py:115
+msgid "Giggle"
+msgstr "Քրքջալ"
+
+#: sound.py:116
+msgid "Jungle"
+msgstr "Ջունգլի"
+
+#: sound.py:117
+msgid "Mute"
+msgstr "Անձայն"
+
+#: toolkit/activity_widgets.py:83
+msgid "Stop"
+msgstr "Կանգնեցնել"
+
+#: toolkit/activity_widgets.py:95
+msgid "Undo"
+msgstr "Չեղյալ համարել"
+
+#: toolkit/activity_widgets.py:103
+msgid "Redo"
+msgstr "Կրկին կատարել"
+
+#: toolkit/activity_widgets.py:110
+msgid "Copy"
+msgstr "կրկնօրինակել"
+
+#: toolkit/activity_widgets.py:117
+msgid "Paste"
+msgstr "Տեղադրել"
+
+#: toolkit/activity_widgets.py:127
+msgid "Private"
+msgstr "Անձնական"
+
+#: toolkit/activity_widgets.py:134
+msgid "My Neighborhood"
+msgstr "Իմ հարեվանությունը"
+
+#: toolkit/activity_widgets.py:166
+msgid "Keep"
+msgstr "Պահել"
+
+#: toolkit/activity_widgets.py:344
+msgid "Activity"
+msgstr "Գործունեություն"
+
+#~ msgid "Choose image"
+#~ msgstr "Ընտրել պատկերը"
+
+#~ msgid "Choose audio"
+#~ msgstr "Ընտրել աուդիո"
+
+#~ msgid "Montage"
+#~ msgstr "Մոնտաժ"
