@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2011-12-21 19:37+0200\n"
-"Last-Translator: anush.mkrtchyan <anush.mkrtchyan@ca1492.com>\n"
+"PO-Revision-Date: 2011-12-21 20:40+0200\n"
+"Last-Translator: Jasmine <udea_jasmine@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: hy\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Դասեր"
 
 #: activity.py:129
 msgid "Play / Pause"
-msgstr "նվագարկել / Դադար"
+msgstr "Գործարկել / Դադար"
 
 #: activity.py:144
 msgid "Reset"
@@ -83,7 +83,7 @@ msgstr "Աչք"
 
 #: ground.py:94
 msgid "Blobs"
-msgstr "Գնդիկներ"
+msgstr "Փուչիկներ"
 
 #: ground.py:95
 msgid "Star Night"
@@ -163,7 +163,7 @@ msgstr "Կանգնեցնել"
 
 #: toolkit/activity_widgets.py:95
 msgid "Undo"
-msgstr "Չեղյալ համարել"
+msgstr "Ետարկել"
 
 #: toolkit/activity_widgets.py:103
 msgid "Redo"
@@ -171,11 +171,11 @@ msgstr "Կրկին կատարել"
 
 #: toolkit/activity_widgets.py:110
 msgid "Copy"
-msgstr "կրկնօրինակել"
+msgstr "Պատճենել"
 
 #: toolkit/activity_widgets.py:117
 msgid "Paste"
-msgstr "Տեղադրել"
+msgstr "Փակցնել"
 
 #: toolkit/activity_widgets.py:127
 msgid "Private"
@@ -183,7 +183,7 @@ msgstr "Անձնական"
 
 #: toolkit/activity_widgets.py:134
 msgid "My Neighborhood"
-msgstr "Իմ հարեվանությունը"
+msgstr "Իմ հարևանությունը"
 
 #: toolkit/activity_widgets.py:166
 msgid "Keep"
