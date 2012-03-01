@@ -30,7 +30,7 @@ import char
 import ground
 import sound
 from document import Document, clean
-from screen import Screen
+from screenbuil import Screen
 from utils import *
 
 logger = logging.getLogger('cartoon-builder')
@@ -38,9 +38,9 @@ logger = logging.getLogger('cartoon-builder')
 
 class View(gtk.EventBox):
     __gsignals__ = {
-        'frame-changed' : (SIGNAL_RUN_FIRST, None, 2*[TYPE_PYOBJECT]),
+        'frame-changed': (SIGNAL_RUN_FIRST, None, 2 * [TYPE_PYOBJECT]),
         'ground-changed': (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]),
-        'sound-changed' : (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]) }
+        'sound-changed': (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT])}
 
     def set_frame(self, value):
         tape_num, frame = value
@@ -96,15 +96,15 @@ class View(gtk.EventBox):
             setter=set_emittion)
 
     def restore(self):
-        def new_combo(themes, cb, object = None, closure = None):
+        def new_combo(themes, cb, object=None, closure=None):
             combo = ComboBox()
             sel = 0
 
             for i, o in enumerate(themes):
                 if o:
-                    combo.append_item(o, text = o.name,
-                            size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
-                            pixbuf = o.thumb())
+                    combo.append_item(o, text=o.name,
+                            size=(theme.THUMB_SIZE, theme.THUMB_SIZE),
+                            pixbuf=o.thumb())
                     if object and o.name == object.name:
                         sel = i
                 else:
@@ -118,7 +118,7 @@ class View(gtk.EventBox):
 
         self.controlbox.pack_start(new_combo(char.THEMES, self._char_cb),
                 False, False)
-        self._ground_combo =  new_combo(ground.THEMES, self._combo_cb,
+        self._ground_combo = new_combo(ground.THEMES, self._combo_cb,
                 Document.ground, self._ground_cb)
         self.controlbox.pack_start(self._ground_combo, False, False)
         self._sound_combo = new_combo(sound.THEMES, self._combo_cb,
@@ -139,7 +139,7 @@ class View(gtk.EventBox):
         self._screen.draw()
 
     def set_tempo(self, tempo):
-        self._delay = 10 + (10-int(tempo)) * 100
+        self._delay = 10 + (10 - int(tempo)) * 100
         if self._playing:
             gobject.source_remove(self._playing)
             self._playing = gobject.timeout_add(self._delay, self._play_tape)
@@ -150,7 +150,7 @@ class View(gtk.EventBox):
         self._screen = Screen()
         self._play_tape_num = 0
         self._playing = None
-        self._delay = 3*150
+        self._delay = 3 * 150
         self._tape_selected = -1
         self._tape = []
         self._char = None
@@ -161,7 +161,7 @@ class View(gtk.EventBox):
 
         # frames table
 
-        self.table = gtk.Table(#theme.FRAME_ROWS, columns=theme.FRAME_COLS,
+        self.table = gtk.Table(  # theme.FRAME_ROWS, columns=theme.FRAME_COLS,
                 homogeneous=False)
 
         for i in range(theme.FRAME_ROWS * theme.FRAME_COLS):
@@ -174,9 +174,9 @@ class View(gtk.EventBox):
         table_scroll.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BUTTON_BACKGROUND))
 
         yellow_frames = gtk.EventBox()
-        yellow_frames.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
+        yellow_frames.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
         table_frames = gtk.EventBox()
-        table_frames.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
+        table_frames.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
         table_frames.set_border_width(5)
         table_frames.add(table_scroll)
         yellow_frames.add(table_frames)
@@ -192,7 +192,7 @@ class View(gtk.EventBox):
         # screen
 
         screen_pink = gtk.EventBox()
-        screen_pink.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(PINK))
+        screen_pink.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(PINK))
         screen_box = gtk.EventBox()
         screen_box.set_border_width(5)
         screen_box.add(self._screen)
@@ -261,8 +261,8 @@ class View(gtk.EventBox):
         cetralbox.pack_start(frames_box, expand=False, fill=True)
 
         hdesktop = gtk.HBox()
-        hdesktop.pack_start(leftbox,False,True,0)
-        hdesktop.pack_start(cetralbox,True,True,0)
+        hdesktop.pack_start(leftbox, False, True, 0)
+        hdesktop.pack_start(cetralbox, True, True, 0)
 
         # tape box
 
@@ -285,15 +285,15 @@ class View(gtk.EventBox):
         tape_box.pack_start(tape_hbox)
 
         desktop = gtk.VBox()
-        desktop.pack_start(hdesktop,True,True,0)
+        desktop.pack_start(hdesktop, True, True, 0)
         desktop.pack_start(tape_box, False, False, 0)
 
         greenbox = gtk.EventBox()
-        greenbox.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(BACKGROUND))
+        greenbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
         greenbox.set_border_width(5)
         greenbox.add(desktop)
 
-        self.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse(YELLOW))
+        self.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
         self.add(greenbox)
         self.show_all()
 
@@ -306,10 +306,10 @@ class View(gtk.EventBox):
                 break
 
         if pos == -1:
-            combo.append_item(value, text = value.name,
-                    size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
-                    pixbuf = value.thumb())
-            pos = len(combo.get_model())-1
+            combo.append_item(value, text=value.name,
+                    size=(theme.THUMB_SIZE, theme.THUMB_SIZE),
+                    pixbuf=value.thumb())
+            pos = len(combo.get_model()) - 1
 
         combo.set_active(pos)
 
@@ -332,7 +332,7 @@ class View(gtk.EventBox):
 
     def _add_frame(self, index):
         y = index / theme.FRAME_COLS
-        x = index - y*theme.FRAME_COLS
+        x = index - y * theme.FRAME_COLS
         logger.debug('add new frame x=%d y=%d index=%d' % (x, y, index))
 
         image = gtk.Image()
@@ -352,7 +352,7 @@ class View(gtk.EventBox):
         if self._char and self._char.custom():
             image_box.show()
 
-        self.table.attach(image_box, x, x+1, y, y+1)
+        self.table.attach(image_box, x, x + 1, y, y + 1)
 
         return image
 
@@ -407,10 +407,10 @@ class View(gtk.EventBox):
             return
 
         if id(choice) != id(widget.props.value):
-            widget.append_item(choice, text = choice.name,
-                    size = (theme.THUMB_SIZE, theme.THUMB_SIZE),
-                    pixbuf = choice.thumb())
-            widget.set_active(len(widget.get_model())-1)
+            widget.append_item(choice, text=choice.name,
+                    size=(theme.THUMB_SIZE, theme.THUMB_SIZE),
+                    pixbuf=choice.thumb())
+            widget.set_active(len(widget.get_model()) - 1)
 
         self._prev_combo_selected[widget] = widget.get_active()
         cb(choice)
