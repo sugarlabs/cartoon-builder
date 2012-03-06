@@ -1,41 +1,41 @@
-Lesson Plan 5: Draw and Animate Your Own Character
+Plan de Lección 5: Dibujo y Animación de tu propio personaje
 
-You can use Paint to make your own original cartoon character in lots of poses. Then you can use the "My Own" functionality in the Cartoon Builder to import the poses and create original cartoons.  Learn the steps by creating a simple cartoon face.
+Puede utilizar Paint o Pintar para hacer tu propio personaje de dibujos animados original con un montón de poses. A continuación, puede utilizar la función "My Own" en el Generador de dibujos animados para importar las poses y crear dibujos animados originales. Aprenda los pasos mediante la creación de una caricatura simple.
 
-First create four face pictures using Paint on your XO:
-1)Open the Paint activity from the Home screen of your XO. 
+En primer lugar crear cuatro imágenes de la cara con Paint en su XO:
+1) Abrir la actividad de pintura (Paint o Pintar) en la pantalla de inicio de su XO.
 
-2)Use the Paint tools to draw a face with eyes, nose, ears and hair.  Do not draw a mouth yet. 
+2) Utilice las herramientas de pintura para dibujar una cara con ojos, nariz, orejas y pelo. No saque la boca todavía.
 
-3)Click "Save Image" button 
+3) Haga clic en "Guardar imagen"
 
-4)When the Save window appears, click on the button "New folder" and type "Face" into the folder name field. Click the "Create" button.
+4) Cuando aparezca la ventana Guardar, haga clic en el botón "Nueva carpeta" y escriba "Cara" en el campo nombre de la carpeta. Haga clic en el botón "Crear".
 
-5)A new folder called "Face" will appear in the list of places where you can save your picture. Double click on "Face" to open it.
+5) Una nueva carpeta llamada "Cara" aparecerá en la lista de lugares donde se puede guardar la imagen. Haga doble clic en "Face" para abrirlo.
 
-6)Save the picture here with the name "Face1" and click OK.
+6) Guardar la imagen aquí con el nombre de "Face1" y haga clic en Aceptar.
 
-7)Now draw a frowning mouth on the face and save it as "Face 2"
+7) Ahora dibuja una boca frunciendo el ceño en la cara y lo guarda como "Face 2"
 
-8)Erase the frown and draw a straight line mouth. Save it as "Face 3"
+8) Borrar el ceño fruncido y la boca dibuja una línea recta. Guardar como "Cara 3"
 
-9)Erase the straight line mouth and draw a smile. Save it as "Face 4"
+9) Borrar la boca recta y dibujar una sonrisa. Guardar como "Cara de 4"
 
-Now put your pictures into the Cartoon Builder and animate the face:  
-10) From the Home screen of your XO, click on the MaMaMedia icon.
+Ahora ponga las imágenes en el generador de la historieta y la animación de la cara:
+10) Desde la pantalla de inicio de su XO, haga clic en el icono de MaMaMedia.
 
-11)Open the Cartoon Builder from the MaMaMedia Activity Center. 
+11) Abrir el generador de la historieta en el Centro de Actividad MaMaMedia.
 
-12) Click the "My Character" button, find the "Face" folder and open it. 
+12) Haga clic en el botón "mi personaje" encontrar la carpeta "Face" y abrirla.
 
-13) The three facial images you created will appear in the poses list on the left side of your screen. 
+13) Las tres imágenes de la cara que ha creado aparecerán en la lista de poses en el lado izquierdo de la pantalla.
 
-14) Place them in box 1, 2, and 3 in the slides on top of your screen, and then press Play to see the face animate.  
+14) Colóquelas en el recuadro 1, 2 y 3 en las diapositivas en la parte superior de la pantalla, a continuación, presione Reproducir para ver la cara animada.
 
-15) Save this cartoon and share it with your class.
+15) Guardar  y compartirlo con la clase.
 
-16) Discuss what you were able to do with your images.  Did you learn anything new about animation? 
+16) Hable de lo que eran capaces de hacer con las imágenes. ¿Has aprendido algo nuevo acerca de la animación?
 
-17) Open the "Write" activity on your XO and write down the ideas from your discussion.  
+17) Abrir la actividad "Write" en su XO y escribir las ideas de su discusión.
 
-NOTE:  Drawings you make with Paint only have one layer, so your character will completely cover the backgrounds offered in Cartoon Builder.  Try drawing a background around your character in Paint.
+NOTA: Los dibujos que se hacen con Paint o Pintar sólo tienen una capa, por lo que su carácter por completo cubrirá los fondos que se ofrecen en el Generador de dibujos animados. Intente dibujar un fondo alrededor de tu personaje en Paint o Pintar.
