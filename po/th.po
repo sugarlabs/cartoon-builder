@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2012-02-28 19:32+0200\n"
-"Last-Translator: sit_fafriends <friends_rareheart@windowslive.com>\n"
+"PO-Revision-Date: 2012-03-15 09:39+0200\n"
+"Last-Translator: Meechai <malaku38@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: th\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgstr "ช้าง"
 
 #: char.py:153
 msgid "Space Blob"
-msgstr ""
+msgstr "อวกาศหยดสี"
 
 #: char.py:155
 msgid "Turkey"
@@ -91,7 +91,7 @@ msgstr "ตา"
 
 #: ground.py:94
 msgid "Blobs"
-msgstr "หยด"
+msgstr "หยดสี"
 
 #: ground.py:95
 msgid "Star Night"
@@ -107,7 +107,7 @@ msgstr "เกลียว"
 
 #: ground.py:98
 msgid "Beam"
-msgstr ""
+msgstr "ลำแสง"
 
 #: ground.py:99
 msgid "Cloth"
@@ -115,7 +115,7 @@ msgstr "เสื้อผ้า"
 
 #: ground.py:100
 msgid "Faces"
-msgstr "รูปถ่าย"
+msgstr "ใบหน้า"
 
 #: ground.py:101
 msgid "Leaves"
@@ -127,15 +127,15 @@ msgstr "ผัก"
 
 #: ground.py:103
 msgid "Spotlight"
-msgstr "Spotlight"
+msgstr "สปอร์ตไลท์"
 
 #: ground.py:104
 msgid "Strips"
-msgstr ""
+msgstr "ชิ้นยาว"
 
 #: ground.py:105
 msgid "Scene"
-msgstr ""
+msgstr "ฉาก, เรื่องราว"
 
 #: ground.py:106
 msgid "Rhombs"
@@ -147,11 +147,11 @@ msgstr "ทางช้างเผือก"
 
 #: sound.py:113
 msgid "Gobble"
-msgstr "ขบ หรือ กลืนโดยไม่เคี้ยว"
+msgstr "ส่งเสียงเหมือนไก่งวง"
 
 #: sound.py:114
 msgid "Funk"
-msgstr ""
+msgstr "Funk"
 
 #: sound.py:115
 msgid "Giggle"
@@ -159,7 +159,7 @@ msgstr "หัวเราะ"
 
 #: sound.py:116
 msgid "Jungle"
-msgstr "ป่า"
+msgstr "Jungle"
 
 #: sound.py:117
 msgid "Mute"
@@ -171,7 +171,7 @@ msgstr "หยุด"
 
 #: toolkit/activity_widgets.py:95
 msgid "Undo"
-msgstr "เลิกทำ"
+msgstr "ทำกลับ"
 
 #: toolkit/activity_widgets.py:103
 msgid "Redo"
@@ -191,11 +191,11 @@ msgstr "ส่วนตัว"
 
 #: toolkit/activity_widgets.py:134
 msgid "My Neighborhood"
-msgstr "ย่าน หรือ พื้นที่ใกล้เคียงของฉัน"
+msgstr "บริเวณข้างเคียงของฉัน"
 
 #: toolkit/activity_widgets.py:166
 msgid "Keep"
-msgstr "คงไว้"
+msgstr "เก็บไว้"
 
 #: toolkit/activity_widgets.py:344
 msgid "Activity"
