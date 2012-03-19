@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2012-03-15 09:39+0200\n"
+"PO-Revision-Date: 2012-03-19 04:38+0200\n"
 "Last-Translator: Meechai <malaku38@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: th\n"
@@ -159,7 +159,7 @@ msgstr "หัวเราะ"
 
 #: sound.py:116
 msgid "Jungle"
-msgstr "Jungle"
+msgstr "ป่าทึบ"
 
 #: sound.py:117
 msgid "Mute"
