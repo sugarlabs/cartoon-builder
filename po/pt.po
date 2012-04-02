@@ -35,10 +35,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2012-01-23 05:40+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2012-03-15 23:18+0200\n"
+"Last-Translator: Eduardo H. <hoboprimate@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: pt\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,20 +47,19 @@ msgstr ""
 
 #: activity.py:67
 msgid "Lessons"
-msgstr "Aulas"
+msgstr "Lições"
 
 #: activity.py:129
 msgid "Play / Pause"
-msgstr "Tocar/Pausa"
+msgstr "Tocar / Pausar"
 
 #: activity.py:144
 msgid "Reset"
-msgstr "Recomeçar"
+msgstr "Reiniciar"
 
 #: activity/activity.info:2
-#, fuzzy
 msgid "Cartoon Builder"
-msgstr "Criador de Desenhos Animados"
+msgstr "Criador de Banda Desenhada"
 
 #: char.py:151
 msgid "Elephant"
@@ -71,22 +70,20 @@ msgid "Space Blob"
 msgstr ""
 
 #: char.py:155
-#, fuzzy
 msgid "Turkey"
 msgstr "Peru"
 
 #: char.py:158 ground.py:109 sound.py:119
 msgid "Custom"
-msgstr "Personalizar"
+msgstr "Personalizado"
 
 #: ground.py:91
 msgid "Saturn"
 msgstr "Saturno"
 
 #: ground.py:92
-#, fuzzy
 msgid "Snowflakes"
-msgstr "Flocos de neve "
+msgstr "Flocos de neve"
 
 #: ground.py:93
 msgid "Eye"
@@ -98,7 +95,7 @@ msgstr ""
 
 #: ground.py:95
 msgid "Star Night"
-msgstr ""
+msgstr "Noite Estrelada"
 
 #: ground.py:96
 msgid "Forest"
@@ -119,7 +116,7 @@ msgstr "Tecido"
 #: ground.py:100
 #, fuzzy
 msgid "Faces"
-msgstr "Faces"
+msgstr "Caras"
 
 #: ground.py:101
 msgid "Leaves"
@@ -130,6 +127,7 @@ msgid "Vegetables"
 msgstr "Vegetais"
 
 #: ground.py:103
+#, fuzzy
 msgid "Spotlight"
 msgstr "Destaque"
 
@@ -139,20 +137,21 @@ msgstr "Tiras"
 
 #: ground.py:105
 msgid "Scene"
-msgstr "Cenario"
+msgstr "Cenário"
 
 #: ground.py:106
 msgid "Rhombs"
 msgstr ""
 
 #: ground.py:107
-#, fuzzy
 msgid "Milky Way"
 msgstr "Via Láctea"
 
+# not "goggles" but the sound made by a turkey
 #: sound.py:113
+#, fuzzy
 msgid "Gobble"
-msgstr "Óculos Protectores"
+msgstr "Óculos Protetores"
 
 #: sound.py:114
 msgid "Funk"
@@ -167,8 +166,9 @@ msgid "Jungle"
 msgstr "Selva"
 
 #: sound.py:117
+#, fuzzy
 msgid "Mute"
-msgstr "Mudo"
+msgstr "Silenciar"
 
 #: toolkit/activity_widgets.py:83
 msgid "Stop"
