@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2012-04-13 00:27+0200\n"
+"PO-Revision-Date: 2012-04-13 11:21+0200\n"
 "Last-Translator: Eduardo H. <hoboprimate@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt\n"
@@ -59,7 +59,7 @@ msgstr "Reiniciar"
 
 #: activity/activity.info:2
 msgid "Cartoon Builder"
-msgstr "Construtor de BD"
+msgstr "Constrói animação"
 
 #: char.py:151
 msgid "Elephant"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: ground.py:95
 msgid "Star Night"
-msgstr "Noite Estrelada"
+msgstr "Noite nas Estrelas"
 
 #: ground.py:96
 msgid "Forest"
@@ -107,14 +107,13 @@ msgstr "Espiral"
 
 #: ground.py:98
 msgid "Beam"
-msgstr "Feixe"
+msgstr "Feixe de Luz"
 
 #: ground.py:99
 msgid "Cloth"
-msgstr "Tecido"
+msgstr "Pano"
 
 #: ground.py:100
-#, fuzzy
 msgid "Faces"
 msgstr "Caras"
 
@@ -127,13 +126,12 @@ msgid "Vegetables"
 msgstr "Vegetais"
 
 #: ground.py:103
-#, fuzzy
 msgid "Spotlight"
-msgstr "Destaque"
+msgstr "Holofote"
 
 #: ground.py:104
 msgid "Strips"
-msgstr "Tiras"
+msgstr "Faixas"
 
 #: ground.py:105
 msgid "Scene"
@@ -141,7 +139,7 @@ msgstr "Cenário"
 
 #: ground.py:106
 msgid "Rhombs"
-msgstr ""
+msgstr "Losangos"
 
 #: ground.py:107
 msgid "Milky Way"
@@ -166,7 +164,7 @@ msgstr "Selva"
 
 #: sound.py:117
 msgid "Mute"
-msgstr "Silenciar"
+msgstr "Silêncio"
 
 #: toolkit/activity_widgets.py:83
 msgid "Stop"
