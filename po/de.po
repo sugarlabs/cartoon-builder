@@ -58,149 +58,178 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-09 16:10+0000\n"
-"PO-Revision-Date: 2011-07-17 23:36+0200\n"
+"POT-Creation-Date: 2011-08-04 13:18+0000\n"
+"PO-Revision-Date: 2011-09-26 22:21+0200\n"
 "Last-Translator: Markus <m.slg@gmx.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: de\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
-#: activity/activity.info:2
-msgid "CartoonBuilder"
-msgstr "Comic-Zeichner"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:81
-msgid "Saturn"
-msgstr "Saturn"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:82
-msgid "Snowflakes"
-msgstr "Schneeflocken"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:83
-msgid "Eye"
-msgstr "Auge"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:84
-msgid "Blobs"
-msgstr "Kleckse"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:85
-msgid "Star Night"
-msgstr "Sternennacht"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:86
-msgid "Forest"
-msgstr "Wald"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:87
-msgid "Spiral"
-msgstr "Spirale"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:88
-msgid "Beam"
-msgstr "Strahl"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:89
-msgid "Cloth"
-msgstr "Stoff"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:90
-msgid "Faces"
-msgstr "Gesichter"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:91
-msgid "Leaves"
-msgstr "Blätter"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:92
-msgid "Vegetables"
-msgstr "Gemüse"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:93
-msgid "Spotlight"
-msgstr "Scheinwerfer"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:94
-msgid "Strips"
-msgstr "Streifen"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:95
-msgid "Scene"
-msgstr "Szene"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:96
-msgid "Rhombs"
-msgstr "Rauten"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:97
-msgid "Milky Way"
-msgstr "Milchstraße"
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:99
-#: /home/sugar/src/activities/cartoon-builder/char.py:149
-#: /home/sugar/src/activities/cartoon-builder/sound.py:114
-msgid "Custom"
-msgstr "Benutzerdefiniert"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:142
-msgid "Elephant"
-msgstr "Elefant"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:144
-msgid "Space Blob"
-msgstr "Space Blob"
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:146
-msgid "Turkey"
-msgstr "Truthahn"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:108
-msgid "Gobble"
-msgstr "Verschlingen"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:109
-msgid "Funk"
-msgstr "Fürchten"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:110
-msgid "Giggle"
-msgstr "Gekicher"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:111
-msgid "Jungle"
-msgstr "Dschungel"
-
-#: /home/sugar/src/activities/cartoon-builder/sound.py:112
-msgid "Mute"
-msgstr "Stille"
-
-#: /home/sugar/src/activities/cartoon-builder/theme.py:129
-#: /home/sugar/src/activities/cartoon-builder/theme.py:132
-msgid "Choose image"
-msgstr "Wähle Bild"
-
-#: /home/sugar/src/activities/cartoon-builder/theme.py:136
-#: /home/sugar/src/activities/cartoon-builder/theme.py:139
-msgid "Choose audio"
-msgstr "Wähle Geräusch"
-
-#: /home/sugar/src/activities/cartoon-builder/activity.py:58
-msgid "Montage"
-msgstr "Montage"
-
-#: /home/sugar/src/activities/cartoon-builder/activity.py:62
+#: activity.py:67
 msgid "Lessons"
 msgstr "Lektionen"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:100
+#: activity.py:129
 msgid "Play / Pause"
 msgstr "Abspielen / Anhalten"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:125
+#: activity.py:144
 msgid "Reset"
 msgstr "Zurücksetzen"
+
+#: activity/activity.info:2
+msgid "Cartoon Builder"
+msgstr "Comic-Zeichner"
+
+#: char.py:151
+msgid "Elephant"
+msgstr "Elefant"
+
+#: char.py:153
+msgid "Space Blob"
+msgstr "Space Blob"
+
+#: char.py:155
+msgid "Turkey"
+msgstr "Truthahn"
+
+#: char.py:158 ground.py:109 sound.py:119
+msgid "Custom"
+msgstr "Benutzerdefiniert"
+
+#: ground.py:91
+msgid "Saturn"
+msgstr "Saturn"
+
+#: ground.py:92
+msgid "Snowflakes"
+msgstr "Schneeflocken"
+
+#: ground.py:93
+msgid "Eye"
+msgstr "Auge"
+
+#: ground.py:94
+msgid "Blobs"
+msgstr "Kleckse"
+
+#: ground.py:95
+msgid "Star Night"
+msgstr "Sternennacht"
+
+#: ground.py:96
+msgid "Forest"
+msgstr "Wald"
+
+#: ground.py:97
+msgid "Spiral"
+msgstr "Spirale"
+
+#: ground.py:98
+msgid "Beam"
+msgstr "Strahl"
+
+#: ground.py:99
+msgid "Cloth"
+msgstr "Stoff"
+
+#: ground.py:100
+msgid "Faces"
+msgstr "Gesichter"
+
+#: ground.py:101
+msgid "Leaves"
+msgstr "Blätter"
+
+#: ground.py:102
+msgid "Vegetables"
+msgstr "Gemüse"
+
+#: ground.py:103
+msgid "Spotlight"
+msgstr "Scheinwerfer"
+
+#: ground.py:104
+msgid "Strips"
+msgstr "Streifen"
+
+#: ground.py:105
+msgid "Scene"
+msgstr "Szene"
+
+#: ground.py:106
+msgid "Rhombs"
+msgstr "Rauten"
+
+#: ground.py:107
+msgid "Milky Way"
+msgstr "Milchstraße"
+
+#: sound.py:113
+msgid "Gobble"
+msgstr "Verschlingen"
+
+#: sound.py:114
+msgid "Funk"
+msgstr "Fürchten"
+
+#: sound.py:115
+msgid "Giggle"
+msgstr "Gekicher"
+
+#: sound.py:116
+msgid "Jungle"
+msgstr "Dschungel"
+
+#: sound.py:117
+msgid "Mute"
+msgstr "Stille"
+
+#: toolkit/activity_widgets.py:83
+msgid "Stop"
+msgstr "Stopp"
+
+#: toolkit/activity_widgets.py:95
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: toolkit/activity_widgets.py:103
+msgid "Redo"
+msgstr "Wiederholen"
+
+#: toolkit/activity_widgets.py:110
+msgid "Copy"
+msgstr "Kopieren"
+
+#: toolkit/activity_widgets.py:117
+msgid "Paste"
+msgstr "Einfügen"
+
+#: toolkit/activity_widgets.py:127
+msgid "Private"
+msgstr "Privat"
+
+#: toolkit/activity_widgets.py:134
+msgid "My Neighborhood"
+msgstr "Meine Nachbarschaft"
+
+#: toolkit/activity_widgets.py:166
+msgid "Keep"
+msgstr "Speichern"
+
+#: toolkit/activity_widgets.py:344
+msgid "Activity"
+msgstr "Aktivität"
+
+#~ msgid "Choose image"
+#~ msgstr "Wähle Bild"
+
+#~ msgid "Choose audio"
+#~ msgstr "Wähle Geräusch"
+
+#~ msgid "Montage"
+#~ msgstr "Montage"

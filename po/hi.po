@@ -2,152 +2,202 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-09 16:10+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-08-04 13:18+0000\n"
+"PO-Revision-Date: 2011-10-14 04:10+0200\n"
+"Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.3.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#: activity.py:67
+msgid "Lessons"
+msgstr "सबक"
+
+#: activity.py:129
+msgid "Play / Pause"
+msgstr "प्ले करें / ठहरें"
+
+#: activity.py:144
+msgid "Reset"
+msgstr "रीसेट"
 
 #: activity/activity.info:2
-msgid "CartoonBuilder"
-msgstr ""
+#, fuzzy
+msgid "Cartoon Builder"
+msgstr "कार्टून-बिल्डर"
 
-#: /home/sugar/src/activities/cartoon-builder/ground.py:81
-msgid "Saturn"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:82
-msgid "Snowflakes"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:83
-msgid "Eye"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:84
-msgid "Blobs"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:85
-msgid "Star Night"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:86
-msgid "Forest"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:87
-msgid "Spiral"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:88
-msgid "Beam"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:89
-msgid "Cloth"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:90
-msgid "Faces"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:91
-msgid "Leaves"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:92
-msgid "Vegetables"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:93
-msgid "Spotlight"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:94
-msgid "Strips"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:95
-msgid "Scene"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:96
-msgid "Rhombs"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:97
-msgid "Milky Way"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/ground.py:99
-#: /home/sugar/src/activities/cartoon-builder/char.py:149
-#: /home/sugar/src/activities/cartoon-builder/sound.py:114
-msgid "Custom"
-msgstr ""
-
-#: /home/sugar/src/activities/cartoon-builder/char.py:142
+#: char.py:151
 msgid "Elephant"
-msgstr ""
+msgstr "हाथी"
 
-#: /home/sugar/src/activities/cartoon-builder/char.py:144
+#: char.py:153
 msgid "Space Blob"
-msgstr ""
+msgstr "स्पेस ब्लाब"
 
-#: /home/sugar/src/activities/cartoon-builder/char.py:146
+#: char.py:155
 msgid "Turkey"
-msgstr ""
+msgstr "तुर्की"
 
-#: /home/sugar/src/activities/cartoon-builder/sound.py:108
+#: char.py:158 ground.py:109 sound.py:119
+msgid "Custom"
+msgstr "मनपसंद"
+
+#: ground.py:91
+msgid "Saturn"
+msgstr "शनि ग्रह"
+
+#: ground.py:92
+msgid "Snowflakes"
+msgstr "बर्फ"
+
+#: ground.py:93
+msgid "Eye"
+msgstr "आँख"
+
+#: ground.py:94
+msgid "Blobs"
+msgstr "ब्लॉब्स"
+
+#: ground.py:95
+msgid "Star Night"
+msgstr "तारों भरी रात"
+
+#: ground.py:96
+msgid "Forest"
+msgstr "जंगल"
+
+#: ground.py:97
+msgid "Spiral"
+msgstr "सर्पिल"
+
+#: ground.py:98
+msgid "Beam"
+msgstr "बीम"
+
+#: ground.py:99
+msgid "Cloth"
+msgstr "कपड़ा"
+
+#: ground.py:100
+msgid "Faces"
+msgstr "चेहरे"
+
+#: ground.py:101
+msgid "Leaves"
+msgstr "पत्ते"
+
+#: ground.py:102
+msgid "Vegetables"
+msgstr "सब्जियाँ"
+
+#: ground.py:103
+msgid "Spotlight"
+msgstr "स्पॉटलाइट"
+
+#: ground.py:104
+msgid "Strips"
+msgstr "धारियाँ"
+
+#: ground.py:105
+msgid "Scene"
+msgstr "दृश्य"
+
+#: ground.py:106
+msgid "Rhombs"
+msgstr "रॉम्ब्स"
+
+#: ground.py:107
+msgid "Milky Way"
+msgstr "आकाश गंगा"
+
+#: sound.py:113
 msgid "Gobble"
-msgstr ""
+msgstr "गॉबल"
 
-#: /home/sugar/src/activities/cartoon-builder/sound.py:109
+#: sound.py:114
 msgid "Funk"
-msgstr ""
+msgstr "फंक"
 
-#: /home/sugar/src/activities/cartoon-builder/sound.py:110
+#: sound.py:115
 msgid "Giggle"
-msgstr ""
+msgstr "हँसना"
 
-#: /home/sugar/src/activities/cartoon-builder/sound.py:111
+#: sound.py:116
 msgid "Jungle"
-msgstr ""
+msgstr "जंगल"
 
-#: /home/sugar/src/activities/cartoon-builder/sound.py:112
+#: sound.py:117
 msgid "Mute"
-msgstr ""
+msgstr "मौन"
 
-#: /home/sugar/src/activities/cartoon-builder/theme.py:129
-#: /home/sugar/src/activities/cartoon-builder/theme.py:132
-msgid "Choose image"
-msgstr ""
+#: toolkit/activity_widgets.py:83
+msgid "Stop"
+msgstr "रूकें"
 
-#: /home/sugar/src/activities/cartoon-builder/theme.py:136
-#: /home/sugar/src/activities/cartoon-builder/theme.py:139
-msgid "Choose audio"
-msgstr ""
+#: toolkit/activity_widgets.py:95
+msgid "Undo"
+msgstr "पहले जैसा"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:58
-msgid "Montage"
-msgstr ""
+#: toolkit/activity_widgets.py:103
+msgid "Redo"
+msgstr "दोहराएँ"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:62
-msgid "Lessons"
-msgstr ""
+#: toolkit/activity_widgets.py:110
+msgid "Copy"
+msgstr "कॉपी करें"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:100
-msgid "Play / Pause"
-msgstr ""
+#: toolkit/activity_widgets.py:117
+msgid "Paste"
+msgstr "चिपकाएँ"
 
-#: /home/sugar/src/activities/cartoon-builder/activity.py:125
-msgid "Reset"
-msgstr ""
+#: toolkit/activity_widgets.py:127
+msgid "Private"
+msgstr "निजी"
+
+#: toolkit/activity_widgets.py:134
+msgid "My Neighborhood"
+msgstr "मेरे आसपडोस"
+
+#: toolkit/activity_widgets.py:166
+msgid "Keep"
+msgstr "रखें"
+
+#: toolkit/activity_widgets.py:344
+msgid "Activity"
+msgstr "क्रियाएँ"

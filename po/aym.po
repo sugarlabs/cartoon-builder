@@ -1,3 +1,7 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -6,154 +10,125 @@ msgstr ""
 "PO-Revision-Date: 2011-11-26 04:34+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: aym\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
-#  "Lecciones"
 #: activity.py:67
 msgid "Lessons"
 msgstr ""
 
-#  "Reproducir / Pausar"
 #: activity.py:129
 msgid "Play / Pause"
 msgstr ""
 
-#  "Reiniciar"
 #: activity.py:144
 msgid "Reset"
 msgstr ""
 
-#  "Creador de Historietas"
 #: activity/activity.info:2
 msgid "Cartoon Builder"
 msgstr ""
 
-#  "Elefante"
 #: char.py:151
 msgid "Elephant"
 msgstr ""
 
-#  "Gota Espacial"
 #: char.py:153
 msgid "Space Blob"
 msgstr ""
 
-#  "Pavo"
 #: char.py:155
 msgid "Turkey"
 msgstr ""
 
-#  "Personalizado"
 #: char.py:158 ground.py:109 sound.py:119
 msgid "Custom"
 msgstr ""
 
-#  "Saturno"
 #: ground.py:91
 msgid "Saturn"
 msgstr ""
 
-#  "Copos de nieve"
 #: ground.py:92
 msgid "Snowflakes"
 msgstr ""
 
-#  "Ojo"
 #: ground.py:93
 msgid "Eye"
 msgstr ""
 
-#  "Gotas"
 #: ground.py:94
 msgid "Blobs"
 msgstr ""
 
-#  "Noche Estrellada"
 #: ground.py:95
 msgid "Star Night"
 msgstr ""
 
-#  "Bosque"
 #: ground.py:96
 msgid "Forest"
 msgstr ""
 
-#  "Espiral"
 #: ground.py:97
 msgid "Spiral"
 msgstr ""
 
-#  "Rayo"
 #: ground.py:98
 msgid "Beam"
 msgstr ""
 
-#  "Tela"
 #: ground.py:99
 msgid "Cloth"
 msgstr ""
 
-#  "Caras"
 #: ground.py:100
 msgid "Faces"
 msgstr ""
 
-#  "Hojas"
 #: ground.py:101
 msgid "Leaves"
 msgstr ""
 
-#  "Vegetales"
 #: ground.py:102
 msgid "Vegetables"
 msgstr ""
 
-#  "Foco de luz"
 #: ground.py:103
 msgid "Spotlight"
 msgstr ""
 
-#  "Cintas"
 #: ground.py:104
 msgid "Strips"
 msgstr ""
 
-#  "Escena"
 #: ground.py:105
 msgid "Scene"
 msgstr ""
 
-#  "Rombos"
 #: ground.py:106
 msgid "Rhombs"
 msgstr ""
 
-#  "Vía Láctea"
 #: ground.py:107
 msgid "Milky Way"
 msgstr ""
 
-#  "Devorar"
 #: sound.py:113
 msgid "Gobble"
 msgstr ""
 
-#  "Funk"
 #: sound.py:114
 msgid "Funk"
 msgstr ""
 
-#  "Risa"
 #: sound.py:115
 msgid "Giggle"
 msgstr ""
 
-#  "Jungla"
 #: sound.py:116
 msgid "Jungle"
 msgstr ""
@@ -204,7 +179,6 @@ msgstr "Markasa"
 msgid "Keep"
 msgstr "Imaña"
 
-#  "Actividad"
 #: toolkit/activity_widgets.py:344
 msgid "Activity"
 msgstr ""
