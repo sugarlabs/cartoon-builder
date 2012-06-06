@@ -1,10 +1,24 @@
+17
+
+* Fix issue of not packaging .mo translation files
+* Add description button
+* Update translations
+
+16
+
+* Update translations
+
+15
+
+* Fix name clashing with system screen library
+
 14
 
-- Return langs back by generating locale/ directory
+* Return langs back by generating locale/ directory
 
 13
 
-- Update translations
+* Update translations
 
 12
 *New translations from pootle
