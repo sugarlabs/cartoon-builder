@@ -30,32 +30,32 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2012-06-03 12:48+0200\n"
+"Last-Translator: andika <andika@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.5.2\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity.py:67
 msgid "Lessons"
-msgstr ""
+msgstr "Pelajaran"
 
 #: activity.py:129
 msgid "Play / Pause"
-msgstr ""
+msgstr "Putar / Jeda"
 
 #: activity.py:144
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 #: activity/activity.info:2
 msgid "Cartoon Builder"
@@ -63,7 +63,7 @@ msgstr ""
 
 #: char.py:151
 msgid "Elephant"
-msgstr ""
+msgstr "Gajah"
 
 #: char.py:153
 msgid "Space Blob"
@@ -71,7 +71,7 @@ msgstr ""
 
 #: char.py:155
 msgid "Turkey"
-msgstr ""
+msgstr "Kalkun"
 
 #: char.py:158 ground.py:109 sound.py:119
 msgid "Custom"
@@ -79,15 +79,15 @@ msgstr ""
 
 #: ground.py:91
 msgid "Saturn"
-msgstr ""
+msgstr "Saturnus"
 
 #: ground.py:92
 msgid "Snowflakes"
-msgstr ""
+msgstr "Bunga salju"
 
 #: ground.py:93
 msgid "Eye"
-msgstr ""
+msgstr "Mata"
 
 #: ground.py:94
 msgid "Blobs"
@@ -99,11 +99,11 @@ msgstr ""
 
 #: ground.py:96
 msgid "Forest"
-msgstr ""
+msgstr "Hutan"
 
 #: ground.py:97
 msgid "Spiral"
-msgstr ""
+msgstr "Spiral"
 
 #: ground.py:98
 msgid "Beam"
@@ -111,23 +111,23 @@ msgstr ""
 
 #: ground.py:99
 msgid "Cloth"
-msgstr ""
+msgstr "Baju"
 
 #: ground.py:100
 msgid "Faces"
-msgstr ""
+msgstr "Wajah"
 
 #: ground.py:101
 msgid "Leaves"
-msgstr ""
+msgstr "Dedaunan"
 
 #: ground.py:102
 msgid "Vegetables"
-msgstr ""
+msgstr "Sayur"
 
 #: ground.py:103
 msgid "Spotlight"
-msgstr ""
+msgstr "Lampu sorot"
 
 #: ground.py:104
 msgid "Strips"
@@ -143,7 +143,7 @@ msgstr ""
 
 #: ground.py:107
 msgid "Milky Way"
-msgstr ""
+msgstr "Bima Sakti"
 
 #: sound.py:113
 msgid "Gobble"
@@ -159,15 +159,15 @@ msgstr ""
 
 #: sound.py:116
 msgid "Jungle"
-msgstr ""
+msgstr "Hutan"
 
 #: sound.py:117
 msgid "Mute"
-msgstr ""
+msgstr "Bisu"
 
 #: toolkit/activity_widgets.py:83
 msgid "Stop"
-msgstr ""
+msgstr "Berhenti"
 
 #: toolkit/activity_widgets.py:95
 msgid "Undo"
@@ -179,24 +179,25 @@ msgstr ""
 
 #: toolkit/activity_widgets.py:110
 msgid "Copy"
-msgstr ""
+msgstr "Salin"
 
 #: toolkit/activity_widgets.py:117
 msgid "Paste"
-msgstr ""
+msgstr "Tempel"
 
 #: toolkit/activity_widgets.py:127
 msgid "Private"
-msgstr ""
+msgstr "Pribadi"
 
 #: toolkit/activity_widgets.py:134
 msgid "My Neighborhood"
 msgstr ""
 
 #: toolkit/activity_widgets.py:166
+#, fuzzy
 msgid "Keep"
-msgstr ""
+msgstr "Pertahankan"
 
 #: toolkit/activity_widgets.py:344
 msgid "Activity"
-msgstr ""
+msgstr "Aktivitas"
