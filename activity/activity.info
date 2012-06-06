@@ -14,4 +14,4 @@ version   = 17
 
 #deprecated options
 bundle_id = com.ywwg.CartoonBuilderActivity
-activity_version = 16
+activity_version = 17
