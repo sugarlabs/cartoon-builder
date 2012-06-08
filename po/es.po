@@ -158,16 +158,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2011-08-26 17:40+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"POT-Creation-Date: 2012-06-07 00:31-0400\n"
+"PO-Revision-Date: 2012-06-07 22:44+0200\n"
+"Last-Translator: AlanJAS <alanjas@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#: activity/activity.info:2
+msgid "Cartoon Builder"
+msgstr "Creador de Historietas"
 
 #: activity.py:67
 msgid "Lessons"
@@ -180,10 +184,6 @@ msgstr "Reproducir / Pausar"
 #: activity.py:144
 msgid "Reset"
 msgstr "Reiniciar"
-
-#: activity/activity.info:2
-msgid "Cartoon Builder"
-msgstr "Creador de Historietas"
 
 #: char.py:151
 msgid "Elephant"
@@ -289,41 +289,44 @@ msgstr "Jungla"
 msgid "Mute"
 msgstr "Silenciar"
 
-#: toolkit/activity_widgets.py:83
+#: toolkit/activity_widgets.py:84
 msgid "Stop"
 msgstr "Parar"
 
-#: toolkit/activity_widgets.py:95
+#: toolkit/activity_widgets.py:96
 msgid "Undo"
 msgstr "Deshacer"
 
-#: toolkit/activity_widgets.py:103
+#: toolkit/activity_widgets.py:104
 msgid "Redo"
 msgstr "Rehacer"
 
-#: toolkit/activity_widgets.py:110
+#: toolkit/activity_widgets.py:111
 msgid "Copy"
 msgstr "Copiar"
 
-#: toolkit/activity_widgets.py:117
+#: toolkit/activity_widgets.py:118
 msgid "Paste"
 msgstr "Pegar"
 
-#: toolkit/activity_widgets.py:127
+#: toolkit/activity_widgets.py:128
 msgid "Private"
 msgstr "Privado"
 
-#: toolkit/activity_widgets.py:134
+#: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
 msgstr "Mi Vecindario"
 
-#: toolkit/activity_widgets.py:166
-msgid "Keep"
-msgstr "Guardar"
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr "Descripción"
 
-#: toolkit/activity_widgets.py:344
+#: toolkit/activity_widgets.py:393
 msgid "Activity"
 msgstr "Actividad"
+
+#~ msgid "Keep"
+#~ msgstr "Guardar"
 
 #~ msgid "Choose image"
 #~ msgstr "Elegir imagen"
