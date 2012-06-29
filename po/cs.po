@@ -38,169 +38,169 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2011-04-14 04:19+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"POT-Creation-Date: 2012-06-22 00:32-0400\n"
+"PO-Revision-Date: 2012-06-29 10:01+0200\n"
+"Last-Translator: jui <appukonrad@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.0.1\n"
-
-#: activity.py:67
-msgid "Lessons"
-msgstr ""
-
-#: activity.py:129
-msgid "Play / Pause"
-msgstr "Přehrát / Pauza"
-
-#: activity.py:144
-msgid "Reset"
-msgstr "Znovu nastavit"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2
 msgid "Cartoon Builder"
-msgstr ""
+msgstr "Cartoon Builder"
+
+#: activity.py:67
+msgid "Lessons"
+msgstr "Výuka"
+
+#: activity.py:129
+msgid "Play / Pause"
+msgstr "Přehrát / Pozastavit"
+
+#: activity.py:144
+msgid "Reset"
+msgstr "Obnovit"
 
 #: char.py:151
 msgid "Elephant"
-msgstr ""
+msgstr "Slon"
 
 #: char.py:153
 msgid "Space Blob"
-msgstr ""
+msgstr "Vesmírná kapka"
 
 #: char.py:155
 msgid "Turkey"
-msgstr ""
+msgstr "Krocan"
 
 #: char.py:158 ground.py:109 sound.py:119
 msgid "Custom"
-msgstr ""
+msgstr "Vlastní"
 
 #: ground.py:91
 msgid "Saturn"
-msgstr ""
+msgstr "Saturn"
 
 #: ground.py:92
 msgid "Snowflakes"
-msgstr ""
+msgstr "Sněhové vločky"
 
 #: ground.py:93
 msgid "Eye"
-msgstr ""
+msgstr "Oko"
 
 #: ground.py:94
 msgid "Blobs"
-msgstr ""
+msgstr "Kapky"
 
 #: ground.py:95
 msgid "Star Night"
-msgstr ""
+msgstr "Noční hvězdy"
 
 #: ground.py:96
 msgid "Forest"
-msgstr ""
+msgstr "Les"
 
 #: ground.py:97
 msgid "Spiral"
-msgstr ""
+msgstr "Spirála"
 
 #: ground.py:98
 msgid "Beam"
-msgstr ""
+msgstr "Paprsek"
 
 #: ground.py:99
 msgid "Cloth"
-msgstr ""
+msgstr "Látka"
 
 #: ground.py:100
 msgid "Faces"
-msgstr ""
+msgstr "Tváře"
 
 #: ground.py:101
 msgid "Leaves"
-msgstr ""
+msgstr "Listy"
 
 #: ground.py:102
 msgid "Vegetables"
-msgstr ""
+msgstr "Zalenina"
 
 #: ground.py:103
 msgid "Spotlight"
-msgstr ""
+msgstr "Světlo"
 
 #: ground.py:104
 msgid "Strips"
-msgstr ""
+msgstr "Proužky"
 
 #: ground.py:105
 msgid "Scene"
-msgstr ""
+msgstr "Scény"
 
 #: ground.py:106
 msgid "Rhombs"
-msgstr ""
+msgstr "Kosočtverece"
 
 #: ground.py:107
 msgid "Milky Way"
-msgstr ""
+msgstr "Mléčná dráha"
 
 #: sound.py:113
 msgid "Gobble"
-msgstr ""
+msgstr "Jídlo"
 
 #: sound.py:114
 msgid "Funk"
-msgstr ""
+msgstr "Panika"
 
 #: sound.py:115
 msgid "Giggle"
-msgstr ""
+msgstr "Smích"
 
 #: sound.py:116
 msgid "Jungle"
-msgstr ""
+msgstr "Džungle"
 
 #: sound.py:117
 msgid "Mute"
 msgstr "Ztišit"
 
-#: toolkit/activity_widgets.py:83
+#: toolkit/activity_widgets.py:84
 msgid "Stop"
-msgstr ""
+msgstr "Zastavit"
 
-#: toolkit/activity_widgets.py:95
+#: toolkit/activity_widgets.py:96
 msgid "Undo"
-msgstr ""
+msgstr "Zpět"
 
-#: toolkit/activity_widgets.py:103
+#: toolkit/activity_widgets.py:104
 msgid "Redo"
-msgstr ""
+msgstr "Znovu"
 
-#: toolkit/activity_widgets.py:110
+#: toolkit/activity_widgets.py:111
 msgid "Copy"
-msgstr ""
+msgstr "Kopírovat"
 
-#: toolkit/activity_widgets.py:117
+#: toolkit/activity_widgets.py:118
 msgid "Paste"
-msgstr ""
+msgstr "Vložit"
 
-#: toolkit/activity_widgets.py:127
+#: toolkit/activity_widgets.py:128
 msgid "Private"
-msgstr ""
+msgstr "Soukromé"
 
-#: toolkit/activity_widgets.py:134
+#: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
-msgstr ""
+msgstr "Mé okolí"
 
-#: toolkit/activity_widgets.py:166
-msgid "Keep"
-msgstr ""
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr "Popis"
 
-#: toolkit/activity_widgets.py:344
+#: toolkit/activity_widgets.py:393
 msgid "Activity"
-msgstr ""
+msgstr "Činnosti"
