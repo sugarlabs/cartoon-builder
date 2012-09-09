@@ -38,16 +38,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2011-08-07 15:40+0200\n"
+"POT-Creation-Date: 2012-06-22 00:32-0400\n"
+"PO-Revision-Date: 2012-07-30 10:48+0200\n"
 "Last-Translator: Yannis <kiolalis@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
+
+#: activity/activity.info:2
+msgid "Cartoon Builder"
+msgstr "Δημιουργός Κόμικς"
 
 #: activity.py:67
 msgid "Lessons"
@@ -60,10 +64,6 @@ msgstr "Αναπαραγωγή / Παύση"
 #: activity.py:144
 msgid "Reset"
 msgstr "Επαναφορά"
-
-#: activity/activity.info:2
-msgid "Cartoon Builder"
-msgstr "Δημιουργός Κόμικς"
 
 #: char.py:151
 msgid "Elephant"
@@ -169,41 +169,44 @@ msgstr "Ζούγκλα"
 msgid "Mute"
 msgstr "Σίγαση"
 
-#: toolkit/activity_widgets.py:83
+#: toolkit/activity_widgets.py:84
 msgid "Stop"
 msgstr "Διακοπή"
 
-#: toolkit/activity_widgets.py:95
+#: toolkit/activity_widgets.py:96
 msgid "Undo"
 msgstr "Αναίρεση"
 
-#: toolkit/activity_widgets.py:103
+#: toolkit/activity_widgets.py:104
 msgid "Redo"
 msgstr "Ακύρωση αναίρεσης"
 
-#: toolkit/activity_widgets.py:110
+#: toolkit/activity_widgets.py:111
 msgid "Copy"
 msgstr "Αντιγραφή"
 
-#: toolkit/activity_widgets.py:117
+#: toolkit/activity_widgets.py:118
 msgid "Paste"
 msgstr "Επικόλληση"
 
-#: toolkit/activity_widgets.py:127
+#: toolkit/activity_widgets.py:128
 msgid "Private"
 msgstr "Ιδιωτικό"
 
-#: toolkit/activity_widgets.py:134
+#: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
 msgstr "Η γειτονιά μου"
 
-#: toolkit/activity_widgets.py:166
-msgid "Keep"
-msgstr "Αποθήκευση"
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr "Περιγραφή"
 
-#: toolkit/activity_widgets.py:344
+#: toolkit/activity_widgets.py:393
 msgid "Activity"
 msgstr "Δραστηριότητα"
+
+#~ msgid "Keep"
+#~ msgstr "Αποθήκευση"
 
 #~ msgid "Choose image"
 #~ msgstr "Επιλογή εικόνας"
