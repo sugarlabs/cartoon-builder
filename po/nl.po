@@ -30,7 +30,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-22 00:32-0400\n"
+"POT-Creation-Date: 2012-09-27 14:52-0400\n"
 "PO-Revision-Date: 2012-06-08 08:57+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,9 +41,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
-#: activity/activity.info:2
+#. TRANS: "name" option from activity.info file
 msgid "Cartoon Builder"
 msgstr "Striptekenaar"
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
+msgstr ""
 
 #: activity.py:67
 msgid "Lessons"

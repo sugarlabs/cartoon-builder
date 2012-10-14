@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 13:18+0000\n"
-"PO-Revision-Date: 2011-08-08 15:46+0200\n"
+"POT-Creation-Date: 2012-09-27 14:52-0400\n"
+"PO-Revision-Date: 2012-07-15 12:44+0200\n"
 "Last-Translator: samy boutayeb <s.boutayeb@free.fr>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -36,6 +36,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.0.1\n"
+
+#. TRANS: "name" option from activity.info file
+msgid "Cartoon Builder"
+msgstr "Crée ta BD"
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
+msgstr ""
 
 #: activity.py:67
 msgid "Lessons"
@@ -48,10 +57,6 @@ msgstr "Jouer / Pause"
 #: activity.py:144
 msgid "Reset"
 msgstr "Réinitialiser"
-
-#: activity/activity.info:2
-msgid "Cartoon Builder"
-msgstr "Crée ta BD"
 
 #: char.py:151
 msgid "Elephant"
@@ -157,41 +162,44 @@ msgstr "Jungle"
 msgid "Mute"
 msgstr "Son désactivé"
 
-#: toolkit/activity_widgets.py:83
+#: toolkit/activity_widgets.py:84
 msgid "Stop"
 msgstr "Stop"
 
-#: toolkit/activity_widgets.py:95
+#: toolkit/activity_widgets.py:96
 msgid "Undo"
 msgstr "Défaire"
 
-#: toolkit/activity_widgets.py:103
+#: toolkit/activity_widgets.py:104
 msgid "Redo"
 msgstr "Refaire"
 
-#: toolkit/activity_widgets.py:110
+#: toolkit/activity_widgets.py:111
 msgid "Copy"
 msgstr "Copier"
 
-#: toolkit/activity_widgets.py:117
+#: toolkit/activity_widgets.py:118
 msgid "Paste"
 msgstr "Coller"
 
-#: toolkit/activity_widgets.py:127
+#: toolkit/activity_widgets.py:128
 msgid "Private"
 msgstr "Privé"
 
-#: toolkit/activity_widgets.py:134
+#: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
 msgstr "Mon voisinage"
 
-#: toolkit/activity_widgets.py:166
-msgid "Keep"
-msgstr "Conserver"
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr "Description"
 
-#: toolkit/activity_widgets.py:344
+#: toolkit/activity_widgets.py:393
 msgid "Activity"
 msgstr "Activité"
+
+#~ msgid "Keep"
+#~ msgstr "Conserver"
 
 #~ msgid "Choose image"
 #~ msgstr "Choisir une image"

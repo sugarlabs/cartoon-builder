@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 13:18+0000\n"
+"POT-Creation-Date: 2012-09-27 14:52-0400\n"
 "PO-Revision-Date: 2012-02-13 01:36+0200\n"
 "Last-Translator: Opaky <opaki86@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,6 +37,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.0.5\n"
+
+#. TRANS: "name" option from activity.info file
+msgid "Cartoon Builder"
+msgstr "Градитељ цртања"
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
+msgstr ""
 
 #: activity.py:67
 msgid "Lessons"
@@ -49,10 +58,6 @@ msgstr "Играј / Пауза"
 #: activity.py:144
 msgid "Reset"
 msgstr "Ресетуј"
-
-#: activity/activity.info:2
-msgid "Cartoon Builder"
-msgstr "Градитељ цртања"
 
 #: char.py:151
 msgid "Elephant"
@@ -158,38 +163,41 @@ msgstr "Ђунгла"
 msgid "Mute"
 msgstr "Утишај"
 
-#: toolkit/activity_widgets.py:83
+#: toolkit/activity_widgets.py:84
 msgid "Stop"
 msgstr "Заустави"
 
-#: toolkit/activity_widgets.py:95
+#: toolkit/activity_widgets.py:96
 msgid "Undo"
 msgstr "Поништи"
 
-#: toolkit/activity_widgets.py:103
+#: toolkit/activity_widgets.py:104
 msgid "Redo"
 msgstr "Поврати"
 
-#: toolkit/activity_widgets.py:110
+#: toolkit/activity_widgets.py:111
 msgid "Copy"
 msgstr "Умножи"
 
-#: toolkit/activity_widgets.py:117
+#: toolkit/activity_widgets.py:118
 msgid "Paste"
 msgstr "Убаци"
 
-#: toolkit/activity_widgets.py:127
+#: toolkit/activity_widgets.py:128
 msgid "Private"
 msgstr "Приватно"
 
-#: toolkit/activity_widgets.py:134
+#: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
 msgstr "Мој Комшилук"
 
-#: toolkit/activity_widgets.py:166
-msgid "Keep"
-msgstr "Задржи"
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr ""
 
-#: toolkit/activity_widgets.py:344
+#: toolkit/activity_widgets.py:393
 msgid "Activity"
 msgstr "Активност"
+
+#~ msgid "Keep"
+#~ msgstr "Задржи"

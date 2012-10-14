@@ -58,7 +58,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 13:18+0000\n"
+"POT-Creation-Date: 2012-09-27 14:52-0400\n"
 "PO-Revision-Date: 2011-09-26 22:21+0200\n"
 "Last-Translator: Markus <m.slg@gmx.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,6 +68,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
+
+#. TRANS: "name" option from activity.info file
+msgid "Cartoon Builder"
+msgstr "Comic-Zeichner"
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
+msgstr ""
 
 #: activity.py:67
 msgid "Lessons"
@@ -80,10 +89,6 @@ msgstr "Abspielen / Anhalten"
 #: activity.py:144
 msgid "Reset"
 msgstr "Zurücksetzen"
-
-#: activity/activity.info:2
-msgid "Cartoon Builder"
-msgstr "Comic-Zeichner"
 
 #: char.py:151
 msgid "Elephant"
@@ -189,41 +194,44 @@ msgstr "Dschungel"
 msgid "Mute"
 msgstr "Stille"
 
-#: toolkit/activity_widgets.py:83
+#: toolkit/activity_widgets.py:84
 msgid "Stop"
 msgstr "Stopp"
 
-#: toolkit/activity_widgets.py:95
+#: toolkit/activity_widgets.py:96
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: toolkit/activity_widgets.py:103
+#: toolkit/activity_widgets.py:104
 msgid "Redo"
 msgstr "Wiederholen"
 
-#: toolkit/activity_widgets.py:110
+#: toolkit/activity_widgets.py:111
 msgid "Copy"
 msgstr "Kopieren"
 
-#: toolkit/activity_widgets.py:117
+#: toolkit/activity_widgets.py:118
 msgid "Paste"
 msgstr "Einfügen"
 
-#: toolkit/activity_widgets.py:127
+#: toolkit/activity_widgets.py:128
 msgid "Private"
 msgstr "Privat"
 
-#: toolkit/activity_widgets.py:134
+#: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
 msgstr "Meine Nachbarschaft"
 
-#: toolkit/activity_widgets.py:166
-msgid "Keep"
-msgstr "Speichern"
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr ""
 
-#: toolkit/activity_widgets.py:344
+#: toolkit/activity_widgets.py:393
 msgid "Activity"
 msgstr "Aktivität"
+
+#~ msgid "Keep"
+#~ msgstr "Speichern"
 
 #~ msgid "Choose image"
 #~ msgstr "Wähle Bild"

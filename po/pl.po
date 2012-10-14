@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 13:18+0000\n"
+"POT-Creation-Date: 2012-09-27 14:52-0400\n"
 "PO-Revision-Date: 2012-01-19 23:15+0200\n"
 "Last-Translator: FRKS <frks@frks.pl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.0.5\n"
+
+#. TRANS: "name" option from activity.info file
+msgid "Cartoon Builder"
+msgstr "Kreskówki"
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
+msgstr ""
 
 #: activity.py:67
 msgid "Lessons"
@@ -57,10 +66,6 @@ msgstr "Graj / Pauza"
 #: activity.py:144
 msgid "Reset"
 msgstr "Skasuj"
-
-#: activity/activity.info:2
-msgid "Cartoon Builder"
-msgstr "Kreskówki"
 
 #: char.py:151
 msgid "Elephant"
@@ -166,38 +171,41 @@ msgstr "Dżungla"
 msgid "Mute"
 msgstr "Wycisz"
 
-#: toolkit/activity_widgets.py:83
+#: toolkit/activity_widgets.py:84
 msgid "Stop"
 msgstr "Zatrzymaj"
 
-#: toolkit/activity_widgets.py:95
+#: toolkit/activity_widgets.py:96
 msgid "Undo"
 msgstr "Cofnij"
 
-#: toolkit/activity_widgets.py:103
+#: toolkit/activity_widgets.py:104
 msgid "Redo"
 msgstr "Ponów"
 
-#: toolkit/activity_widgets.py:110
+#: toolkit/activity_widgets.py:111
 msgid "Copy"
 msgstr "Kopiuj"
 
-#: toolkit/activity_widgets.py:117
+#: toolkit/activity_widgets.py:118
 msgid "Paste"
 msgstr "Wklej"
 
-#: toolkit/activity_widgets.py:127
+#: toolkit/activity_widgets.py:128
 msgid "Private"
 msgstr "Prywatne"
 
-#: toolkit/activity_widgets.py:134
+#: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
 msgstr "Moje Sąsiedztwo"
 
-#: toolkit/activity_widgets.py:166
-msgid "Keep"
-msgstr "Zapisz"
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr ""
 
-#: toolkit/activity_widgets.py:344
+#: toolkit/activity_widgets.py:393
 msgid "Activity"
 msgstr "Aktywność"
+
+#~ msgid "Keep"
+#~ msgstr "Zapisz"

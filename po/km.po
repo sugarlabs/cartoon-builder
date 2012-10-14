@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-04 13:18+0000\n"
+"POT-Creation-Date: 2012-09-27 14:52-0400\n"
 "PO-Revision-Date: 2011-04-10 03:27+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.0.1\n"
+
+#. TRANS: "name" option from activity.info file
+msgid "Cartoon Builder"
+msgstr ""
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
+msgstr ""
 
 #: activity.py:67
 msgid "Lessons"
@@ -28,10 +37,6 @@ msgstr "ចាក់/ផ្អាក"
 #: activity.py:144
 msgid "Reset"
 msgstr "កំណត់​ឡើង​វិញ​"
-
-#: activity/activity.info:2
-msgid "Cartoon Builder"
-msgstr ""
 
 #: char.py:151
 msgid "Elephant"
@@ -138,38 +143,41 @@ msgstr "ដើរព្រៃ"
 msgid "Mute"
 msgstr "ស្ងាត់"
 
-#: toolkit/activity_widgets.py:83
+#: toolkit/activity_widgets.py:84
 msgid "Stop"
 msgstr "បញ្ឈប់"
 
-#: toolkit/activity_widgets.py:95
+#: toolkit/activity_widgets.py:96
 msgid "Undo"
 msgstr "មិនធ្វើ​វិញ"
 
-#: toolkit/activity_widgets.py:103
+#: toolkit/activity_widgets.py:104
 msgid "Redo"
 msgstr "ធ្វើវិញ"
 
-#: toolkit/activity_widgets.py:110
+#: toolkit/activity_widgets.py:111
 msgid "Copy"
 msgstr "ចម្លង"
 
-#: toolkit/activity_widgets.py:117
+#: toolkit/activity_widgets.py:118
 msgid "Paste"
 msgstr "បិទភ្ជាប់"
 
-#: toolkit/activity_widgets.py:127
+#: toolkit/activity_widgets.py:128
 msgid "Private"
 msgstr "ឯកជន"
 
-#: toolkit/activity_widgets.py:134
+#: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
 msgstr "ភាព​ជិតខាង​របស់​ខ្ញុំ"
 
-#: toolkit/activity_widgets.py:166
-msgid "Keep"
-msgstr "រក្សា"
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr ""
 
-#: toolkit/activity_widgets.py:344
+#: toolkit/activity_widgets.py:393
 msgid "Activity"
 msgstr "សកម្មភាព"
+
+#~ msgid "Keep"
+#~ msgstr "រក្សា"

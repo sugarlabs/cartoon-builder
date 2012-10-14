@@ -2,20 +2,19 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-27 14:52-0400\n"
-"PO-Revision-Date: 2012-04-05 05:13+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1) ;\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Translate Toolkit 1.7.0\n"
 
 #. TRANS: "name" option from activity.info file
 msgid "Cartoon Builder"
@@ -27,24 +26,20 @@ msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
 msgstr ""
 
 #: activity.py:67
-#, fuzzy
 msgid "Lessons"
-msgstr "Amasomo"
+msgstr ""
 
 #: activity.py:129
-#, fuzzy
 msgid "Play / Pause"
-msgstr "Gutangira / guhagarara"
+msgstr ""
 
 #: activity.py:144
-#, fuzzy
 msgid "Reset"
-msgstr "Kuregera"
+msgstr ""
 
 #: char.py:151
-#, fuzzy
 msgid "Elephant"
-msgstr "Inzovu"
+msgstr ""
 
 #: char.py:153
 msgid "Space Blob"
@@ -67,23 +62,20 @@ msgid "Snowflakes"
 msgstr ""
 
 #: ground.py:93
-#, fuzzy
 msgid "Eye"
-msgstr "ijisho"
+msgstr ""
 
 #: ground.py:94
 msgid "Blobs"
 msgstr ""
 
 #: ground.py:95
-#, fuzzy
 msgid "Star Night"
-msgstr "Inyenyeri y'Ijoro"
+msgstr ""
 
 #: ground.py:96
-#, fuzzy
 msgid "Forest"
-msgstr "Ishyamba"
+msgstr ""
 
 #: ground.py:97
 msgid "Spiral"
@@ -94,19 +86,16 @@ msgid "Beam"
 msgstr ""
 
 #: ground.py:99
-#, fuzzy
 msgid "Cloth"
-msgstr "Umwenda"
+msgstr ""
 
 #: ground.py:100
-#, fuzzy
 msgid "Faces"
-msgstr "Amasura"
+msgstr ""
 
 #: ground.py:101
-#, fuzzy
 msgid "Leaves"
-msgstr "Ibibabi"
+msgstr ""
 
 #: ground.py:102
 msgid "Vegetables"
@@ -145,59 +134,45 @@ msgid "Giggle"
 msgstr ""
 
 #: sound.py:116
-#, fuzzy
 msgid "Jungle"
-msgstr "ishyamba"
+msgstr ""
 
 #: sound.py:117
-#, fuzzy
 msgid "Mute"
-msgstr "Gucekekesha"
+msgstr ""
 
 #: toolkit/activity_widgets.py:84
-#, fuzzy
 msgid "Stop"
-msgstr "Guhagarara"
+msgstr ""
 
 #: toolkit/activity_widgets.py:96
-#, fuzzy
 msgid "Undo"
-msgstr "Isubiranyuma"
+msgstr ""
 
 #: toolkit/activity_widgets.py:104
-#, fuzzy
 msgid "Redo"
-msgstr "Isubiramo"
+msgstr ""
 
 #: toolkit/activity_widgets.py:111
-#, fuzzy
 msgid "Copy"
-msgstr "Gukoporora"
+msgstr ""
 
 #: toolkit/activity_widgets.py:118
-#, fuzzy
 msgid "Paste"
-msgstr "Komeka"
+msgstr ""
 
 #: toolkit/activity_widgets.py:128
-#, fuzzy
 msgid "Private"
-msgstr "Byihariye"
+msgstr ""
 
 #: toolkit/activity_widgets.py:135
-#, fuzzy
 msgid "My Neighborhood"
-msgstr "Inshuti nabavandimwe"
+msgstr ""
 
 #: toolkit/activity_widgets.py:213
 msgid "Description"
 msgstr ""
 
 #: toolkit/activity_widgets.py:393
-#, fuzzy
 msgid "Activity"
-msgstr "Ibikorwa"
-
-#, fuzzy
-#~ msgid "Keep"
-#~ msgstr "Kubika"
+msgstr ""
