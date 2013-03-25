@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-27 14:52-0400\n"
-"PO-Revision-Date: 2011-11-26 04:34+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2013-03-13 00:45+0200\n"
+"Last-Translator: EdgarQuispeChambi <quispedgar@yahoo.es>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ayc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,124 +19,126 @@ msgstr ""
 
 #. TRANS: "name" option from activity.info file
 msgid "Cartoon Builder"
-msgstr ""
+msgstr "Sarnaqäwinakata wakichäwi uñstayiri"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
 msgstr ""
+"Maya wawaqallu lurma uka wiskhalla wakichataru maynita maynikama suma "
+"siqintata"
 
 #: activity.py:67
 msgid "Lessons"
-msgstr ""
+msgstr "Yatiñanaka"
 
 #: activity.py:129
 msgid "Play / Pause"
-msgstr ""
+msgstr "Qhantayaña / Suyt'ayaña"
 
 #: activity.py:144
 msgid "Reset"
-msgstr ""
+msgstr "Mayampi qalltaña"
 
 #: char.py:151
 msgid "Elephant"
-msgstr ""
+msgstr "Elefante uywa"
 
 #: char.py:153
 msgid "Space Blob"
-msgstr ""
+msgstr "Pacha ch'aqa"
 
 #: char.py:155
 msgid "Turkey"
-msgstr ""
+msgstr "Pavo uywa"
 
 #: char.py:158 ground.py:109 sound.py:119
 msgid "Custom"
-msgstr ""
+msgstr "Jaqichjata"
 
 #: ground.py:91
 msgid "Saturn"
-msgstr ""
+msgstr "Saturno uraqi"
 
 #: ground.py:92
 msgid "Snowflakes"
-msgstr ""
+msgstr "Khunu puti puti"
 
 #: ground.py:93
 msgid "Eye"
-msgstr ""
+msgstr "Nayra"
 
 #: ground.py:94
 msgid "Blobs"
-msgstr ""
+msgstr "Ch'aqanaka"
 
 #: ground.py:95
 msgid "Star Night"
-msgstr ""
+msgstr "Wara warjtata aruma"
 
 #: ground.py:96
 msgid "Forest"
-msgstr ""
+msgstr "Quqa quqa"
 
 #: ground.py:97
 msgid "Spiral"
-msgstr ""
+msgstr "Q'iwirillu"
 
 #: ground.py:98
 msgid "Beam"
-msgstr ""
+msgstr "Q'iju"
 
 #: ground.py:99
 msgid "Cloth"
-msgstr ""
+msgstr "Pañu"
 
 #: ground.py:100
 msgid "Faces"
-msgstr ""
+msgstr "Uñanaqanaka"
 
 #: ground.py:101
 msgid "Leaves"
-msgstr ""
+msgstr "Laphinaka"
 
 #: ground.py:102
 msgid "Vegetables"
-msgstr ""
+msgstr "Ch'uxña laphinaka"
 
 #: ground.py:103
 msgid "Spotlight"
-msgstr ""
+msgstr "Lusa qhaniri qhispillu"
 
 #: ground.py:104
 msgid "Strips"
-msgstr ""
+msgstr "T'isnunaka"
 
 #: ground.py:105
 msgid "Scene"
-msgstr ""
+msgstr "Kamachäwi"
 
 #: ground.py:106
 msgid "Rhombs"
-msgstr ""
+msgstr "Nayra nayra"
 
 #: ground.py:107
 msgid "Milky Way"
-msgstr ""
+msgstr "Pacha jawira"
 
 #: sound.py:113
 msgid "Gobble"
-msgstr ""
+msgstr "Manq'suña"
 
 #: sound.py:114
 msgid "Funk"
-msgstr ""
+msgstr "Funk warurt'äwi kasta"
 
 #: sound.py:115
 msgid "Giggle"
-msgstr ""
+msgstr "Laru sinsi"
 
 #: sound.py:116
 msgid "Jungle"
-msgstr ""
+msgstr "Quqa quqa juqhu"
 
 #  "Silenciar"
 #: sound.py:117
@@ -175,17 +177,16 @@ msgstr "Yaqhankiri"
 
 #  "Mi Vecindario"
 #: toolkit/activity_widgets.py:135
-#, fuzzy
 msgid "My Neighborhood"
-msgstr "Markasa"
+msgstr "Wakisirinakaja"
 
 #: toolkit/activity_widgets.py:213
 msgid "Description"
-msgstr ""
+msgstr "Yatxatayäwi"
 
 #: toolkit/activity_widgets.py:393
 msgid "Activity"
-msgstr ""
+msgstr "Luräwi"
 
 #  "Guardar"
 #~ msgid "Keep"
