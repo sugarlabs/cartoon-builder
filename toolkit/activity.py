@@ -16,14 +16,17 @@
 
 """Extend sugar-toolkit activity class"""
 
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import Gdk
 import logging
 import telepathy
-import gobject
+from gi.repository import GObject
 
-from sugar.activity import activity
-from sugar.presence.sugartubeconn import SugarTubeConnection
-from sugar.graphics.alert import ConfirmationAlert, NotifyAlert
+from sugar3.activity import activity
+from sugar3.presence.sugartubeconn import SugarTubeConnection
+from sugar3.graphics.alert import ConfirmationAlert, NotifyAlert
 
 
 _NEW_INSTANCE   = 0
@@ -41,7 +44,7 @@ class CursorFactory:
 
     def get_cursor(self, cur_type):
         if not self.cursors.has_key(cur_type):
-            cur = gtk.gdk.Cursor(cur_type)
+            cur = Gdk.Cursor.new(cur_type)
             self.cursors[cur_type] = cur
         return self.cursors[cur_type]
 
@@ -135,7 +138,7 @@ class Activity(activity.Activity):
 
         def response(alert, response_id, self, cb, *cb_args):
             self.remove_alert(alert)
-            if response_id is gtk.RESPONSE_OK:
+            if response_id is Gtk.ResponseType.OK:
                 cb(*cb_args)
 
         alert.connect('response', response, self, cb, *cb_args)
@@ -146,18 +149,18 @@ class Activity(activity.Activity):
         return self._cursor
 
     def set_cursor(self, cursor):
-        if not isinstance(cursor, gtk.gdk.Cursor):
+        if not isinstance(cursor, Gdk.Cursor):
             cursor = CursorFactory().get_cursor(cursor)
 
         if self._cursor != cursor:
             self._cursor = cursor
-            self.window.set_cursor(self._cursor)
+            self.get_window().set_cursor(self._cursor)
 
     def __init__(self, canvas, handle):
         """
         Initialise the Activity.
 
-        canvas -- gtk.Widget
+        canvas -- Gtk.Widget
             root widget for activity content
 
         handle -- sugar.activity.activityhandle.ActivityHandle
@@ -176,7 +179,7 @@ class Activity(activity.Activity):
         self.__on_save_instance = []
 
         self._cursor = None
-        self.set_cursor(gtk.gdk.LEFT_PTR)
+        self.set_cursor(Gdk.CursorType.LEFT_PTR)
 
         # XXX do it after(possible) read_file() invoking
         # have to rely on calling read_file() from map_cb in sugar-toolkit
@@ -247,7 +250,7 @@ class SharedActivity(Activity):
         """
         Initialise the Activity.
 
-        canvas -- gtk.Widget
+        canvas -- Gtk.Widget
             root widget for activity content
 
         service -- string
@@ -265,7 +268,7 @@ class SharedActivity(Activity):
         self.connect('shared', self._shared_cb)
 
         # Owner.props.key
-        if self._shared_activity:
+        if self.shared_activity:
             # We are joining the activity
             self.connect('joined', self._joined_cb)
             if self.get_shared():
@@ -282,7 +285,7 @@ class SharedActivity(Activity):
             self.service, {})
 
     def _joined_cb(self, activity):
-        if not self._shared_activity:
+        if not self.shared_activity:
             return
 
         logging.debug('Joined an existing shared activity')
@@ -296,12 +299,12 @@ class SharedActivity(Activity):
             error_handler=self._list_tubes_error_cb)
 
     def _sharing_setup(self):
-        if self._shared_activity is None:
+        if self.shared_activity is None:
             logging.error('Failed to share or join activity')
             return
         self._conn = self._shared_activity.telepathy_conn
-        self._tubes_chan = self._shared_activity.telepathy_tubes_chan
-        self._text_chan = self._shared_activity.telepathy_text_chan
+        self._tubes_chan = self.shared_activity.telepathy_tubes_chan
+        self._text_chan = self.shared_activity.telepathy_text_chan
 
         self._tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal(
                 'NewTube', self._new_tube_cb)

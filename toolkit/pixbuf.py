@@ -14,18 +14,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-"""gtk.gdk.Pixbuf extensions"""
+"""GdkPixbuf.Pixbuf extensions"""
 
 import re
 import cStringIO
-import gtk
-import rsvg
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import GdkPixbuf
+from gi.repository import Gdk
+gi.require_version('Rsvg', '2.0')
+from gi.repository import Rsvg
 import cairo
 import logging
 
-from sugar.graphics import style
-from sugar.graphics.xocolor import XoColor, is_valid
-from sugar.util import LRU
+from sugar3.graphics import style
+from sugar3.graphics.xocolor import XoColor
+from sugar3.util import LRU
 
 
 def to_file(pixbuf):
@@ -35,7 +40,7 @@ def to_file(pixbuf):
         buffer.write(pixbuf)
 
     buffer = cStringIO.StringIO()
-    pixbuf.save_to_callback(push, 'png', user_data=buffer)
+    pixbuf.save_to_callbackv(push, 'png', user_data=buffer)
     buffer.seek(0)
 
     return buffer
@@ -47,7 +52,7 @@ def to_str(pixbuf):
 def from_str(str):
     """Convert string to pixbuf object"""
 
-    loader = gtk.gdk.pixbuf_loader_new_with_mime_type('image/png')
+    loader = GdkPixbuf.PixbufLoader.new_with_mime_type('image/png')
 
     try:
         loader.write(str)
@@ -60,7 +65,7 @@ def from_str(str):
     return loader.get_pixbuf()
 
 
-def at_size_with_ratio(pixbuf, width, height, type=gtk.gdk.INTERP_BILINEAR):
+def at_size_with_ratio(pixbuf, width, height, type=GdkPixbuf.InterpType.BILINEAR):
     image_width = pixbuf.get_width()
     image_height = pixbuf.get_height()
 
@@ -82,7 +87,7 @@ def from_svg_at_size(filename=None, width=None, height=None, handle=None,
     """Scale and load SVG into pixbuf"""
 
     if not handle:
-        handle = rsvg.Handle(filename)
+        handle = Rsvg.Handle(filename)
 
     dimensions = handle.get_dimension_data()
     icon_width = dimensions[0]
@@ -109,7 +114,7 @@ def from_svg_at_size(filename=None, width=None, height=None, handle=None,
     context.scale(ratio_width, ratio_height)
     handle.render_cairo(context)
 
-    loader = gtk.gdk.pixbuf_loader_new_with_mime_type('image/png')
+    loader = GdkPixbuf.PixbufLoader.new_with_mime_type('image/png')
     surface.write_to_png(loader)
     loader.close()
 

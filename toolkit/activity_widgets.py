@@ -15,22 +15,25 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-import gtk
-import gobject
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import GObject
 import gettext
 
-from sugar import profile
-from sugar.graphics.toolbutton import ToolButton
-from sugar.graphics.radiotoolbutton import RadioToolButton
-from sugar.graphics.toolbox import Toolbox
-from sugar.graphics.xocolor import XoColor
-from sugar.graphics.icon import Icon
-from sugar.bundle.activitybundle import ActivityBundle
+from sugar3 import profile
+from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.radiotoolbutton import RadioToolButton
+from sugar3.graphics.toolbox import Toolbox
+from sugar3.graphics.xocolor import XoColor
+from sugar3.graphics.icon import Icon
+from sugar3.bundle.activitybundle import ActivityBundle
 
 from toolkit.toolbarbox import ToolbarButton
 from toolkit.radiopalette import RadioPalette
 from toolkit.radiopalette import RadioMenuButton
-from sugar.graphics import style
+from sugar3.graphics import style
 
 _ = lambda msg: gettext.dgettext('sugar-toolkit', msg)
 
@@ -41,7 +44,7 @@ def _create_activity_icon(metadata):
     else:
         color = profile.get_color()
 
-    from sugar.activity.activity import get_bundle_path
+    from sugar3.activity.activity import get_bundle_path
     bundle = ActivityBundle(get_bundle_path())
     icon = Icon(file=bundle.get_icon(), xo_color=color)
 
@@ -160,15 +163,15 @@ class ShareButton(RadioMenuButton):
             self.neighborhood.handler_unblock(self._neighborhood_handle)
 
 
-class TitleEntry(gtk.ToolItem):
+class TitleEntry(Gtk.ToolItem):
 
     def __init__(self, activity, **kwargs):
-        gtk.ToolItem.__init__(self)
+        Gtk.ToolItem.__init__(self)
         self.set_expand(False)
         self._update_title_sid = None
 
-        self.entry = gtk.Entry(**kwargs)
-        self.entry.set_size_request(int(gtk.gdk.screen_width() / 3), -1)
+        self.entry = Gtk.Entry(**kwargs)
+        self.entry.set_size_request(int(Gdk.Screen.width() / 3), -1)
         self.entry.set_text(activity.metadata['title'])
         self.entry.connect('changed', self.__title_changed_cb, activity)
         self.entry.show()
@@ -177,7 +180,7 @@ class TitleEntry(gtk.ToolItem):
         activity.metadata.connect('updated', self.__jobject_updated_cb)
 
     def modify_bg(self, state, color):
-        gtk.ToolItem.modify_bg(self, state, color)
+        Gtk.ToolItem.modify_bg(self, state, color)
         self.entry.modify_bg(state, color)
 
     def __jobject_updated_cb(self, jobject):
@@ -185,7 +188,7 @@ class TitleEntry(gtk.ToolItem):
 
     def __title_changed_cb(self, entry, activity):
         if not self._update_title_sid:
-            self._update_title_sid = gobject.timeout_add_seconds(
+            self._update_title_sid = GObject.timeout_add_seconds(
                     1, self.__update_title_cb, activity)
 
     def __update_title_cb(self, activity):
@@ -203,25 +206,25 @@ class TitleEntry(gtk.ToolItem):
         return False
 
 
-class DescriptionItem(gtk.ToolItem):
+class DescriptionItem(Gtk.ToolItem):
 
     def __init__(self, activity, **kwargs):
-        gtk.ToolItem.__init__(self)
+        GObject.GObject.__init__(self)
 
         description_button = ToolButton('edit-description')
         description_button.show()
         description_button.set_tooltip(_('Description'))
         self._palette = description_button.get_palette()
 
-        description_box = gtk.HBox()
-        sw = gtk.ScrolledWindow()
-        sw.set_size_request(int(gtk.gdk.screen_width() / 2),
+        description_box = Gtk.HBox()
+        sw = Gtk.ScrolledWindow()
+        sw.set_size_request(int(Gdk.Screen.width() / 2),
                             2 * style.GRID_CELL_SIZE)
-        sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        self._text_view = gtk.TextView()
+        sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        self._text_view = Gtk.TextView()
         self._text_view.set_left_margin(style.DEFAULT_PADDING)
         self._text_view.set_right_margin(style.DEFAULT_PADDING)
-        text_buffer = gtk.TextBuffer()
+        text_buffer = Gtk.TextBuffer()
         if 'description' in activity.metadata:
             text_buffer.set_text(activity.metadata['description'])
         self._text_view.set_buffer(text_buffer)
@@ -268,7 +271,7 @@ class DescriptionItem(gtk.ToolItem):
         return False
 
 
-class ActivityToolbar(gtk.Toolbar):
+class ActivityToolbar(Gtk.Toolbar):
     """The Activity toolbar with the Journal entry title, sharing,
        and Stop buttons
 
@@ -277,7 +280,7 @@ class ActivityToolbar(gtk.Toolbar):
     """
 
     def __init__(self, activity, orientation_left=False):
-        gtk.Toolbar.__init__(self)
+        GObject.GObject.__init__(self)
 
         self._activity = activity
 
@@ -288,7 +291,7 @@ class ActivityToolbar(gtk.Toolbar):
             self.title = title_button.entry
 
         if orientation_left == False:
-            separator = gtk.SeparatorToolItem()
+            separator = Gtk.SeparatorToolItem()
             separator.props.draw = False
             separator.set_expand(True)
             self.insert(separator, -1)
@@ -308,7 +311,7 @@ class ActivityToolbar(gtk.Toolbar):
         self.stop.show()
 
 
-class EditToolbar(gtk.Toolbar):
+class EditToolbar(Gtk.Toolbar):
     """Provides the standard edit toolbar for Activities.
 
     Members:
@@ -343,7 +346,7 @@ class EditToolbar(gtk.Toolbar):
     """
 
     def __init__(self):
-        gtk.Toolbar.__init__(self)
+        Gtk.Toolbar.__init__(self)
 
         self.undo = UndoButton()
         self.insert(self.undo, -1)
@@ -353,7 +356,7 @@ class EditToolbar(gtk.Toolbar):
         self.insert(self.redo, -1)
         self.redo.show()
 
-        self.separator = gtk.SeparatorToolItem()
+        self.separator = Gtk.SeparatorToolItem()
         self.separator.set_draw(True)
         self.insert(self.separator, -1)
         self.separator.show()

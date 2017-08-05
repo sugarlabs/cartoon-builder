@@ -18,10 +18,16 @@
 ### author: Ed Stoner (ed@whsd.net)
 ### (c) 2007 World Wide Workshop Foundation
 
-import gtk
-import gobject
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import GObject
+from gi.repository import Gdk
+from gi.repository import GdkPixbuf
 import logging
-from gobject import SIGNAL_RUN_FIRST, TYPE_PYOBJECT
+logger = logging.getLogger('cartoonbuilder')
+
+#from gobject import SIGNAL_RUN_FIRST, TYPE_PYOBJECT
 
 from toolkit.scrolledbox import VScrolledBox
 
@@ -36,18 +42,18 @@ from utils import *
 logger = logging.getLogger('cartoon-builder')
 
 
-class View(gtk.EventBox):
+class View(Gtk.EventBox):
     __gsignals__ = {
-        'frame-changed': (SIGNAL_RUN_FIRST, None, 2 * [TYPE_PYOBJECT]),
-        'ground-changed': (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT]),
-        'sound-changed': (SIGNAL_RUN_FIRST, None, [TYPE_PYOBJECT])}
+        'frame-changed': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, 2 * [GObject.TYPE_PYOBJECT]),
+        'ground-changed': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, [GObject.TYPE_PYOBJECT]),
+        'sound-changed': (GObject.SIGNAL_RUN_FIRST, GObject.TYPE_NONE, [GObject.TYPE_PYOBJECT])}
 
     def set_frame(self, value):
         tape_num, frame = value
 
         if frame == None:
             clean(tape_num)
-            self._tape[tape_num].child.set_from_pixbuf(theme.EMPTY_THUMB)
+            self._tape[tape_num].get_child().set_from_pixbuf(theme.EMPTY_THUMB)
 
             if self._emission:
                 self.emit('frame-changed', tape_num, None)
@@ -56,7 +62,7 @@ class View(gtk.EventBox):
                 return False
 
             Document.tape[tape_num] = frame
-            self._tape[tape_num].child.set_from_pixbuf(frame.thumb())
+            self._tape[tape_num].get_child().set_from_pixbuf(frame.thumb())
 
             if frame.custom():
                 index = [i for i, f in enumerate(char.THEMES[-1].frames)
@@ -89,10 +95,10 @@ class View(gtk.EventBox):
     def set_emittion(self, value):
         self._emission = value
 
-    frame = gobject.property(type=object, getter=None, setter=set_frame)
-    ground = gobject.property(type=object, getter=None, setter=set_ground)
-    sound = gobject.property(type=object, getter=None, setter=set_sound)
-    emittion = gobject.property(type=bool, default=True, getter=get_emittion,
+    frame = GObject.property(type=object, getter=None, setter=set_frame)
+    ground = GObject.property(type=object, getter=None, setter=set_ground)
+    sound = GObject.property(type=object, getter=None, setter=set_sound)
+    emittion = GObject.property(type=bool, default=True, getter=get_emittion,
             setter=set_emittion)
 
     def restore(self):
@@ -117,21 +123,21 @@ class View(gtk.EventBox):
             return combo
 
         self.controlbox.pack_start(new_combo(char.THEMES, self._char_cb),
-                False, False)
+                False, False, 0)
         self._ground_combo = new_combo(ground.THEMES, self._combo_cb,
                 Document.ground, self._ground_cb)
-        self.controlbox.pack_start(self._ground_combo, False, False)
+        self.controlbox.pack_start(self._ground_combo, False, False, 0)
         self._sound_combo = new_combo(sound.THEMES, self._combo_cb,
                 Document.sound, self._sound_cb)
-        self.controlbox.pack_start(self._sound_combo, False, False)
+        self.controlbox.pack_start(self._sound_combo, False, False, 0)
 
         for i in range(theme.TAPE_COUNT):
-            self._tape[i].child.set_from_pixbuf(Document.tape[i].thumb())
+            self._tape[i].get_child().set_from_pixbuf(Document.tape[i].thumb())
         self._tape_cb(None, None, 0)
 
     def play(self):
         self._play_tape_num = 0
-        self._playing = gobject.timeout_add(self._delay, self._play_tape)
+        self._playing = GObject.timeout_add(self._delay, self._play_tape)
 
     def stop(self):
         self._playing = None
@@ -139,13 +145,15 @@ class View(gtk.EventBox):
         self._screen.draw()
 
     def set_tempo(self, tempo):
+        logger.debug('carto')
+        logger.debug(tempo)
         self._delay = 10 + (10 - int(tempo)) * 100
         if self._playing:
-            gobject.source_remove(self._playing)
-            self._playing = gobject.timeout_add(self._delay, self._play_tape)
+            GObject.source_remove(self._playing)
+            self._playing = GObject.timeout_add(self._delay, self._play_tape)
 
     def __init__(self):
-        gtk.EventBox.__init__(self)
+        GObject.GObject.__init__(self)
 
         self._screen = Screen()
         self._play_tape_num = 0
@@ -161,7 +169,7 @@ class View(gtk.EventBox):
 
         # frames table
 
-        self.table = gtk.Table(  # theme.FRAME_ROWS, columns=theme.FRAME_COLS,
+        self.table = Gtk.Table(  # theme.FRAME_ROWS, columns=theme.FRAME_COLS,
                 homogeneous=False)
 
         for i in range(theme.FRAME_ROWS * theme.FRAME_COLS):
@@ -171,29 +179,29 @@ class View(gtk.EventBox):
 
         table_scroll = VScrolledBox()
         table_scroll.set_viewport(self.table)
-        table_scroll.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BUTTON_BACKGROUND))
+        table_scroll.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(BUTTON_BACKGROUND))
 
-        yellow_frames = gtk.EventBox()
-        yellow_frames.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
-        table_frames = gtk.EventBox()
-        table_frames.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        yellow_frames = Gtk.EventBox()
+        yellow_frames.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(YELLOW))
+        table_frames = Gtk.EventBox()
+        table_frames.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(BACKGROUND))
         table_frames.set_border_width(5)
         table_frames.add(table_scroll)
         yellow_frames.add(table_frames)
 
-        yelow_arrow = gtk.Image()
+        yelow_arrow = Gtk.Image()
         yelow_arrow.set_from_file(theme.path('icons', 'yellow_arrow.png'))
 
-        frames_box = gtk.VBox()
-        frames_box.pack_start(yellow_frames, True, True)
-        frames_box.pack_start(yelow_arrow, False, False)
+        frames_box = Gtk.VBox()
+        frames_box.pack_start(yellow_frames, True, True, 0)
+        frames_box.pack_start(yelow_arrow, False, False, 0)
         frames_box.props.border_width = theme.BORDER_WIDTH
 
         # screen
 
-        screen_pink = gtk.EventBox()
-        screen_pink.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(PINK))
-        screen_box = gtk.EventBox()
+        screen_pink = Gtk.EventBox()
+        screen_pink.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(PINK))
+        screen_box = Gtk.EventBox()
         screen_box.set_border_width(5)
         screen_box.add(self._screen)
         screen_pink.add(screen_box)
@@ -201,99 +209,99 @@ class View(gtk.EventBox):
 
         # tape
 
-        tape = gtk.HBox()
+        tape = Gtk.HBox()
 
         for i in range(TAPE_COUNT):
-            frame_box = gtk.VBox()
+            frame_box = Gtk.VBox()
 
-            filmstrip_pixbuf = gtk.gdk.pixbuf_new_from_file_at_scale(
+            filmstrip_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
                     theme.path('icons', 'filmstrip.png'), THUMB_SIZE, -1, False)
 
-            filmstrip = gtk.Image()
+            filmstrip = Gtk.Image()
             filmstrip.set_from_pixbuf(filmstrip_pixbuf);
-            frame_box.pack_start(filmstrip, False, False)
+            frame_box.pack_start(filmstrip, False, False, 0)
 
-            frame = gtk.EventBox()
-            frame.set_events(gtk.gdk.BUTTON_PRESS_MASK)
+            frame = Gtk.EventBox()
+            frame.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
             frame.connect('button_press_event', self._tape_cb, i)
-            frame.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
-            frame.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
+            frame.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(BLACK))
+            frame.modify_bg(Gtk.StateType.PRELIGHT, Gdk.color_parse(BLACK))
             frame.props.border_width = 2
             frame.set_size_request(theme.THUMB_SIZE, theme.THUMB_SIZE)
-            frame_box.pack_start(frame)
+            frame_box.pack_start(frame, True, True, 0)
             self._tape.append(frame)
 
-            frame_image = gtk.Image()
+            frame_image = Gtk.Image()
             frame_image.set_from_pixbuf(theme.EMPTY_THUMB)
             frame.add(frame_image)
 
-            filmstrip = gtk.Image()
+            filmstrip = Gtk.Image()
             filmstrip.set_from_pixbuf(filmstrip_pixbuf);
-            frame_box.pack_start(filmstrip, False, False)
+            frame_box.pack_start(filmstrip, False, False, 0)
 
-            tape.pack_start(frame_box, False, False)
+            tape.pack_start(frame_box, False, False, 0)
 
         # left control box
 
-        self.controlbox = gtk.VBox()
+        self.controlbox = Gtk.VBox()
         self.controlbox.props.border_width = theme.BORDER_WIDTH
         self.controlbox.props.spacing = theme.BORDER_WIDTH
 
-        leftbox = gtk.VBox()
-        logo = gtk.Image()
+        leftbox = Gtk.VBox()
+        logo = Gtk.Image()
         logo.set_from_file(theme.path('icons', 'logo.png'))
         leftbox.set_size_request(logo.props.pixbuf.get_width(), -1)
-        leftbox.pack_start(logo, False, False)
-        leftbox.pack_start(self.controlbox, True, True)
+        leftbox.pack_start(logo, False, False, 0)
+        leftbox.pack_start(self.controlbox, True, True, 0)
 
         # screen box
 
-        screen_alignment = gtk.Alignment(0.5, 0.5, 0, 0)
+        screen_alignment = Gtk.Alignment.new(0.5, 0.5, 0, 0)
         screen_alignment.add(screen_pink)
 
-        box = gtk.EventBox()
-        box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        box = Gtk.EventBox()
+        box.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(BACKGROUND))
         box.connect('size-allocate', self._screen_size_cb, screen_pink)
         box.add(screen_alignment)
 
-        cetralbox = gtk.HBox()
-        cetralbox.pack_start(box, expand=True, fill=True)
-        cetralbox.pack_start(frames_box, expand=False, fill=True)
+        cetralbox = Gtk.HBox()
+        cetralbox.pack_start(box, expand=True, fill=True, padding=0)
+        cetralbox.pack_start(frames_box, expand=False, fill=True, padding=0)
 
-        hdesktop = gtk.HBox()
+        hdesktop = Gtk.HBox()
         hdesktop.pack_start(leftbox, False, True, 0)
         hdesktop.pack_start(cetralbox, True, True, 0)
 
         # tape box
 
-        arrow = gtk.Image()
+        arrow = Gtk.Image()
         arrow.set_from_file(theme.path('icons', 'pink_arrow.png'))
-        tape_pink = gtk.EventBox()
-        tape_pink.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(PINK))
-        tape_bg = gtk.EventBox()
-        tape_bg.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        tape_pink = Gtk.EventBox()
+        tape_pink.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(PINK))
+        tape_bg = Gtk.EventBox()
+        tape_bg.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(BACKGROUND))
         tape_bg.set_border_width(5)
         tape_bg.add(tape)
         tape_pink.add(tape_bg)
 
-        tape_hbox = gtk.HBox()
-        tape_hbox.pack_start(tape_pink, True, False)
+        tape_hbox = Gtk.HBox()
+        tape_hbox.pack_start(tape_pink, True, False, 0)
 
-        tape_box = gtk.VBox()
+        tape_box = Gtk.VBox()
         tape_box.props.border_width = theme.BORDER_WIDTH
-        tape_box.pack_start(arrow, False, False)
-        tape_box.pack_start(tape_hbox)
+        tape_box.pack_start(arrow, False, False, 0)
+        tape_box.pack_start(tape_hbox, True, True, 0)
 
-        desktop = gtk.VBox()
+        desktop = Gtk.VBox()
         desktop.pack_start(hdesktop, True, True, 0)
         desktop.pack_start(tape_box, False, False, 0)
 
-        greenbox = gtk.EventBox()
-        greenbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BACKGROUND))
+        greenbox = Gtk.EventBox()
+        greenbox.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(BACKGROUND))
         greenbox.set_border_width(5)
         greenbox.add(desktop)
 
-        self.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
+        self.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(YELLOW))
         self.add(greenbox)
         self.show_all()
 
@@ -335,16 +343,16 @@ class View(gtk.EventBox):
         x = index - y * theme.FRAME_COLS
         logger.debug('add new frame x=%d y=%d index=%d' % (x, y, index))
 
-        image = gtk.Image()
+        image = Gtk.Image()
         image.show()
         image.set_from_pixbuf(theme.EMPTY_THUMB)
         self._frames.append(image)
 
-        image_box = gtk.EventBox()
-        image_box.set_events(gtk.gdk.BUTTON_PRESS_MASK)
+        image_box = Gtk.EventBox()
+        image_box.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
         image_box.connect('button_press_event', self._frame_cb, index)
-        image_box.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(BLACK))
-        image_box.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(BLACK))
+        image_box.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(BLACK))
+        image_box.modify_bg(Gtk.StateType.PRELIGHT, Gdk.color_parse(BLACK))
         image_box.props.border_width = 2
         image_box.set_size_request(theme.THUMB_SIZE, theme.THUMB_SIZE)
         image_box.add(image)
@@ -362,16 +370,16 @@ class View(gtk.EventBox):
             return
 
         tape = self._tape[index]
-        tape.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(YELLOW))
-        tape.modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse(YELLOW))
+        tape.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse(YELLOW))
+        tape.modify_bg(Gtk.StateType.PRELIGHT, Gdk.color_parse(YELLOW))
 
         if self._tape_selected != index:
             if self._tape_selected != -1:
                 old_tape = self._tape[self._tape_selected]
-                old_tape.modify_bg(gtk.STATE_NORMAL,
-                        gtk.gdk.color_parse(BLACK))
-                old_tape.modify_bg(gtk.STATE_PRELIGHT,
-                        gtk.gdk.color_parse(BLACK))
+                old_tape.modify_bg(Gtk.StateType.NORMAL,
+                        Gdk.color_parse(BLACK))
+                old_tape.modify_bg(Gtk.StateType.PRELIGHT,
+                        Gdk.color_parse(BLACK))
 
         self._tape_selected = index
         self._screen.fgpixbuf = Document.tape[index].orig()
@@ -395,9 +403,9 @@ class View(gtk.EventBox):
         for i in range(len(self._frames)):
             if i < len(self._char.frames):
                 self._frames[i].set_from_pixbuf(self._char.frames[i].thumb())
-                self._frames[i].parent.show()
+                self._frames[i].get_parent().show()
             else:
-                self._frames[i].parent.hide()
+                self._frames[i].get_parent().hide()
 
     def _combo_cb(self, widget, cb):
         choice = widget.props.value.select()
@@ -435,5 +443,5 @@ class View(gtk.EventBox):
             return False
 
         if self._screen_size_id is not None:
-            gobject.source_remove(self._screen_size_id)
-        self._screen_size_id = gobject.timeout_add(500, set_size)
+            GObject.source_remove(self._screen_size_id)
+        self._screen_size_id = GObject.timeout_add(500, set_size)

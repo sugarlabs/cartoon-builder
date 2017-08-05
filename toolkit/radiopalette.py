@@ -14,11 +14,12 @@
 # License along with this library; if not, write to the
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
 
-import gtk
-
-from sugar.graphics.toolbutton import ToolButton
-from sugar.graphics.palette import Palette
+from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.palette import Palette
 
 
 class RadioMenuButton(ToolButton):
@@ -68,7 +69,7 @@ class RadioPalette(Palette):
     def __init__(self, **kwargs):
         Palette.__init__(self, **kwargs)
 
-        self.button_box = gtk.HBox()
+        self.button_box = Gtk.HBox()
         self.button_box.show()
         self.set_content(self.button_box)
 
@@ -80,7 +81,7 @@ class RadioPalette(Palette):
 
         button.show()
         button.connect('clicked', self.__clicked_cb)
-        self.button_box.pack_start(button, fill=False)
+        self.button_box.pack_start(button, True, False, 0)
         button.palette_label = label
 
         if not children:
@@ -105,5 +106,5 @@ class RadioPalette(Palette):
             return
 
         parent.props.label = button.palette_label
-        parent.set_icon(button.props.icon_name)
+        parent.set_icon_name(button.props.icon_name)
         parent.selected_button = button

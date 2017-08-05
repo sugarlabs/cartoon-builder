@@ -13,12 +13,16 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 import os
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import GdkPixbuf
 import shutil
 from math import ceil
 
-from sugar.activity.activity import get_bundle_path, get_activity_root
-from sugar.graphics import style
+from sugar3.activity.activity import get_bundle_path, get_activity_root
+from sugar3.graphics import style
 
 SOUND_SPEAKER = 'images/sounds/speaker.png'
 SOUND_MUTE    = 'images/sounds/mute.png'
@@ -28,8 +32,8 @@ LOGO_WIDTH = style.zoom(275)
 TAPE_COUNT = 11
 FRAME_COUNT = 14
 
-DESKTOP_WIDTH = gtk.gdk.screen_width()
-DESKTOP_HEIGHT = gtk.gdk.screen_height() - style.LARGE_ICON_SIZE
+DESKTOP_WIDTH = Gdk.Screen.width()
+DESKTOP_HEIGHT = Gdk.Screen.height() - style.LARGE_ICON_SIZE
 
 THUMB_SIZE = style.zoom(min(100, DESKTOP_WIDTH / (TAPE_COUNT+1)))
 
@@ -53,25 +57,25 @@ BACKGROUND = "#66CC00" # light green
 BUTTON_FOREGROUND = "#CCFB99" # very light green
 BUTTON_BACKGROUND = "#027F01" # dark green
 COLOR_FG_BUTTONS = (
-    (gtk.STATE_NORMAL,"#CCFF99"),
-    (gtk.STATE_ACTIVE,"#CCFF99"),
-    (gtk.STATE_PRELIGHT,"#CCFF99"),
-    (gtk.STATE_SELECTED,"#CCFF99"),
-    (gtk.STATE_INSENSITIVE,"#CCFF99"),
+    (Gtk.StateType.NORMAL,"#CCFF99"),
+    (Gtk.StateType.ACTIVE,"#CCFF99"),
+    (Gtk.StateType.PRELIGHT,"#CCFF99"),
+    (Gtk.StateType.SELECTED,"#CCFF99"),
+    (Gtk.StateType.INSENSITIVE,"#CCFF99"),
     ) # very light green
 COLOR_BG_BUTTONS = (
-    (gtk.STATE_NORMAL,"#027F01"),
-    (gtk.STATE_ACTIVE,"#CCFF99"),
-    (gtk.STATE_PRELIGHT,"#016D01"),
-    (gtk.STATE_SELECTED,"#CCFF99"),
-    (gtk.STATE_INSENSITIVE,"#027F01"),
+    (Gtk.StateType.NORMAL,"#027F01"),
+    (Gtk.StateType.ACTIVE,"#CCFF99"),
+    (Gtk.StateType.PRELIGHT,"#016D01"),
+    (Gtk.StateType.SELECTED,"#CCFF99"),
+    (Gtk.StateType.INSENSITIVE,"#027F01"),
     )
 OLD_COLOR_BG_BUTTONS = (
-    (gtk.STATE_NORMAL,"#027F01"),
-    (gtk.STATE_ACTIVE,"#014D01"),
-    (gtk.STATE_PRELIGHT,"#016D01"),
-    (gtk.STATE_SELECTED,"#027F01"),
-    (gtk.STATE_INSENSITIVE,"#027F01"),
+    (Gtk.StateType.NORMAL,"#027F01"),
+    (Gtk.StateType.ACTIVE,"#014D01"),
+    (Gtk.StateType.PRELIGHT,"#016D01"),
+    (Gtk.StateType.SELECTED,"#027F01"),
+    (Gtk.StateType.INSENSITIVE,"#027F01"),
     )
 
 SESSION_PATH = os.path.join(get_activity_root(), 'tmp', '.session')
@@ -89,13 +93,13 @@ def path(*args):
 
 def pixbuf(file, size = None):
     if size:
-        out = gtk.gdk.pixbuf_new_from_file_at_size(path(file), size, size)
+        out = GdkPixbuf.Pixbuf.new_from_file_at_size(path(file), size, size)
     else:
-        out = gtk.gdk.pixbuf_new_from_file(path(file))
+        out = GdkPixbuf.Pixbuf.new_from_file(path(file))
     return out
 
 def scale(pixbuf, size = THUMB_SIZE):
-    return pixbuf.scale_simple(size, size, gtk.gdk.INTERP_BILINEAR)
+    return pixbuf.scale_simple(size, size, GdkPixbuf.InterpType.BILINEAR)
 
 EMPTY_FILENAME = 'images/pics/empty.png'
 EMPTY_ORIG = pixbuf(EMPTY_FILENAME)
@@ -106,7 +110,7 @@ CUSTOM_FRAME_THUMB = scale(CUSTOM_FRAME_ORIG)
 
 # customize theme
 gtkrc = os.path.join(get_bundle_path(), 'gtkrc')
-gtk.rc_add_default_file(gtkrc)
-settings = gtk.settings_get_default()
-gtk.rc_reset_styles(settings)
-gtk.rc_reparse_all_for_settings(settings, True)
+Gtk.rc_add_default_file(gtkrc)
+settings = Gtk.Settings.get_default()
+Gtk.rc_reset_styles(settings)
+Gtk.rc_reparse_all_for_settings(settings, True)

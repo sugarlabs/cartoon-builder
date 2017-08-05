@@ -18,7 +18,7 @@ from dbus.gobject_service import ExportedGObject
 from dbus.service import method, signal
 
 import toolkit.json as json
-from sugar.presence import presenceservice
+from sugar3.presence import presenceservice
 
 import char
 import ground

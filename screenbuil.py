@@ -18,41 +18,64 @@
 ### author: Ed Stoner (ed@whsd.net)
 ### (c) 2007 World Wide Workshop Foundation
 
-import gtk
-
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import GdkPixbuf
+import cairo
+import logging
+logger = logging.getLogger('cartoon')
 import theme
 
-class Screen(gtk.DrawingArea):
+class Screen(Gtk.DrawingArea):
     def __init__(self):
-        gtk.DrawingArea.__init__(self)
-        self.gc = None  # initialized in realize-event handler
+        Gtk.DrawingArea.__init__(self)
+        #self.cr = None  # initialized in realize-event handler
         self.width  = 0 # updated in size-allocate handler
         self.height = 0 # idem
         self.bgpixbuf = None
         self.fgpixbuf = None
         self.connect('size-allocate', self.on_size_allocate)
-        self.connect('expose-event',  self.on_expose_event)
+        self.connect('draw',  self.on_draw_cb)
         self.connect('realize',       self.on_realize)
 
     def on_realize(self, widget):
-        self.gc = widget.window.new_gc()
-    
+        #self.cr = widget.window.new_gc()
+        pass
+
     def on_size_allocate(self, widget, allocation):
         self.height = self.width = min(allocation.width, allocation.height)
+        logger.debug('pixmap')
+        logger.debug(self.height)
+
     
-    def on_expose_event(self, widget, event):
+    def on_draw_cb(self, widget, cr):
         # This is where the drawing takes place
         if self.bgpixbuf:
             pixbuf = self.bgpixbuf
             if pixbuf.get_width != self.width:
                 pixbuf = theme.scale(pixbuf, self.width)
-            widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
+            logger.debug('cairo')
+            logger.debug(pixbuf)
+            logger.debug(cr)
+            #widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
+            Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0)
+            cr.rectangle(0, 0, -1, -1)
+            cr.paint()
+
 
         if self.fgpixbuf:
             pixbuf = self.fgpixbuf
             if pixbuf.get_width != self.width:
                 pixbuf = theme.scale(pixbuf, self.width)
-            widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
+            logger.debug('cairo1')
+            logger.debug(pixbuf)
+            logger.debug(cr)
+            #widget.window.draw_pixbuf(self.gc, pixbuf, 0, 0, 0, 0, -1, -1, 0, 0)
+            Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0)
+            cr.rectangle(0, 0, -1, -1)
+            cr.paint()
 
     def draw(self):
         self.queue_draw()
