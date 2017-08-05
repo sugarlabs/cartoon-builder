@@ -1,0 +1,41 @@
+Lesson Plan 5: Draw and Animate Your Own Character
+
+You can use Paint to make your own original cartoon character in lots of poses. Then you can use the "My Own" functionality in the Cartoon Builder to import the poses and create original cartoons.  Learn the steps by creating a simple cartoon face.
+
+First create four face pictures using Paint on your XO:
+1)Open the Paint activity from the Home screen of your XO. 
+
+2)Use the Paint tools to draw a face with eyes, nose, ears and hair.  Do not draw a mouth yet. 
+
+3)Click "Save Image" button 
+
+4)When the Save window appears, click on the button "New folder" and type "Face" into the folder name field. Click the "Create" button.
+
+5)A new folder called "Face" will appear in the list of places where you can save your picture. Double click on "Face" to open it.
+
+6)Save the picture here with the name "Face1" and click OK.
+
+7)Now draw a frowning mouth on the face and save it as "Face 2"
+
+8)Erase the frown and draw a straight line mouth. Save it as "Face 3"
+
+9)Erase the straight line mouth and draw a smile. Save it as "Face 4"
+
+Now put your pictures into the Cartoon Builder and animate the face:  
+10) From the Home screen of your XO, click on the MaMaMedia icon.
+
+11)Open the Cartoon Builder from the MaMaMedia Activity Center. 
+
+12) Click the "My Character" button, find the "Face" folder and open it. 
+
+13) The three facial images you created will appear in the poses list on the left side of your screen. 
+
+14) Place them in box 1, 2, and 3 in the slides on top of your screen, and then press Play to see the face animate.  
+
+15) Save this cartoon and share it with your class.
+
+16) Discuss what you were able to do with your images.  Did you learn anything new about animation? 
+
+17) Open the "Write" activity on your XO and write down the ideas from your discussion.  
+
+NOTE:  Drawings you make with Paint only have one layer, so your character will completely cover the backgrounds offered in Cartoon Builder.  Try drawing a background around your character in Paint.
