@@ -12,13 +12,16 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-import gtk
-import pango
-
-from sugar.graphics import style
-from sugar.graphics.icon import Icon
-from sugar.graphics.icon import Icon
-from sugar.graphics.combobox import ComboBox as _ComboBox
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import Pango
+from gi.repository import GdkPixbuf
+from gi.repository import Gdk
+from sugar3.graphics import style
+from sugar3.graphics.icon import Icon
+from sugar3.graphics.icon import Icon
+from sugar3.graphics.combobox import ComboBox as _ComboBox
 
 from theme import *
 
@@ -32,11 +35,10 @@ class ComboBox(_ComboBox):
             pixbuf=None, position=None):
 
         if not self._icon_renderer and (icon_name or pixbuf):
-            self._icon_renderer = gtk.CellRendererPixbuf()
+            self._icon_renderer = Gtk.CellRendererPixbuf()
 
             settings = self.get_settings()
-            w, h = gtk.icon_size_lookup_for_settings(settings,
-                    gtk.ICON_SIZE_MENU)
+            zxx, w, h = Gtk.icon_size_lookup_for_settings(settings, Gtk.IconSize.MENU)
             self._icon_renderer.props.stock_size = w
 
             self._icon_renderer.props.xpad = 4
@@ -46,19 +48,19 @@ class ComboBox(_ComboBox):
             self.add_attribute(self._icon_renderer, 'pixbuf', 2)
 
         if not self._text_renderer and text:
-            self._text_renderer = gtk.CellRendererText()
-            self._text_renderer.props.ellipsize = pango.ELLIPSIZE_END
+            self._text_renderer = Gtk.CellRendererText()
+            self._text_renderer.props.ellipsize = Pango.EllipsizeMode.END
             self.pack_end(self._text_renderer, True)
             self.add_attribute(self._text_renderer, 'text', 1)
 
         if not pixbuf:
             if icon_name:
                 if not size:
-                    size = gtk.ICON_SIZE_LARGE_TOOLBAR
-                    width, height = gtk.icon_size_lookup(size)
+                    size = Gtk.IconSize.LARGE_TOOLBAR
+                    width, height = Gtk.icon_size_lookup(size)
                 else:
                     width, height = size
-                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(icon_name,
+                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(icon_name,
                         width, height)
             else:
                 pixbuf = None

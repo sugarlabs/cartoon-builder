@@ -12,28 +12,31 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from gi.repository import Gdk
+from sugar3.graphics.icon import Icon
 
-from sugar.graphics.icon import Icon
-
-class ScrollButton(gtk.ToolButton):
+class ScrollButton(Gtk.ToolButton):
     def __init__(self, icon_name):
-        gtk.ToolButton.__init__(self)
+        Gtk.ToolButton.__init__(self)
 
         icon = Icon(icon_name = icon_name,
-                icon_size=gtk.ICON_SIZE_SMALL_TOOLBAR)
-        # The alignment is a hack to work around gtk.ToolButton code
-        # that sets the icon_size when the icon_widget is a gtk.Image
-        alignment = gtk.Alignment(0.5, 0.5)
+                icon_size=Gtk.IconSize.SMALL_TOOLBAR)
+        # The alignment is a hack to work around Gtk.ToolButton code
+        # that sets the icon_size when the icon_widget is a Gtk.Image
+        alignment = Gtk.Alignment()
+        alignment.set(0.5, 0.5, 0, 0)
         alignment.add(icon)
         self.set_icon_widget(alignment)
 
-class ScrolledBox(gtk.EventBox):
+class ScrolledBox(Gtk.EventBox):
     def __init__(self, orientation,
-            arrows_policy=gtk.POLICY_AUTOMATIC,
-            scroll_policy=gtk.POLICY_AUTOMATIC):
+            arrows_policy=Gtk.PolicyType.AUTOMATIC,
+            scroll_policy=Gtk.PolicyType.AUTOMATIC):
 
-        gtk.EventBox.__init__(self)
+        Gtk.EventBox.__init__(self)
         self.orientation = orientation
         self._viewport = None
         self._abox = None
@@ -44,53 +47,53 @@ class ScrolledBox(gtk.EventBox):
         self._left = None
         self._right = None
 
-        if orientation == gtk.ORIENTATION_HORIZONTAL:
-            box = gtk.HBox()
+        if orientation == Gtk.Orientation.HORIZONTAL:
+            box = Gtk.HBox()
         else:
-            box = gtk.VBox()
-        if self._arrows_policy == gtk.POLICY_AUTOMATIC:
+            box = Gtk.VBox()
+        if self._arrows_policy == Gtk.PolicyType.AUTOMATIC:
             box.connect("size-allocate", self._box_allocate_cb)
         self.add(box)
 
-        if self._arrows_policy != gtk.POLICY_NEVER:
-            if orientation == gtk.ORIENTATION_HORIZONTAL:
+        if self._arrows_policy != Gtk.PolicyType.NEVER:
+            if orientation == Gtk.Orientation.HORIZONTAL:
                 self._left = ScrollButton('go-left')
             else:
                 self._left = ScrollButton('go-up')
             self._left.connect('clicked', self._scroll_cb,
-                    gtk.gdk.SCROLL_LEFT)
+                    Gdk.ScrollDirection.LEFT)
             box.pack_start(self._left, False, False, 0)
 
-        self._scrolled = gtk.ScrolledWindow()
-        if orientation == gtk.ORIENTATION_HORIZONTAL:
-            self._scrolled.set_policy(scroll_policy, gtk.POLICY_NEVER)
+        self._scrolled = Gtk.ScrolledWindow()
+        if orientation == Gtk.Orientation.HORIZONTAL:
+            self._scrolled.set_policy(scroll_policy, Gtk.PolicyType.NEVER)
         else:
-            self._scrolled.set_policy(gtk.POLICY_NEVER, scroll_policy)
+            self._scrolled.set_policy(Gtk.PolicyType.NEVER, scroll_policy)
         self._scrolled.connect('scroll-event', self._scroll_event_cb)
         box.pack_start(self._scrolled, True, True, 0)
 
-        if orientation == gtk.ORIENTATION_HORIZONTAL:
+        if orientation == Gtk.Orientation.HORIZONTAL:
             self._adj = self._scrolled.get_hadjustment()
         else:
             self._adj = self._scrolled.get_vadjustment()
         self._adj.connect('changed', self._scroll_changed_cb)
         self._adj.connect('value-changed', self._scroll_changed_cb)
 
-        if self._arrows_policy != gtk.POLICY_NEVER:
-            if orientation == gtk.ORIENTATION_HORIZONTAL:
+        if self._arrows_policy != Gtk.PolicyType.NEVER:
+            if orientation == Gtk.Orientation.HORIZONTAL:
                 self._right = ScrollButton('go-right')
             else:
                 self._right = ScrollButton('go-down')
             self._right.connect('clicked', self._scroll_cb,
-                    gtk.gdk.SCROLL_RIGHT)
+                    Gdk.ScrollDirection.RIGHT)
             box.pack_start(self._right, False, False, 0)
 
     def modify_fg(self, state, bg):
-        gtk.EventBox.modify_fg(self, state, bg)
+        Gtk.EventBox.modify_fg(self, state, bg)
         self._viewport.get_parent().modify_fg(state, bg)
 
     def modify_bg(self, state, bg):
-        gtk.EventBox.modify_bg(self, state, bg)
+        Gtk.EventBox.modify_bg(self, state, bg)
         self._viewport.get_parent().modify_bg(state, bg)
 
     def set_viewport(self, widget):
@@ -99,7 +102,7 @@ class ScrolledBox(gtk.EventBox):
             self._viewport.disconnect(self._aviewport_sig)
         self._viewport = widget
 
-        if self._arrows_policy == gtk.POLICY_AUTOMATIC:
+        if self._arrows_policy == Gtk.PolicyType.AUTOMATIC:
             self._aviewport_sig = self._viewport.connect('size-allocate',
                     self._viewport_allocate_cb)
 
@@ -124,7 +127,7 @@ class ScrolledBox(gtk.EventBox):
     def _update_arrows(self):
         if not self._abox or not self._aviewport: return
 
-        if self.orientation == gtk.ORIENTATION_HORIZONTAL:
+        if self.orientation == Gtk.Orientation.HORIZONTAL:
             show_flag = self._abox.width < self._aviewport.width
         else:
             show_flag = self._abox.height < self._aviewport.height
@@ -137,24 +140,24 @@ class ScrolledBox(gtk.EventBox):
             self._right.hide()
 
     def _scroll_event_cb(self, widget, event):
-        if self.orientation == gtk.ORIENTATION_HORIZONTAL:
-            if event.direction == gtk.gdk.SCROLL_UP:
-                event.direction = gtk.gdk.SCROLL_LEFT
-            if event.direction == gtk.gdk.SCROLL_DOWN:
-                event.direction = gtk.gdk.SCROLL_RIGHT
+        if self.orientation == Gtk.Orientation.HORIZONTAL:
+            if event.direction == Gdk.ScrollDirection.UP:
+                event.direction = Gdk.ScrollDirection.LEFT
+            if event.direction == Gdk.ScrollDirection.DOWN:
+                event.direction = Gdk.ScrollDirection.RIGHT
         else:
-            if event.direction == gtk.gdk.SCROLL_LEFT:
-                event.direction = gtk.gdk.SCROLL_UP
-            if event.direction == gtk.gdk.SCROLL_RIGHT:
-                event.direction = gtk.gdk.SCROLL_DOWN
+            if event.direction == Gdk.ScrollDirection.LEFT:
+                event.direction = Gdk.ScrollDirection.UP
+            if event.direction == Gdk.ScrollDirection.RIGHT:
+                event.direction = Gdk.ScrollDirection.DOWN
 
-        if self._scroll_policy == gtk.POLICY_NEVER:
+        if self._scroll_policy == Gtk.PolicyType.NEVER:
             self._scroll_cb(None, event.direction)
 
         return False
 
     def _scroll_cb(self, widget, direction):
-        if direction in (gtk.gdk.SCROLL_LEFT, gtk.gdk.SCROLL_UP):
+        if direction in (Gdk.ScrollDirection.LEFT, Gdk.ScrollDirection.UP):
             val = max(self._adj.get_property('lower'), self._adj.get_value()
                     - self._adj.get_property('page_increment'))
         else:
@@ -182,8 +185,8 @@ class ScrolledBox(gtk.EventBox):
 
 class HScrolledBox(ScrolledBox):
     def __init__(self, **kwargs):
-        ScrolledBox.__init__(self, gtk.ORIENTATION_HORIZONTAL, **kwargs)
+        ScrolledBox.__init__(self, Gtk.Orientation.HORIZONTAL, **kwargs)
 
 class VScrolledBox(ScrolledBox):
     def __init__(self, **kwargs):
-        ScrolledBox.__init__(self, gtk.ORIENTATION_VERTICAL, **kwargs)
+        ScrolledBox.__init__(self, Gtk.Orientation.VERTICAL, **kwargs)

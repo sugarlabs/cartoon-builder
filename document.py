@@ -12,12 +12,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import gi
+gi.require_version('Gtk', '3.0')
 import os
-import gtk
+from gi.repository import Gtk
 import logging
-
-import toolkit.json as json
-
+try: import simplejson as json
+except ImportError: 
+     import json
 import theme
 from sound import *
 from ground import *

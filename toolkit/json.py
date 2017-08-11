@@ -32,4 +32,5 @@ try:
     from json import *
     dumps
 except (ImportError, NameError):
-    from simplejson import *
+    import json as simplejson
+    #from simplejson import *

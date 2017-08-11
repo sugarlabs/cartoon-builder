@@ -13,38 +13,43 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 # Widget was copy&pasted from TamTam activities
-
-import gtk
-import rsvg
+import gi
+gi.require_version('Gtk', '3.0')
+gi.require_version('Rsvg', '2.0')
+from gi.repository import Gtk
+from gi.repository import GdkPixbuf
+from gi.repository import Rsvg
 import cairo
+import logging
+logger = logging.getLogger('cartoon build')
 
-from sugar.graphics import style
+from sugar3.graphics import style
 
-class TempoSlider(gtk.HBox):
+class TempoSlider(Gtk.HBox):
     def __init__(self, min_value, max_value):
-        gtk.HBox.__init__(self)
+        Gtk.HBox.__init__(self)
 
         self._pixbuf = [None] * 8
-        self._image = gtk.Image()
+        self._image = Gtk.Image()
         self._image.show()
 
         # used to store tempo updates while the slider is active
         self._delayed = 0
         self._active = False
 
-        self.adjustment = gtk.Adjustment(min_value, min_value, max_value,
+        self.adjustment = Gtk.Adjustment(min_value, min_value, max_value,
                 (max_value - min_value) / 8, (max_value - min_value) / 8, 0)
         self._adjustment_h = self.adjustment.connect('value-changed',
                 self._changed_cb)
 
-        slider = gtk.HScale(adjustment = self.adjustment)
+        slider = Gtk.HScale(adjustment = self.adjustment)
         slider.show()
         slider.set_draw_value(False)
         slider.connect("button-press-event", self._press_cb)
         slider.connect("button-release-event", self._release_cb)
 
-        self.pack_start(slider, True, True)
-        self.pack_end(self._image, False, False)
+        self.pack_start(slider, True, True, 0)
+        self.pack_end(self._image, False, False, 0)
 
     def set_value(self, tempo, quiet = False):
         if self._active:
@@ -64,14 +69,20 @@ class TempoSlider(gtk.HBox):
         def map_range(value, ilower, iupper, olower, oupper):
             if value == iupper:
                 return oupper
+            logger.debug('hereit')
+            logger.debug(ilower)  
+            logger.debug(iupper)
+            logger.debug(olower)
+            logger.debug(oupper)  
             return olower + int((oupper-olower+1) * (value-ilower) /
                     float(iupper-ilower))
 
-        img = map_range(tempo, self.adjustment.lower,
-                            self.adjustment.upper, 0, 7)
+        img = map_range(tempo, self.adjustment.get_lower(),
+                            self.adjustment.get_upper(), 0, 7)
 
         if not self._pixbuf[img]:
-            svg = rsvg.Handle(data=IMAGE[img])
+            svg = Rsvg.Handle()
+            svg.new_from_data(IMAGE[img])
             self._pixbuf[img] = _from_svg_at_size(handle=svg,
                     width=style.STANDARD_ICON_SIZE,
                     height=style.STANDARD_ICON_SIZE)
@@ -92,13 +103,15 @@ def _from_svg_at_size(filename=None, width=None, height=None, handle=None,
     """ import from pixbuf.py """
 
     if not handle:
-        handle = rsvg.Handle(filename)
+        handle = Rsvg.Handle()
+        handle.new_from_file(filename)
+    dimensions = handle.get_dimensions()
+    icon_width = dimensions.width
+    icon_height = dimensions.height
 
-    dimensions = handle.get_dimension_data()
-    icon_width = dimensions[0]
-    icon_height = dimensions[1]
+    if (icon_width != width or icon_height != height) and \
+        icon_width != 0 and icon_height != 0:
 
-    if icon_width != width or icon_height != height:
         ratio_width = float(width) / icon_width
         ratio_height = float(height) / icon_height
 
@@ -119,7 +132,7 @@ def _from_svg_at_size(filename=None, width=None, height=None, handle=None,
     context.scale(ratio_width, ratio_height)
     handle.render_cairo(context)
 
-    loader = gtk.gdk.pixbuf_loader_new_with_mime_type('image/png')
+    loader = GdkPixbuf.PixbufLoader.new_with_mime_type('image/png')
     surface.write_to_png(loader)
     loader.close()
 

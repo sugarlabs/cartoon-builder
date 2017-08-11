@@ -13,8 +13,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 import os
-import gtk
-import gst
+import gi
+gi.require_version('Gtk', '3.0')
+gi.require_version('Gst', '1.0')
+from gi.repository import Gst
+Gst.init(None)
+from gi.repository import Gtk
 import shutil
 from glob import glob
 from gettext import gettext as _
@@ -23,7 +27,7 @@ import toolkit.chooser as chooser
 
 import theme
 from utils import *
-from sugar.activity.activity import get_bundle_path
+from sugar3.activity.activity import get_bundle_path
 
 
 def load():
@@ -55,11 +59,11 @@ class Sound:
     def select(self):
         if Sound.current != self:
             Sound.current = self
-            Sound.player.set_state(gst.STATE_NULL)
+            Sound.player.set_state(Gst.State.NULL)
             Sound.player.set_property('uri',
                     'file://' + theme.path(self._soundfile))
         if Sound.playing:
-            Sound.player.set_state(gst.STATE_PLAYING)
+            Sound.player.set_state(Gst.State.PLAYING)
         return self
 
 class PreinstalledSound(Sound):
@@ -81,7 +85,7 @@ class MuteSound(Sound):
 
     def select(self):
         Sound.current = self
-        Sound.player.set_state(gst.STATE_PAUSED)
+        Sound.player.set_state(Gst.State.PAUSED)
         return self
 
 class CustomSound(Sound):
@@ -124,19 +128,19 @@ def play():
 
 def stop():
     Sound.playing = False
-    Sound.player.set_state(gst.STATE_PAUSED)
+    Sound.player.set_state(Gst.State.PAUSED)
 
 # GSTREAMER STUFF
 
 def _reload_cb(bus, message):
-    Sound.player.set_state(gst.STATE_READY)
-    Sound.player.set_state(gst.STATE_PLAYING)
+    Sound.player.set_state(Gst.State.READY)
+    Sound.player.set_state(Gst.State.PLAYING)
 
 def _error_cb(bus, message):
-    Sound.player.set_state(gst.STATE_NULL)
+    Sound.player.set_state(Gst.State.NULL)
 
-Sound.player = gst.element_factory_make("playbin", "player")
-fakesink = gst.element_factory_make('fakesink', "my-fakesink")
+Sound.player = Gst.ElementFactory.make("playbin", "player")
+fakesink = Gst.ElementFactory.make('fakesink', "my-fakesink")
 Sound.player.set_property("video-sink", fakesink)
 
 bus = Sound.player.get_bus()

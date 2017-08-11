@@ -15,12 +15,13 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 """Simplify tarfile module usage"""
-
+import gi
+gi.require_version('Gtk', '3.0')
 import os
 import time
 import tarfile
 import cStringIO
-import gtk
+from gi.repository import Gtk
 import zipfile
 import tempfile
 import shutil

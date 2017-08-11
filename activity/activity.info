@@ -13,5 +13,5 @@ exec      = sugar-activity activity.CartoonBuilderActivity
 version   = 17
 
 #deprecated options
-bundle_id = com.ywwg.CartoonBuilderActivity
+bundle_id = com.ywwg.CartoonBuilderActivitY
 activity_version = 17
