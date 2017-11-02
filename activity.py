@@ -136,7 +136,7 @@ class CartoonBuilderActivity(SharedActivity):
         return toolbar
 
     def __clear_tape_cb(self, widget):
-        for i in range(theme.TAPE_COUNT):
+        for i in range(TAPE_COUNT):
             self.montage.props.frame = (i, None)
 
     def __tempo_cb(self, widget):
