@@ -76,8 +76,7 @@ class TempoSlider(Gtk.HBox):
                             self.adjustment.get_upper(), 0, 7)
 
         if not self._pixbuf[img]:
-            svg = Rsvg.Handle()
-            svg.new_from_data(IMAGE[img])
+            svg = Rsvg.Handle().new_from_data(IMAGE[img])
             self._pixbuf[img] = _from_svg_at_size(handle=svg,
                     width=style.STANDARD_ICON_SIZE,
                     height=style.STANDARD_ICON_SIZE)
@@ -98,8 +97,7 @@ def _from_svg_at_size(filename=None, width=None, height=None, handle=None,
     """ import from pixbuf.py """
 
     if not handle:
-        handle = Rsvg.Handle()
-        handle.new_from_file(filename)
+        handle = Rsvg.Handle().new_from_file(filename)
     dimensions = handle.get_dimensions()
     icon_width = dimensions.width
     icon_height = dimensions.height
