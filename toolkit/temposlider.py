@@ -21,7 +21,7 @@ from gi.repository import GdkPixbuf
 from gi.repository import Rsvg
 import cairo
 import logging
-logger = logging.getLogger('cartoon build')
+logger = logging.getLogger('cartoon-builder')
 
 from sugar3.graphics import style
 

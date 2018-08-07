@@ -25,7 +25,7 @@ from gi.repository import Gdk
 from gi.repository import GdkPixbuf
 import cairo
 import logging
-logger = logging.getLogger('cartoon')
+logger = logging.getLogger('cartoon-builder')
 import theme
 
 class Screen(Gtk.DrawingArea):

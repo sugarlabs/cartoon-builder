@@ -25,7 +25,7 @@ from gi.repository import GObject
 from gi.repository import Gdk
 from gi.repository import GdkPixbuf
 import logging
-logger = logging.getLogger('cartoonbuilder')
+logger = logging.getLogger('cartoon-builder')
 
 #from gobject import SIGNAL_RUN_FIRST, TYPE_PYOBJECT
 
