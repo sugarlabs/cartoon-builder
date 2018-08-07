@@ -69,11 +69,6 @@ class TempoSlider(Gtk.HBox):
         def map_range(value, ilower, iupper, olower, oupper):
             if value == iupper:
                 return oupper
-            logger.debug('hereit')
-            logger.debug(ilower)  
-            logger.debug(iupper)
-            logger.debug(olower)
-            logger.debug(oupper)  
             return olower + int((oupper-olower+1) * (value-ilower) /
                     float(iupper-ilower))
 
