@@ -282,7 +282,7 @@ class SharedActivity(Activity):
         self._sharing_setup()
 
         logging.debug('This is my activity: making a tube...')
-        id = self._tubes_chan[telepathy.CHANNEL_TYPE_TUBES].OfferDBusTube(
+        id = self._tubes_chan[TelepathyGLib.IFACE_CHANNEL_TYPE_TUBES].OfferDBusTube(
             self.service, {})
 
     def _joined_cb(self, activity):
@@ -295,7 +295,7 @@ class SharedActivity(Activity):
         self._sharing_setup()
 
         logging.debug('This is not my activity: waiting for a tube...')
-        self._tubes_chan[telepathy.CHANNEL_TYPE_TUBES].ListTubes(
+        self._tubes_chan[TelepathyGLib.IFACE_CHANNEL_TYPE_TUBES].ListTubes(
             reply_handler=self._list_tubes_reply_cb,
             error_handler=self._list_tubes_error_cb)
 
@@ -307,7 +307,7 @@ class SharedActivity(Activity):
         self._tubes_chan = self.shared_activity.telepathy_tubes_chan
         self._text_chan = self.shared_activity.telepathy_text_chan
 
-        self._tubes_chan[telepathy.CHANNEL_TYPE_TUBES].connect_to_signal(
+        self._tubes_chan[TelepathyGLib.IFACE_CHANNEL_TYPE_TUBES].connect_to_signal(
                 'NewTube', self._new_tube_cb)
 
     def _list_tubes_reply_cb(self, tubes):
@@ -325,11 +325,11 @@ class SharedActivity(Activity):
         if (type == telepathy.TUBE_TYPE_DBUS and
                 service == self.service):
             if state == telepathy.TUBE_STATE_LOCAL_PENDING:
-                self._tubes_chan[telepathy.CHANNEL_TYPE_TUBES] \
+                self._tubes_chan[TelepathyGLib.IFACE_CHANNEL_TYPE_TUBES] \
                         .AcceptDBusTube(id)
 
             tube_conn = SugarTubeConnection(self._conn,
-                self._tubes_chan[telepathy.CHANNEL_TYPE_TUBES], id,
-                group_iface=self._text_chan[telepathy.CHANNEL_INTERFACE_GROUP])
+                self._tubes_chan[TelepathyGLib.IFACE_CHANNEL_TYPE_TUBES], id,
+                group_iface=self._text_chan[TelepathyGLib.IFACE_CHANNEL_INTERFACE_GROUP])
 
             self._share(tube_conn, self.__initiator)
