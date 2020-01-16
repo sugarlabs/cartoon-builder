@@ -134,7 +134,7 @@ class Char:
             self._thumb = theme.pixbuf(thumbfile, theme.THUMB_SIZE)
             self._custom = False
         else:
-            for i in range(0, theme.FRAME_ROWS * theme.FRAME_COLS):
+            for i in range(0, int(theme.FRAME_ROWS) * int(theme.FRAME_COLS)):
                 self.frames.append(CustomFrame())
             self._thumb = theme.CUSTOM_FRAME_THUMB
             self._custom = True
