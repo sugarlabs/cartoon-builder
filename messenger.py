@@ -14,7 +14,7 @@
 
 import logging
 import dbus
-from dbus.gobject_service import ExportedGObject
+from dbus.gobject_service import CollabWrapper
 from dbus.service import method, signal
 
 import toolkit.json as json
@@ -50,9 +50,9 @@ class Slot:
             'oid': self.oid})
 
 
-class Messenger(ExportedGObject):
+class Messenger(CollabWrapper):
     def __init__(self, tube, initiator, view):
-        ExportedGObject.__init__(self, tube, PATH)
+        CollabWrapper.__init__(self, tube, PATH)
 
         self.initiator = initiator
         self._tube = tube
