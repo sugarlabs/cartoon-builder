@@ -322,9 +322,9 @@ class SharedActivity(Activity):
                      'params=%r state=%d', id, initiator, type, service,
                      params, state)
 
-        if (type == telepathy.TUBE_TYPE_DBUS and
+        if (type == TelepathyGLib.TubeType.DBUS and
                 service == self.service):
-            if state == telepathy.TUBE_STATE_LOCAL_PENDING:
+            if state == TelepathyGLib.TubeState.LOCAL_PENDING:
                 self._tubes_chan[TelepathyGLib.IFACE_CHANNEL_TYPE_TUBES] \
                         .AcceptDBusTube(id)
 
