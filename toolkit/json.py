@@ -29,8 +29,8 @@ Usage:
 """
 
 try:
-    from json import *
+    from .json import *
     dumps
 except (ImportError, NameError):
-    import json as simplejson
+    from . import json as simplejson
     #from simplejson import *
