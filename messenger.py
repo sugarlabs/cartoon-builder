@@ -14,7 +14,7 @@
 
 import logging
 import dbus
-from dbus.gobject_service import CollabWrapper
+from collabwrapper.collabwrapper import CollabWrapper
 from dbus.service import method, signal
 
 import toolkit.json as json
