@@ -21,7 +21,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from gi.repository import Gdk
 import logging
-import telepathy
+from gi.repository import TelepathyGLib
 from gi.repository import GObject
 
 from sugar3.activity import activity
