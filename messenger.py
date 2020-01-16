@@ -117,7 +117,7 @@ class Messenger(ExportedGObject):
         logger.debug('_snapshot requested from %s' % sender)
         out = {}
 
-        for i, slot in self._slots.items():
+        for i, slot in list(self._slots.items()):
             out[i] = slot.serialize()
 
         return out
@@ -150,7 +150,7 @@ class Messenger(ExportedGObject):
 
         logger.debug('snapshot received len=%d' % len(rawlist))
 
-        for slot, raw in rawlist.items():
+        for slot, raw in list(rawlist.items()):
             self._receive(slot, raw, sender)
 
         # we are ready to receive _snapshot requests

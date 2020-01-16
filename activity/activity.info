@@ -8,7 +8,7 @@ license   = GPLv3
 stability = stable
 
 icon      = activity-cartoonbuilder
-exec      = sugar-activity activity.CartoonBuilderActivity
+exec      = sugar-activity3 activity.CartoonBuilderActivity
 
 version   = 17
 

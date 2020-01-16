@@ -60,7 +60,7 @@ def save(filepath):
             tar.write(arcname, value.serialize())
         else:
             node['custom'] = False
-        node['name'] = unicode(value.name)
+        node['name'] = str(value.name)
         node['id'] = value.id
 
     _save(cfg['ground'], 'ground.png', Document.ground)
@@ -101,7 +101,7 @@ def load(filepath):
 
         frames = {}
 
-        for id, arcname in cfg['frames'].items():
+        for id, arcname in list(cfg['frames'].items()):
             frames[id] = RestoredFrame(id, tar.read(arcname))
 
         for node in cfg['tape']:
@@ -114,5 +114,5 @@ def load(filepath):
 
         tar.close()
 
-    except Exception, e:
+    except Exception as e:
         logger.error('Cannot load jobject: %s' % e)
