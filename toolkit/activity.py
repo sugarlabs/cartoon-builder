@@ -302,7 +302,7 @@ class SharedActivity(Activity):
         if self.shared_activity is None:
             logging.error('Failed to share or join activity')
             return
-        self._conn = self._shared_activity.telepathy_conn
+        self._conn = self.get_shared_activity.telepathy_conn
         self._tubes_chan = self.shared_activity.telepathy_tubes_chan
         self._text_chan = self.shared_activity.telepathy_text_chan
 
