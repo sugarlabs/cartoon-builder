@@ -18,6 +18,7 @@
 
 import gi
 gi.require_version('Gtk', '3.0')
+gi.require_version('TelepathyGLib', '0.12')
 from gi.repository import Gtk
 from gi.repository import Gdk
 import logging
