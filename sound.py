@@ -51,7 +51,7 @@ class Sound:
         return True
 
     def serialize(self):
-        return file(self._soundfile, 'r').read()
+        return open(self._soundfile, 'r').read()
 
     def thumb(self):
         return self._thumb
@@ -103,7 +103,7 @@ class RestoredSound(Sound):
     def __init__(self, name, id, data):
         soundfile = os.path.join(theme.SESSION_PATH, id)
         Sound.__init__(self, name, id, soundfile, theme.SOUND_CUSTOM)
-        file(soundfile, 'w').write(data)
+        open(soundfile, 'w').write(data)
 
 class JournalSound(Sound):
     def __init__(self, jobject):
