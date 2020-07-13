@@ -118,7 +118,7 @@ class Tarball:
         Stores given object to file in tarball.
         Raises BadDataTypeError exception If data type isn't supported.
         """
-        info = tarfile.TarInfo(arcname.encode('utf8'))
+        info = tarfile.TarInfo(arcname)
         info.mode = mode
         info.mtime = self.mtime
         info.size = len(data)
