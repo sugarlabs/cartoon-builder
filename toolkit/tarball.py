@@ -106,7 +106,7 @@ class Tarball:
 
     def read(self, arcname):
         """Returns sring with content of given file from tarball."""
-        file_o = self.__tar.extractfile(arcname.encode('utf8'))
+        file_o = self.__tar.extractfile(arcname)
         if not file_o:
             return None
         out = file_o.read()
