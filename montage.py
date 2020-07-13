@@ -218,7 +218,7 @@ class View(Gtk.EventBox):
                     theme.path('icons', 'filmstrip.png'), THUMB_SIZE, -1, False)
 
             filmstrip = Gtk.Image()
-            filmstrip.set_from_pixbuf(filmstrip_pixbuf);
+            filmstrip.set_from_pixbuf(filmstrip_pixbuf)
             frame_box.pack_start(filmstrip, False, False, 0)
 
             frame = Gtk.EventBox()
@@ -236,7 +236,7 @@ class View(Gtk.EventBox):
             frame.add(frame_image)
 
             filmstrip = Gtk.Image()
-            filmstrip.set_from_pixbuf(filmstrip_pixbuf);
+            filmstrip.set_from_pixbuf(filmstrip_pixbuf)
             frame_box.pack_start(filmstrip, False, False, 0)
 
             tape.pack_start(frame_box, False, False, 0)

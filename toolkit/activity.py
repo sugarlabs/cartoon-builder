@@ -210,7 +210,7 @@ class Activity(activity.Activity):
         if self.__state == _NEW_INSTANCE:
             self.__state = _PRE_INSTANCE
         elif self.__state == _PRE_INSTANCE:
-            self.__instance();
+            self.__instance()
 
     def write_file(self, filepath):
         """Subclass should not override this method"""
@@ -227,7 +227,7 @@ class Activity(activity.Activity):
         elif self.__state == _NEW_INSTANCE:
             self.__state = _PRE_INSTANCE
         elif self.__state == _PRE_INSTANCE:
-            self.__instance();
+            self.__instance()
 
         return False
 
@@ -239,7 +239,7 @@ class Activity(activity.Activity):
             self.__state = _PRE_INSTANCE
         elif self.__state == _PRE_INSTANCE:
             self.__postponed_share.append((tube_conn, initiator))
-            self.__instance();
+            self.__instance()
         elif self.__state == _POST_INSTANCE:
             self.share_instance(tube_conn, initiator)
 

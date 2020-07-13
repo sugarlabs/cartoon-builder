@@ -89,7 +89,7 @@ class EmptyFrame(Frame):
         return False
 
     def empty(self):
-        return True;
+        return True
 
 
 class RestoredFrame(Frame):
@@ -110,7 +110,7 @@ class CustomFrame(Frame):
 
     def select(self):
         if self._orig:
-            return True;
+            return True
         self.name, self.id, self._orig = chooser.pick(
                 lambda jobject: (jobject.metadata['title'], jobject.object_id,
                         theme.pixbuf(jobject.file_path)),
