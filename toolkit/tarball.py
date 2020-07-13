@@ -123,4 +123,4 @@ class Tarball:
         info.mtime = self.mtime
         info.size = len(data)
 
-        self.__tar.addfile(info, io.StringIO(data))
+        self.__tar.addfile(info, io.BytesIO(data.encode()))
