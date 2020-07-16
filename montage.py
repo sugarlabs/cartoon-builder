@@ -65,7 +65,7 @@ class View(Gtk.EventBox):
                 index = [i for i, f in enumerate(char.THEMES[-1].frames)
                         if f == frame][0]
                 if index >= len(self._frames):
-                    first = index / theme.FRAME_COLS * theme.FRAME_COLS
+                    first = index // theme.FRAME_COLS * theme.FRAME_COLS
                     for i in range(first, first + theme.FRAME_COLS):
                         self._add_frame(i)
 
@@ -336,7 +336,7 @@ class View(Gtk.EventBox):
         return True
 
     def _add_frame(self, index):
-        y = index / theme.FRAME_COLS
+        y = index // theme.FRAME_COLS
         x = index - y * theme.FRAME_COLS
         logger.debug('add new frame x=%d y=%d index=%d' % (x, y, index))
 

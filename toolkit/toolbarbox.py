@@ -327,9 +327,9 @@ def _get_embedded_page(page_widget):
 def _paint_arrow(widget, cr, angle):
     alloc = widget.get_allocation()
 
-    arrow_size = style.TOOLBAR_ARROW_SIZE / 2
+    arrow_size = style.TOOLBAR_ARROW_SIZE // 2
     y = alloc.height - arrow_size
-    x = (alloc.width - arrow_size) / 2
+    x = (alloc.width - arrow_size) // 2
 
     context = widget.get_style_context()
     context.add_class('toolitem')
