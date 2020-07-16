@@ -14,16 +14,12 @@
 
 import gi
 gi.require_version('Gtk', '3.0')
-import os
-from gi.repository import Gtk
 import logging
 try: import simplejson as json
 except ImportError: 
      import json
-import theme
 from sound import *
 from ground import *
-from utils import *
 from char import *
 
 from toolkit.tarball import Tarball
@@ -41,7 +37,6 @@ class Document:
 
 
 def clean(index):
-    from char import Frame
     Document.tape[index] = EmptyFrame()
 
 

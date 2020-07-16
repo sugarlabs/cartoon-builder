@@ -12,22 +12,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-import os
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gst', '1.0')
 from gi.repository import Gst
 Gst.init(None)
-from gi.repository import Gtk
-import shutil
-from glob import glob
 from gettext import gettext as _
 
 import toolkit.chooser as chooser
 
 import theme
 from utils import *
-from sugar3.activity.activity import get_bundle_path
 
 
 def load():

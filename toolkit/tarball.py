@@ -21,7 +21,6 @@ import os
 import time
 import tarfile
 import io
-from gi.repository import Gtk
 import zipfile
 import tempfile
 import shutil

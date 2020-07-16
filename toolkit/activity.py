@@ -23,7 +23,6 @@ from gi.repository import Gtk
 from gi.repository import Gdk
 import logging
 from gi.repository import TelepathyGLib
-from gi.repository import GObject
 
 from sugar3.activity import activity
 from sugar3.presence.sugartubeconn import SugarTubeConnection
