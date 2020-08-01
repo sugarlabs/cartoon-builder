@@ -12,13 +12,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import json
 import logging
-import dbus
-from dbus.gobject_service import ExportedGObject
-from dbus.service import method, signal
 
-import toolkit.json as json
-from sugar3.presence import presenceservice
+from dbus.gi_service import ExportedGObject
+from dbus.service import method, signal
 
 import char
 import ground
@@ -117,7 +115,7 @@ class Messenger(ExportedGObject):
         logger.debug('_snapshot requested from %s' % sender)
         out = {}
 
-        for i, slot in self._slots.items():
+        for i, slot in list(self._slots.items()):
             out[i] = slot.serialize()
 
         return out
@@ -150,7 +148,7 @@ class Messenger(ExportedGObject):
 
         logger.debug('snapshot received len=%d' % len(rawlist))
 
-        for slot, raw in rawlist.items():
+        for slot, raw in list(rawlist.items()):
             self._receive(slot, raw, sender)
 
         # we are ready to receive _snapshot requests

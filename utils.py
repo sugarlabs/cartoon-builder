@@ -14,13 +14,7 @@
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
 from gi.repository import Pango
-from gi.repository import GdkPixbuf
-from gi.repository import Gdk
-from sugar3.graphics import style
-from sugar3.graphics.icon import Icon
-from sugar3.graphics.icon import Icon
 from sugar3.graphics.combobox import ComboBox as _ComboBox
 
 from theme import *

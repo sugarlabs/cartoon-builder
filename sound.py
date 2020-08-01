@@ -12,22 +12,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-import os
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gst', '1.0')
 from gi.repository import Gst
 Gst.init(None)
-from gi.repository import Gtk
-import shutil
-from glob import glob
 from gettext import gettext as _
 
 import toolkit.chooser as chooser
 
 import theme
 from utils import *
-from sugar3.activity.activity import get_bundle_path
 
 
 def load():
@@ -51,7 +46,7 @@ class Sound:
         return True
 
     def serialize(self):
-        return file(self._soundfile, 'r').read()
+        return open(self._soundfile, 'r').read()
 
     def thumb(self):
         return self._thumb
@@ -103,7 +98,7 @@ class RestoredSound(Sound):
     def __init__(self, name, id, data):
         soundfile = os.path.join(theme.SESSION_PATH, id)
         Sound.__init__(self, name, id, soundfile, theme.SOUND_CUSTOM)
-        file(soundfile, 'w').write(data)
+        open(soundfile, 'w').write(data)
 
 class JournalSound(Sound):
     def __init__(self, jobject):

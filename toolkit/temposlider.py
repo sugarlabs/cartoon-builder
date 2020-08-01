@@ -76,7 +76,7 @@ class TempoSlider(Gtk.HBox):
                             self.adjustment.get_upper(), 0, 7)
 
         if not self._pixbuf[img]:
-            svg = Rsvg.Handle().new_from_data(IMAGE[img])
+            svg = Rsvg.Handle().new_from_data(IMAGE[img].encode('utf-8'))
             self._pixbuf[img] = _from_svg_at_size(handle=svg,
                     width=style.STANDARD_ICON_SIZE,
                     height=style.STANDARD_ICON_SIZE)

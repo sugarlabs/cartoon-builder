@@ -12,10 +12,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-import gi
 import os
+
+import gi
+
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
 import glob
 from gettext import gettext as _
 
@@ -89,7 +90,7 @@ class EmptyFrame(Frame):
         return False
 
     def empty(self):
-        return True;
+        return True
 
 
 class RestoredFrame(Frame):
@@ -110,7 +111,7 @@ class CustomFrame(Frame):
 
     def select(self):
         if self._orig:
-            return True;
+            return True
         self.name, self.id, self._orig = chooser.pick(
                 lambda jobject: (jobject.metadata['title'], jobject.object_id,
                         theme.pixbuf(jobject.file_path)),

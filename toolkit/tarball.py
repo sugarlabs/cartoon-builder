@@ -20,8 +20,7 @@ gi.require_version('Gtk', '3.0')
 import os
 import time
 import tarfile
-import cStringIO
-from gi.repository import Gtk
+import io
 import zipfile
 import tempfile
 import shutil
@@ -105,22 +104,22 @@ class Tarball:
         return self.__tar.getnames()
 
     def read(self, arcname):
-        """Returns sring with content of given file from tarball."""
-        file_o = self.__tar.extractfile(arcname.encode('utf8'))
+        """Returns string with content of given file from tarball."""
+        file_o = self.__tar.extractfile(arcname)
         if not file_o:
             return None
         out = file_o.read()
         file_o.close()
         return out
 
-    def write(self, arcname, data, mode=0644):
+    def write(self, arcname, data, mode=0o644):
         """
         Stores given object to file in tarball.
         Raises BadDataTypeError exception If data type isn't supported.
         """
-        info = tarfile.TarInfo(arcname.encode('utf8'))
+        info = tarfile.TarInfo(arcname)
         info.mode = mode
         info.mtime = self.mtime
         info.size = len(data)
 
-        self.__tar.addfile(info, cStringIO.StringIO(data))
+        self.__tar.addfile(info, io.BytesIO(data.encode()))

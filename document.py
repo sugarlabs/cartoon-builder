@@ -14,16 +14,12 @@
 
 import gi
 gi.require_version('Gtk', '3.0')
-import os
-from gi.repository import Gtk
 import logging
 try: import simplejson as json
 except ImportError: 
      import json
-import theme
 from sound import *
 from ground import *
-from utils import *
 from char import *
 
 from toolkit.tarball import Tarball
@@ -41,7 +37,6 @@ class Document:
 
 
 def clean(index):
-    from char import Frame
     Document.tape[index] = EmptyFrame()
 
 
@@ -60,7 +55,7 @@ def save(filepath):
             tar.write(arcname, value.serialize())
         else:
             node['custom'] = False
-        node['name'] = unicode(value.name)
+        node['name'] = str(value.name)
         node['id'] = value.id
 
     _save(cfg['ground'], 'ground.png', Document.ground)
@@ -101,7 +96,7 @@ def load(filepath):
 
         frames = {}
 
-        for id, arcname in cfg['frames'].items():
+        for id, arcname in list(cfg['frames'].items()):
             frames[id] = RestoredFrame(id, tar.read(arcname))
 
         for node in cfg['tape']:
@@ -114,5 +109,5 @@ def load(filepath):
 
         tar.close()
 
-    except Exception, e:
+    except Exception as e:
         logger.error('Cannot load jobject: %s' % e)
