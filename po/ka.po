@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-27 14:52-0400\n"
-"PO-Revision-Date: 2025-04-30 05:36+0000\n"
+"PO-Revision-Date: 2025-05-07 04:48+0000\n"
 "Last-Translator: NF <rkavt@smartprojects.ge>\n"
 "Language-Team: Georgian <http://weblate.sugarlabs.org/projects/"
 "sugar-activities/cartoon-builder/ka/>\n"
@@ -26,156 +26,156 @@ msgstr "მულტფილმების ამგები"
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
-msgstr ""
+msgstr "შექმენით მულტფილმი პოზების მიმდევრობის დაალგეით ლენტის შიგნით"
 
 #: activity.py:67
 msgid "Lessons"
-msgstr ""
+msgstr "გაკვეთილები"
 
 #: activity.py:129
 msgid "Play / Pause"
-msgstr ""
+msgstr "დაკვრა / პაუზა"
 
 #: activity.py:144
 msgid "Reset"
-msgstr ""
+msgstr "ჩამოყრა"
 
 #: char.py:151
 msgid "Elephant"
-msgstr ""
+msgstr "სპილო"
 
 #: char.py:153
 msgid "Space Blob"
-msgstr ""
+msgstr "კოსმოსური ბლობი"
 
 #: char.py:155
 msgid "Turkey"
-msgstr ""
+msgstr "ინდაური"
 
 #: char.py:158 ground.py:109 sound.py:119
 msgid "Custom"
-msgstr ""
+msgstr "მომხმარებლის"
 
 #: ground.py:91
 msgid "Saturn"
-msgstr ""
+msgstr "სატურნი"
 
 #: ground.py:92
 msgid "Snowflakes"
-msgstr ""
+msgstr "ფიფქები"
 
 #: ground.py:93
 msgid "Eye"
-msgstr ""
+msgstr "თვალი"
 
 #: ground.py:94
 msgid "Blobs"
-msgstr ""
+msgstr "ბლობები"
 
 #: ground.py:95
 msgid "Star Night"
-msgstr ""
+msgstr "ღამის ვარსკვლავი"
 
 #: ground.py:96
 msgid "Forest"
-msgstr ""
+msgstr "ტყე"
 
 #: ground.py:97
 msgid "Spiral"
-msgstr ""
+msgstr "სპირალი"
 
 #: ground.py:98
 msgid "Beam"
-msgstr ""
+msgstr "სხივი"
 
 #: ground.py:99
 msgid "Cloth"
-msgstr ""
+msgstr "ტანსაცმელი"
 
 #: ground.py:100
 msgid "Faces"
-msgstr ""
+msgstr "სახეები"
 
 #: ground.py:101
 msgid "Leaves"
-msgstr ""
+msgstr "ფოთლები"
 
 #: ground.py:102
 msgid "Vegetables"
-msgstr ""
+msgstr "ბოსტნეული"
 
 #: ground.py:103
 msgid "Spotlight"
-msgstr ""
+msgstr "ყურადღების ცენტრში"
 
 #: ground.py:104
 msgid "Strips"
-msgstr ""
+msgstr "ზოლები"
 
 #: ground.py:105
 msgid "Scene"
-msgstr ""
+msgstr "სცენა"
 
 #: ground.py:106
 msgid "Rhombs"
-msgstr ""
+msgstr "რომბები"
 
 #: ground.py:107
 msgid "Milky Way"
-msgstr ""
+msgstr "ირმის ნახტომი"
 
 #: sound.py:113
 msgid "Gobble"
-msgstr ""
+msgstr "ყლაპვა"
 
 #: sound.py:114
 msgid "Funk"
-msgstr ""
+msgstr "ფანკი"
 
 #: sound.py:115
 msgid "Giggle"
-msgstr ""
+msgstr "ხითხითი"
 
 #: sound.py:116
 msgid "Jungle"
-msgstr ""
+msgstr "ჯუნგლი"
 
 #: sound.py:117
 msgid "Mute"
-msgstr ""
+msgstr "დადუმება"
 
 #: toolkit/activity_widgets.py:84
 msgid "Stop"
-msgstr ""
+msgstr "გაჩერება"
 
 #: toolkit/activity_widgets.py:96
 msgid "Undo"
-msgstr ""
+msgstr "გაუქმება"
 
 #: toolkit/activity_widgets.py:104
 msgid "Redo"
-msgstr ""
+msgstr "გამეორება"
 
 #: toolkit/activity_widgets.py:111
 msgid "Copy"
-msgstr ""
+msgstr "კოპირება"
 
 #: toolkit/activity_widgets.py:118
 msgid "Paste"
-msgstr ""
+msgstr "ჩასმა"
 
 #: toolkit/activity_widgets.py:128
 msgid "Private"
-msgstr ""
+msgstr "პერსონალური"
 
 #: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
-msgstr ""
+msgstr "ჩემი სამეზობლო"
 
 #: toolkit/activity_widgets.py:213
 msgid "Description"
-msgstr ""
+msgstr "აღწერა"
 
 #: toolkit/activity_widgets.py:393
 msgid "Activity"
-msgstr ""
+msgstr "აქტივობა"
