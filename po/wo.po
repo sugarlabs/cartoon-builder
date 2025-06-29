@@ -1,0 +1,178 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-27 14:52-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: wo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. TRANS: "name" option from activity.info file
+msgid "Cartoon Builder"
+msgstr ""
+
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "Make a cartoon by creating a sequence of poses inside a filmstrip"
+msgstr ""
+
+#: activity.py:67
+msgid "Lessons"
+msgstr ""
+
+#: activity.py:129
+msgid "Play / Pause"
+msgstr ""
+
+#: activity.py:144
+msgid "Reset"
+msgstr ""
+
+#: char.py:151
+msgid "Elephant"
+msgstr ""
+
+#: char.py:153
+msgid "Space Blob"
+msgstr ""
+
+#: char.py:155
+msgid "Turkey"
+msgstr ""
+
+#: char.py:158 ground.py:109 sound.py:119
+msgid "Custom"
+msgstr ""
+
+#: ground.py:91
+msgid "Saturn"
+msgstr ""
+
+#: ground.py:92
+msgid "Snowflakes"
+msgstr ""
+
+#: ground.py:93
+msgid "Eye"
+msgstr ""
+
+#: ground.py:94
+msgid "Blobs"
+msgstr ""
+
+#: ground.py:95
+msgid "Star Night"
+msgstr ""
+
+#: ground.py:96
+msgid "Forest"
+msgstr ""
+
+#: ground.py:97
+msgid "Spiral"
+msgstr ""
+
+#: ground.py:98
+msgid "Beam"
+msgstr ""
+
+#: ground.py:99
+msgid "Cloth"
+msgstr ""
+
+#: ground.py:100
+msgid "Faces"
+msgstr ""
+
+#: ground.py:101
+msgid "Leaves"
+msgstr ""
+
+#: ground.py:102
+msgid "Vegetables"
+msgstr ""
+
+#: ground.py:103
+msgid "Spotlight"
+msgstr ""
+
+#: ground.py:104
+msgid "Strips"
+msgstr ""
+
+#: ground.py:105
+msgid "Scene"
+msgstr ""
+
+#: ground.py:106
+msgid "Rhombs"
+msgstr ""
+
+#: ground.py:107
+msgid "Milky Way"
+msgstr ""
+
+#: sound.py:113
+msgid "Gobble"
+msgstr ""
+
+#: sound.py:114
+msgid "Funk"
+msgstr ""
+
+#: sound.py:115
+msgid "Giggle"
+msgstr ""
+
+#: sound.py:116
+msgid "Jungle"
+msgstr ""
+
+#: sound.py:117
+msgid "Mute"
+msgstr ""
+
+#: toolkit/activity_widgets.py:84
+msgid "Stop"
+msgstr ""
+
+#: toolkit/activity_widgets.py:96
+msgid "Undo"
+msgstr ""
+
+#: toolkit/activity_widgets.py:104
+msgid "Redo"
+msgstr ""
+
+#: toolkit/activity_widgets.py:111
+msgid "Copy"
+msgstr ""
+
+#: toolkit/activity_widgets.py:118
+msgid "Paste"
+msgstr ""
+
+#: toolkit/activity_widgets.py:128
+msgid "Private"
+msgstr ""
+
+#: toolkit/activity_widgets.py:135
+msgid "My Neighborhood"
+msgstr ""
+
+#: toolkit/activity_widgets.py:213
+msgid "Description"
+msgstr ""
+
+#: toolkit/activity_widgets.py:393
+msgid "Activity"
+msgstr ""
