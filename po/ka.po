@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-27 14:52-0400\n"
-"PO-Revision-Date: 2025-05-07 04:48+0000\n"
+"PO-Revision-Date: 2026-05-19 11:33+0000\n"
 "Last-Translator: NF <rkavt@smartprojects.ge>\n"
 "Language-Team: Georgian <http://weblate.sugarlabs.org/projects/"
 "sugar-activities/cartoon-builder/ka/>\n"
@@ -166,7 +166,7 @@ msgstr "ჩასმა"
 
 #: toolkit/activity_widgets.py:128
 msgid "Private"
-msgstr "პერსონალური"
+msgstr "პირადი"
 
 #: toolkit/activity_widgets.py:135
 msgid "My Neighborhood"
