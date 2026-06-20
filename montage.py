@@ -20,10 +20,7 @@
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
 from gi.repository import GObject
-from gi.repository import Gdk
-from gi.repository import GdkPixbuf
 import logging
 logger = logging.getLogger('cartoon-builder')
 
@@ -68,7 +65,7 @@ class View(Gtk.EventBox):
                 index = [i for i, f in enumerate(char.THEMES[-1].frames)
                         if f == frame][0]
                 if index >= len(self._frames):
-                    first = index / theme.FRAME_COLS * theme.FRAME_COLS
+                    first = index // theme.FRAME_COLS * theme.FRAME_COLS
                     for i in range(first, first + theme.FRAME_COLS):
                         self._add_frame(i)
 
@@ -218,7 +215,7 @@ class View(Gtk.EventBox):
                     theme.path('icons', 'filmstrip.png'), THUMB_SIZE, -1, False)
 
             filmstrip = Gtk.Image()
-            filmstrip.set_from_pixbuf(filmstrip_pixbuf);
+            filmstrip.set_from_pixbuf(filmstrip_pixbuf)
             frame_box.pack_start(filmstrip, False, False, 0)
 
             frame = Gtk.EventBox()
@@ -236,7 +233,7 @@ class View(Gtk.EventBox):
             frame.add(frame_image)
 
             filmstrip = Gtk.Image()
-            filmstrip.set_from_pixbuf(filmstrip_pixbuf);
+            filmstrip.set_from_pixbuf(filmstrip_pixbuf)
             frame_box.pack_start(filmstrip, False, False, 0)
 
             tape.pack_start(frame_box, False, False, 0)
@@ -339,7 +336,7 @@ class View(Gtk.EventBox):
         return True
 
     def _add_frame(self, index):
-        y = index / theme.FRAME_COLS
+        y = index // theme.FRAME_COLS
         x = index - y * theme.FRAME_COLS
         logger.debug('add new frame x=%d y=%d index=%d' % (x, y, index))
 

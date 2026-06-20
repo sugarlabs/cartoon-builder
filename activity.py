@@ -14,13 +14,11 @@
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
 from gettext import gettext as _
 
 import logging
 logger = logging.getLogger('cartoon-builder')
 
-from sugar3.graphics.toolbutton import ToolButton
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
 
 from toolkit.temposlider import TempoSlider
@@ -33,7 +31,6 @@ import document
 import char
 import ground
 import sound
-from theme import *
 from messenger import Messenger, SERVICE
 from utils import *
 

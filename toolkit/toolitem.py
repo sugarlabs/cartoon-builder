@@ -23,8 +23,6 @@ from gi.repository import GObject
 
 from sugar3.graphics import style
 
-from toolkit.combobox import ComboBox
-
 
 class ToolWidget(Gtk.ToolItem):
 
