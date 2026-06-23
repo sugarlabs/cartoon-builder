@@ -20,7 +20,7 @@ gi.require_version('Gtk', '3.0')
 import os
 import time
 import tarfile
-import cStringIO
+import io
 from gi.repository import Gtk
 import zipfile
 import tempfile
@@ -113,7 +113,7 @@ class Tarball:
         file_o.close()
         return out
 
-    def write(self, arcname, data, mode=0644):
+    def write(self, arcname, data, mode=0o644):
         """
         Stores given object to file in tarball.
         Raises BadDataTypeError exception If data type isn't supported.
@@ -123,4 +123,4 @@ class Tarball:
         info.mtime = self.mtime
         info.size = len(data)
 
-        self.__tar.addfile(info, cStringIO.StringIO(data))
+        self.__tar.addfile(info, io.StringIO(data))

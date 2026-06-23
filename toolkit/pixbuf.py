@@ -17,7 +17,7 @@
 """GdkPixbuf.Pixbuf extensions"""
 
 import re
-import cStringIO
+import io
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
@@ -39,7 +39,7 @@ def to_file(pixbuf):
     def push(pixbuf, buffer):
         buffer.write(pixbuf)
 
-    buffer = cStringIO.StringIO()
+    buffer = io.StringIO()
     pixbuf.save_to_callbackv(push, 'png', user_data=buffer)
     buffer.seek(0)
 
@@ -56,7 +56,7 @@ def from_str(str):
 
     try:
         loader.write(str)
-    except Exception, e:
+    except Exception as e:
         logging.error('pixbuf.from_str: %s' % e)
         return None
     finally:
